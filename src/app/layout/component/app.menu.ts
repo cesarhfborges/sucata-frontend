@@ -30,16 +30,41 @@ export class AppMenu {
                 items: [{ label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/home'] }]
             },
             {
-                label: 'Cadastro',
+                label: 'Cadastros',
                 items: [
                     {
-                        label: 'Documentation',
+                        label: 'Clientes',
+                        icon: 'pi pi-fw pi-github',
+                        routerLink: ['/uikit/formlayout']
+                    },
+                    {
+                        label: 'Empresas',
+                        icon: 'pi pi-fw pi-briefcase',
+                        routerLink: ['/uikit/formlayout']
+                    },
+                    {
+                        label: 'Usuarios',
+                        icon: 'pi pi-fw pi-users',
+                        routerLink: ['/usuarios']
+                    }
+                ]
+            },
+            {
+                label: 'Relatórios',
+                items: [
+                    {
+                        label: 'Clientes',
+                        icon: 'pi pi-fw pi-github',
+                        routerLink: ['/uikit/formlayout']
+                    },
+                    {
+                        label: 'Empresas',
                         icon: 'pi pi-fw pi-book',
                         routerLink: ['/uikit/formlayout']
                     },
                     {
-                        label: 'View Source',
-                        icon: 'pi pi-fw pi-github',
+                        label: 'Nota Fiscal',
+                        icon: 'pi pi-fw pi-book',
                         routerLink: ['/uikit/formlayout']
                     }
                 ]
