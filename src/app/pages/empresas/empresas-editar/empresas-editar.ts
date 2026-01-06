@@ -77,6 +77,7 @@ export class EmpresasEditar implements OnInit {
         },
         error: (err) => {
           this.loading = false;
+          console.error(err);
         }
       });
     }
@@ -90,12 +91,16 @@ export class EmpresasEditar implements OnInit {
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
           },
-          error: (err) => {}
+          error: (err) => {
+            console.error(err);
+          }
         });
       } else {
         this._service.cadastrar(this.form.value).subscribe({
           next: (res) => {},
-          error: (err) => {}
+          error: (err) => {
+            console.error(err);
+          }
         });
       }
     }

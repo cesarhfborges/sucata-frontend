@@ -40,7 +40,8 @@
                 <td>{{ value.cnpj | mask : '00.000.000/0000-00' }}</td>
                 <td>
                     <p-buttonGroup>
-                        <p-button label="Editar" icon="pi pi-check" severity="info" [routerLink]="['/empresas', value.id]" />
+                        <p-button label="Editar" icon="pi pi-check" severity="info"
+                                  [routerLink]="['/empresas', value.id]" />
                         <p-button label="Excluir" icon="pi pi-trash" severity="danger" />
                     </p-buttonGroup>
                 </td>
@@ -48,11 +49,9 @@
         </ng-template>
         <ng-template #loadingbody let-columns="columns">
             <tr style="height:46px">
-                @for (col of [0,1,2,3,4]; track $index; let even = $even) {
-                    <td>
-                        <p-skeleton />
-                    </td>
-                }
+                <td [colSpan]="6">
+                    <p class="text-center">Carregando...</p>
+                </td>
             </tr>
         </ng-template>
         <ng-template #emptymessage>

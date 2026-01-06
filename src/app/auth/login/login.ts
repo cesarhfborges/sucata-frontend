@@ -66,6 +66,7 @@ export class Login {
           this.loading = false;
           this._messageService.add({ severity: 'error', summary: 'Atenção', detail: 'Verifique suas credenciais e tente novamente.', life: 3000 });
           this.form.get('password')?.reset();
+          console.error(error);
         }
       });
     } else {

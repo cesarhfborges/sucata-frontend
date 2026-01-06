@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { HttpService } from '@/core/services/http-service';
 import { ButtonModule } from 'primeng/button';
 import { ButtonGroupModule } from 'primeng/buttongroup';
 import { CardModule } from 'primeng/card';
@@ -47,6 +46,7 @@ export class EmpresasListar implements OnInit {
       },
       error: (error) => {
         this.loading = false;
+        console.error(error);
       }
     });
   }
