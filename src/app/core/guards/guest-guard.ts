@@ -1,0 +1,14 @@
+import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { SessionService } from '@/core/services/session-service';
+
+export const guestGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
+  const sessionService = inject(SessionService);
+  const router = inject(Router);
+
+  if (!sessionService.hasActiveSession()) {
+    return true;
+  }
+
+  return router.navigate(['/home']);
+};

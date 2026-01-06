@@ -35,12 +35,12 @@ export class AppMenu {
                     {
                         label: 'Clientes',
                         icon: 'pi pi-fw pi-github',
-                        routerLink: ['/uikit/formlayout']
+                        routerLink: ['/clientes']
                     },
                     {
                         label: 'Empresas',
                         icon: 'pi pi-fw pi-briefcase',
-                        routerLink: ['/uikit/formlayout']
+                        routerLink: ['/empresas']
                     },
                     {
                         label: 'Usuarios',

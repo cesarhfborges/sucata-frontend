@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from '@/pages/home/home';
 import { UsuariosEditar, UsuariosListar } from '@/pages/usuarios';
+import { EmpresasEditar, EmpresasListar } from '@/pages/empresas';
 
 export default [
     { path: 'home', component: Home },
@@ -9,6 +10,13 @@ export default [
         children: [
             { path: '', component: UsuariosListar },
             { path: ':id', component: UsuariosEditar }
+        ]
+    },
+    {
+        path: 'empresas',
+        children: [
+            { path: '', component: EmpresasListar },
+            { path: ':id', component: EmpresasEditar }
         ]
     }
     // { path: '**', redirectTo: '/notfound' }

@@ -1,0 +1,15 @@
+import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
+import { SessionService } from '@/core/services/session-service';
+
+export const authGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
+  const sessionService = inject(SessionService);
+  const router = inject(Router);
+
+  if (sessionService.hasActiveSession()) {
+    return true;
+  }
+
+  // return router.parseUrl('/login');
+  return router.createUrlTree(['/login'], { queryParams: { returnUrl: state.url } });
+};

@@ -1,0 +1,67 @@
+<p-card header="Empresas do sistema">
+    <p-table
+        [value]="empresas"
+        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [loading]="loading"
+        [paginator]="true"
+        [rows]="tableConfig.pagination.rows"
+        sortField="nome"
+        [sortOrder]="1"
+        [rowsPerPageOptions]="tableConfig.pagination.options"
+        stripedRows
+    >
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="id">
+                    <div class="flex justify-between">
+                        #
+                        <p-sortIcon field="id" />
+                    </div>
+                </th>
+                <th pSortableColumn="razao_social">
+                    <div class="flex justify-between">
+                        Razão social
+                        <p-sortIcon field="razao_social" />
+                    </div>
+                </th>
+                <th pSortableColumn="nome_fantasia">
+                    Nome Fantasia
+                    <p-sortIcon field="nome_fantasia" />
+                </th>
+                <th>Status</th>
+                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-value>
+            <tr>
+                <td>{{ value.id }}</td>
+                <td>{{ value.razao_social }}</td>
+                <td>{{ value.nome_fantasia }}</td>
+                <td>{{ value.cnpj | mask : '00.000.000/0000-00' }}</td>
+                <td>
+                    <p-buttonGroup>
+                        <p-button label="Editar" icon="pi pi-check" severity="info" [routerLink]="['/empresas', value.id]" />
+                        <p-button label="Excluir" icon="pi pi-trash" severity="danger" />
+                    </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr style="height:46px">
+                @for (col of [0,1,2,3,4]; track $index; let even = $even) {
+                    <td>
+                        <p-skeleton />
+                    </td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [colSpan]="6">
+                    <p class="text-center">Sem dados para exibir</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+

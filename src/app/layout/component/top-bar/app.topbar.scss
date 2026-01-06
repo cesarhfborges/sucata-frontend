@@ -1,0 +1,23 @@
+:host {
+    ::ng-deep {
+        .custom-menu {
+            top: 52px!important;
+            right: 29px;
+            inset-inline-start: unset !important;
+        }
+    }
+}
+
+.custom-menu {
+    right: 200px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: unset;
+    border: none;
+    padding: 6px 8px;
+}

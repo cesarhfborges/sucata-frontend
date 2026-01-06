@@ -1,1 +1,66 @@
-<p>usuarios-listar works!</p>
+<p-card header="Usuários do sistema">
+    <p-table
+        [value]="usuarios"
+        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [loading]="false"
+        [paginator]="true"
+        [rows]="tableConfig.rows"
+        sortField="nome"
+        [sortOrder]="1"
+        [rowsPerPageOptions]="tableConfig.rowsPerPageOptions"
+        stripedRows
+    >
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="id">
+                    <div class="flex justify-between">
+                        #
+                        <p-sortIcon field="id" />
+                    </div>
+                </th>
+                <th pSortableColumn="nome">
+                    <div class="flex justify-between">
+                        Nome
+                        <p-sortIcon field="nome" />
+                    </div>
+                </th>
+                <th pSortableColumn="sobrenome">
+                    Sobrenome
+                    <p-sortIcon field="sobrenome" />
+                </th>
+                <th pSortableColumn="email">
+                    Email
+                    <p-sortIcon field="email" />
+                </th>
+                <th pSortableColumn="ult_acesso">
+                    Últ. acesso
+                    <p-sortIcon field="ult_acesso" />
+                </th>
+                <th>Status</th>
+                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-value>
+            <tr>
+                <td>{{ value.id }}</td>
+                <td>{{ value.nome }}</td>
+                <td>{{ value.sobrenome }}</td>
+                <td>{{ value.email }}</td>
+                <td>{{ value.ult_acesso | date : "dd/MM/yyyy 'às' HH:mm:ss" }}</td>
+                <td>
+                    <p-tag
+                        [value]="value.ativo ? 'Ativo' : 'Inativo'"
+                        [severity]="value.ativo ? 'success' : 'danger'"
+                    />
+                </td>
+                <td>
+                    <p-buttonGroup>
+                        <p-button label="Editar" icon="pi pi-check" severity="info" [routerLink]="['/usuarios', value.id]" />
+                        <p-button label="Excluir" icon="pi pi-trash" severity="danger" />
+                    </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+

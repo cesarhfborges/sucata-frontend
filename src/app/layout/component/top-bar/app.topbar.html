@@ -1,0 +1,96 @@
+<div class="layout-topbar">
+    <div class="layout-topbar-logo-container">
+        <button class="layout-menu-button layout-topbar-action" (click)="layoutService.onMenuToggle()">
+            <i class="pi pi-bars"></i>
+        </button>
+        <a class="layout-topbar-logo" routerLink="/">
+            <img ngSrc="assets/images/platoflex.png" [height]="40" [width]="160" alt="Platoflex" priority />
+        </a>
+    </div>
+
+    <div class="layout-topbar-actions">
+        <div class="layout-config-menu">
+            <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
+                <i [ngClass]="{ 'pi ': true, 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
+            </button>
+            <div class="relative">
+                <button
+                    class="layout-topbar-action layout-topbar-action-highlight"
+                    pStyleClass="@next"
+                    enterFromClass="hidden"
+                    enterActiveClass="animate-scalein"
+                    leaveToClass="hidden"
+                    leaveActiveClass="animate-fadeout"
+                    [hideOnOutsideClick]="true"
+                >
+                    <i class="pi pi-palette"></i>
+                </button>
+                <app-configurator />
+            </div>
+        </div>
+
+        <button
+            class="layout-topbar-menu-button layout-topbar-action"
+            pStyleClass="@next"
+            enterFromClass="hidden"
+            enterActiveClass="animate-scalein"
+            leaveToClass="hidden"
+            leaveActiveClass="animate-fadeout"
+            [hideOnOutsideClick]="true"
+        >
+            <i class="pi pi-ellipsis-v"></i>
+        </button>
+
+        <div class="layout-topbar-menu hidden lg:block">
+            <div class="layout-topbar-menu-content">
+                <button type="button" class="layout-topbar-action">
+                    <i class="pi pi-calendar"></i>
+                    <span>Calendar</span>
+                </button>
+                <button type="button" class="layout-topbar-action">
+                    <i class="pi pi-inbox"></i>
+                    <span>Messages</span>
+                </button>
+                <button type="button" class="layout-topbar-action" (click)="menu.toggle($event)">
+                    <i class="pi pi-user"></i>
+                    <span>Profile</span>
+                </button>
+                <p-menu #menu [model]="items" [popup]="true" styleClass="custom-menu">
+                    <ng-template #start>
+                        <button pRipple class="position-relative overflow-hidden w-100 border-0 bg-transparent">
+                            <div class="d-flex align-items-center gap-2">
+                                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                                          class="mr-2" shape="circle" />
+                                <div class="d-flex col flex-column">
+                                    <span class="text-start m-0 p-0 fw-bold">Amy Elsner</span>
+                                    <span class="text-start m-0 p-0 text-sm">Admin</span>
+                                </div>
+                            </div>
+                        </button>
+                    </ng-template>
+                    <ng-template #submenuheader let-item>
+                        <span class="text-primary font-bold">{{ item.label }}</span>
+                    </ng-template>
+                    <ng-template #item let-item>
+                        <button pRipple class="menu-item" [class]="item.linkClass">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <span [class]="item.icon"></span>
+                                <span class="ms-2">{{ item.label }}</span>
+                            </div>
+                            <div>
+                                @if (item.badge) {
+                                    <p-badge class="ms-auto" badgeSize="small" [value]="item.badge" />
+                                }
+                                @if (item.shortcut) {
+                                    <span class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">
+                                      {{ item.shortcut }}
+                                    </span>
+                                }
+                            </div>
+                        </button>
+                    </ng-template>
+                </p-menu>
+            </div>
+        </div>
+    </div>
+</div>

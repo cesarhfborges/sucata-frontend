@@ -1,0 +1,142 @@
+<div class="max-w-7xl mx-auto" [ngxLoaderIndicator]="loading">
+    <p-card>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+                <h3 class="col-span-12">Cadastro de empresa</h3>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-5">
+                    <label for="razao_social" class="font-semibold">Razão Social</label>
+                    <input
+                        pInputText
+                        id="razao_social"
+                        formControlName="razao_social"
+                    />
+                    <app-validator-message [control]="form.get('razao_social')"/>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-4">
+                    <label for="nome_fantasia" class="font-semibold ">Nome Fantasia</label>
+                    <input pInputText id="nome_fantasia" formControlName="nome_fantasia" />
+                    <app-validator-message [control]="form.get('nome_fantasia')"/>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-3">
+                    <label for="cnpj" class="font-semibold ">CNPJ</label>
+                    <p-input-mask
+                        mask="99.999.999/9999-99"
+                        formControlName="cnpj"
+                        styleClass="w-full"
+                        [unmask]="true"
+                    ></p-input-mask>
+                    <app-validator-message [control]="form.get('cnpj')"/>
+                </div>
+
+                <hr class="col-span-12" />
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-3">
+                    <label for="cep" class="font-semibold ">CEP</label>
+                    <p-input-mask
+                        id="cep"
+                        mask="99.999-999"
+                        formControlName="cep"
+                        styleClass="w-full"
+                        [unmask]="true"
+                    ></p-input-mask>
+                    <app-validator-message [control]="form.get('cep')"/>
+                </div>
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-7">
+                    <label for="logradouro" class="font-semibold ">Logradouro</label>
+                    <input pInputText id="logradouro" formControlName="logradouro" />
+                    <app-validator-message [control]="form.get('logradouro')"/>
+                </div>
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-2">
+                    <label for="numero" class="font-semibold ">Número</label>
+                    <input pInputText id="numero" formControlName="numero" />
+                    <app-validator-message [control]="form.get('numero')"/>
+                </div>
+
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-12 lg:col-span-2">
+                    <label for="complemento" class="font-semibold ">Complemento</label>
+                    <input pInputText id="complemento" formControlName="complemento" />
+                    <app-validator-message [control]="form.get('complemento')"/>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-5 lg:col-span-4">
+                    <label for="bairro" class="font-semibold ">Bairro</label>
+                    <input pInputText id="bairro" formControlName="bairro" />
+                    <app-validator-message [control]="form.get('bairro')"/>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12  md:col-span-5 lg:col-span-4">
+                    <label for="cidade" class="font-semibold ">Cidade</label>
+                    <input pInputText id="cidade" formControlName="cidade" />
+                    <app-validator-message [control]="form.get('cidade')"/>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-2">
+                    <label for="cidade" class="font-semibold ">UF</label>
+                    <p-select
+                        id="uf"
+                        [options]="listaUF"
+                        formControlName="uf"
+                        placeholder="Selecione"
+                        [showClear]="true"
+                        [loading]="loading"
+                        optionLabel="label"
+                        optionValue="value"
+                        appendTo="body"
+                        class="w-full"
+                    ></p-select>
+                    <app-validator-message [control]="form.get('uf')"/>
+                </div>
+
+                <hr class="col-span-12" />
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
+                    <label for="telefone" class="font-semibold ">Telefone</label>
+                    <input pInputText id="telefone" formControlName="telefone" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
+                    <label for="email" class="font-semibold ">E-Mail</label>
+                    <input pInputText id="email" formControlName="email" />
+                </div>
+
+                <hr class="col-span-12" />
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-12">
+                    <label for="observacoes" class="font-semibold ">Observações</label>
+                    <textarea id="observacoes" rows="5" cols="30" pTextarea [autoResize]="true"
+                              formControlName="observacoes"></textarea>
+                </div>
+
+                <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        [routerLink]="['/empresas']"
+                    >
+                        <i class="pi pi-times" pButtonIcon></i>
+                        <span pButtonLabel>Cancelar</span>
+                    </button>
+                    <button
+                        pButton
+                        type="submit"
+                        severity="success"
+                    >
+                        <i class="pi pi-check" pButtonIcon></i>
+                        <span pButtonLabel>Salvar</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</div>
+<pre>
+    <code>
+        {{ form.value|json }}
+    </code>
+</pre>
