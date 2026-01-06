@@ -12,13 +12,13 @@
                         id="razao_social"
                         formControlName="razao_social"
                     />
-                    <app-validator-message [control]="form.get('razao_social')"/>
+                    <app-validator-message [control]="form.get('razao_social')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-4">
                     <label for="nome_fantasia" class="font-semibold ">Nome Fantasia</label>
                     <input pInputText id="nome_fantasia" formControlName="nome_fantasia" />
-                    <app-validator-message [control]="form.get('nome_fantasia')"/>
+                    <app-validator-message [control]="form.get('nome_fantasia')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-3">
@@ -29,7 +29,7 @@
                         styleClass="w-full"
                         [unmask]="true"
                     ></p-input-mask>
-                    <app-validator-message [control]="form.get('cnpj')"/>
+                    <app-validator-message [control]="form.get('cnpj')" />
                 </div>
 
                 <hr class="col-span-12" />
@@ -43,36 +43,36 @@
                         styleClass="w-full"
                         [unmask]="true"
                     ></p-input-mask>
-                    <app-validator-message [control]="form.get('cep')"/>
+                    <app-validator-message [control]="form.get('cep')" />
                 </div>
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-7">
                     <label for="logradouro" class="font-semibold ">Logradouro</label>
                     <input pInputText id="logradouro" formControlName="logradouro" />
-                    <app-validator-message [control]="form.get('logradouro')"/>
+                    <app-validator-message [control]="form.get('logradouro')" />
                 </div>
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-2">
                     <label for="numero" class="font-semibold ">Número</label>
                     <input pInputText id="numero" formControlName="numero" />
-                    <app-validator-message [control]="form.get('numero')"/>
+                    <app-validator-message [control]="form.get('numero')" />
                 </div>
 
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-12 lg:col-span-2">
                     <label for="complemento" class="font-semibold ">Complemento</label>
                     <input pInputText id="complemento" formControlName="complemento" />
-                    <app-validator-message [control]="form.get('complemento')"/>
+                    <app-validator-message [control]="form.get('complemento')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-5 lg:col-span-4">
                     <label for="bairro" class="font-semibold ">Bairro</label>
                     <input pInputText id="bairro" formControlName="bairro" />
-                    <app-validator-message [control]="form.get('bairro')"/>
+                    <app-validator-message [control]="form.get('bairro')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12  md:col-span-5 lg:col-span-4">
                     <label for="cidade" class="font-semibold ">Cidade</label>
                     <input pInputText id="cidade" formControlName="cidade" />
-                    <app-validator-message [control]="form.get('cidade')"/>
+                    <app-validator-message [control]="form.get('cidade')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-2">
@@ -89,7 +89,7 @@
                         appendTo="body"
                         class="w-full"
                     ></p-select>
-                    <app-validator-message [control]="form.get('uf')"/>
+                    <app-validator-message [control]="form.get('uf')" />
                 </div>
 
                 <hr class="col-span-12" />
@@ -138,5 +138,8 @@
 <pre>
     <code>
         {{ form.value|json }}
+    </code>
+    <code>
+        {{ empresaId|json }}
     </code>
 </pre>

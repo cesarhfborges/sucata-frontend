@@ -5,7 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
 import { JsonPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SelectModule } from 'primeng/select';
 import { listaUF } from '@/core/enums/uf';
 import { TextareaModule } from 'primeng/textarea';
@@ -41,6 +41,7 @@ export class EmpresasEditar implements OnInit {
 
   private readonly _fb = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
   private readonly _service = inject(EmpresaService);
   private readonly _messageService = inject(MessageService);
 
@@ -63,9 +64,10 @@ export class EmpresasEditar implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this._route.snapshot.paramMap.get('id');
-
-    this.empresaId = id ? +id : null;
+    const id = Number(this._route.snapshot.paramMap.get('id'));
+    if (!isNaN(id)) {
+      this.empresaId = id;
+    }
 
     if (this.empresaId && !isNaN(this.empresaId)) {
       this.loading = true;
@@ -90,6 +92,7 @@ export class EmpresasEditar implements OnInit {
         this._service.atualizar(this.empresaId, this.form.value).subscribe({
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
+            this.form.patchValue(res);
           },
           error: (err) => {
             console.error(err);
@@ -97,12 +100,19 @@ export class EmpresasEditar implements OnInit {
         });
       } else {
         this._service.cadastrar(this.form.value).subscribe({
-          next: (res) => {},
+          next: (res) => {
+            this.form.patchValue(res);
+            this.empresaId = res.id!;
+            this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro efetuado.', life: 3000 });
+            void this._router.navigate(['/empresas', res.id], { replaceUrl: true });
+          },
           error: (err) => {
             console.error(err);
           }
         });
       }
+    } else {
+      this._messageService.add({ severity: 'error', summary: 'Ops', detail: 'Verifique os campos e tente novamente.', life: 3000 });
     }
   }
 }

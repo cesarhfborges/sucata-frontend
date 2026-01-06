@@ -84,7 +84,12 @@
 
             &.active-route {
                 font-weight: 700;
-                color: var(--primary-color);
+                color: var(--font-weight-light);
+                background-color: var(--p-datatable-header-cell-selected-background);
+
+                &:hover {
+                    background-color: var(--p-datatable-header-cell-selected-background);
+                }
             }
 
             &:hover {
