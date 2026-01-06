@@ -1,12 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Card } from 'primeng/card';
-import { InputMask } from 'primeng/inputmask';
 import { InputText } from 'primeng/inputtext';
 import { JsonPipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Select } from 'primeng/select';
-import { Textarea } from 'primeng/textarea';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { RouterLink } from '@angular/router';
@@ -49,7 +46,7 @@ export class UsuariosEditar {
       sobrenome: new FormControl<string | null>(null, [Validators.required]),
       email: new FormControl<string | null>(null, [Validators.required, Validators.email]),
       ativo: new FormControl<boolean>(true, [Validators.required]),
-      password: new FormControl<string| null>(null, [Validators.required])
+      password: new FormControl<string | null>(null, [Validators.required])
     });
   }
 

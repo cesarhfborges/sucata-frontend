@@ -7,15 +7,12 @@ import { TagModule } from 'primeng/tag';
 import { RouterModule } from '@angular/router';
 import { Empresa } from '@/core/models/empresa';
 import { NgxMaskPipe } from 'ngx-mask';
-import { Skeleton } from 'primeng/skeleton';
 import { EmpresaService } from '@/core/services/empresa-service';
 import { TableConfig } from '@/core/types/table-config';
 
-
-
 @Component({
   selector: 'app-empresas-listar',
-  imports: [ButtonModule, ButtonGroupModule, CardModule, TableModule, TagModule, RouterModule, NgxMaskPipe, Skeleton],
+  imports: [ButtonModule, ButtonGroupModule, CardModule, TableModule, TagModule, RouterModule, NgxMaskPipe],
   templateUrl: './empresas-listar.html',
   styleUrl: './empresas-listar.scss'
 })
