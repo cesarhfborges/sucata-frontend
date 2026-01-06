@@ -15,6 +15,7 @@ import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideEnvironmentNgxLoaderIndicator } from 'ngx-loader-indicator';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import * as ptBR from './assets/i18n/pt-BR.json';
 
 registerLocaleData(localePT, 'pt-BR');
 
@@ -60,7 +61,8 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Aura,
         options: { darkModeSelector: '.app-dark' }
-      }
+      },
+      translation: ptBR
     }),
     provideEnvironmentNgxMask()
   ]

@@ -1,13 +1,27 @@
-<p-card header="Usuários do sistema">
+<p-card>
+    <div class="flex flex-row justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800 m-0">Empresas do Sistema</h3>
+
+        <p-button
+            pButton
+            type="button"
+            label="Nova Empresa"
+            icon="pi pi-plus"
+            severity="success"
+            class="p-button-sm"
+            [routerLink]="['/empresas/novo']"
+        />
+    </div>
+
     <p-table
         [value]="usuarios"
         [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
-        [loading]="false"
+        [loading]="loading"
         [paginator]="true"
-        [rows]="tableConfig.rows"
-        sortField="nome"
-        [sortOrder]="1"
-        [rowsPerPageOptions]="tableConfig.rowsPerPageOptions"
+        [rows]="tableConfig.pagination.rows"
+        [sortField]="tableConfig.sort.field"
+        [sortOrder]="tableConfig.sort.order"
+        [rowsPerPageOptions]="tableConfig.pagination.options"
         stripedRows
     >
         <ng-template #header>
@@ -46,7 +60,7 @@
                 <td>{{ value.nome }}</td>
                 <td>{{ value.sobrenome }}</td>
                 <td>{{ value.email }}</td>
-                <td>{{ value.ult_acesso | date : "dd/MM/yyyy 'às' HH:mm:ss" }}</td>
+                <td>{{ value.ult_acesso !== null ? (value.ult_acesso | date : "dd/MM/yyyy 'às' HH:mm:ss") : ''}}</td>
                 <td>
                     <p-tag
                         [value]="value.ativo ? 'Ativo' : 'Inativo'"
@@ -58,6 +72,20 @@
                         <p-button label="Editar" icon="pi pi-check" severity="info" [routerLink]="['/usuarios', value.id]" />
                         <p-button label="Excluir" icon="pi pi-trash" severity="danger" />
                     </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr style="height:46px">
+                <td [colSpan]="7">
+                    <p class="text-center">Carregando...</p>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [colSpan]="7">
+                    <p class="text-center">Sem dados para exibir</p>
                 </td>
             </tr>
         </ng-template>

@@ -31,8 +31,14 @@
                         <div class="flex flex-col gap-2 col-span-12">
                             <label for="password"
                                    class="block text-surface-900 dark:text-surface-0 font-medium text-xl mb-2">Password</label>
-                            <p-password id="password" formControlName="password" placeholder="Password"
-                                        [toggleMask]="true" [fluid]="true" [feedback]="false"></p-password>
+                            <p-password
+                                id="password"
+                                formControlName="password"
+                                placeholder="Password"
+                                [toggleMask]="true"
+                                [fluid]="true"
+                                [feedback]="false"
+                            ></p-password>
                             <app-validator-message [control]="form.get('password')" />
                         </div>
 

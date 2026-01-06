@@ -1,1 +1,103 @@
-<p>usuarios-editar works!</p>
+<div class="max-w-4xl mx-auto" [ngxLoaderIndicator]="loading">
+    <p-card>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+                <h3 class="col-span-12">Cadastro de usuário</h3>
+
+                <div class="flex flex-col gap-2 col-span-6">
+                    <label for="nome" class="font-semibold">Nome</label>
+                    <input
+                        pInputText
+                        id="nome"
+                        formControlName="nome"
+                    />
+                    <app-validator-message [control]="form.get('nome')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-6">
+                    <label for="nome" class="font-semibold">Sobrenome</label>
+                    <input
+                        pInputText
+                        id="sobrenome"
+                        formControlName="sobrenome"
+                    />
+                    <app-validator-message [control]="form.get('sobrenome')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-10">
+                    <label for="nome" class="font-semibold">Email</label>
+                    <input
+                        pInputText
+                        id="email"
+                        formControlName="email"
+                    />
+                    <app-validator-message [control]="form.get('email')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-2">
+                    <label for="nome" class="font-semibold mb-2">Ativo</label>
+                    <p-toggleswitch formControlName="ativo" />
+                    <app-validator-message [control]="form.get('ativo')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12">
+                    <label for="nome" class="font-semibold">Senha</label>
+                    <p-password
+                        formControlName="password"
+                        [toggleMask]="true"
+                        [fluid]="true"
+                        [feedback]="true"
+                        autocomplete="off"
+                    >
+                        <ng-template #header>
+                            <div class="font-semibold text-xm mb-4">Senha do sistema</div>
+                        </ng-template>
+                        <ng-template #footer>
+                            <p-divider />
+                            <ul class="pl-2 my-0 leading-normal">
+                                <li>- Pelo menos uma letra minúscula</li>
+                                <li>- Pelo menos uma letra maiúscula</li>
+                                <li>- Pelo menos um número</li>
+                                <li>- Mínimo de 8 caracteres</li>
+                            </ul>
+                        </ng-template>
+                    </p-password>
+                    <app-validator-message [control]="form.get('ativo')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12">
+                    <label for="nome" class="font-semibold">Confirmação</label>
+                    <p-password formControlName="password" [toggleMask]="true" [fluid]="true" [feedback]="false"
+                                autocomplete="off" />
+                    <app-validator-message [control]="form.get('ativo')" />
+                </div>
+
+                <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        [routerLink]="['/empresas']"
+                    >
+                        <i class="pi pi-times" pButtonIcon></i>
+                        <span pButtonLabel>Cancelar</span>
+                    </button>
+                    <button
+                        pButton
+                        type="submit"
+                        severity="success"
+                    >
+                        <i class="pi pi-check" pButtonIcon></i>
+                        <span pButtonLabel>Salvar</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</div>
+<pre>
+    <code>
+        {{ form.value|json }}
+    </code>
+</pre>

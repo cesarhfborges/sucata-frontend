@@ -3,15 +3,14 @@ import { AbstractControl } from '@angular/forms';
 import { CustomValidator } from '@/shared/components/custom-validator';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { listaUF } from '@/core/enums/uf';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-validator-message',
-  imports: [],
+  imports: [MessageModule],
   template: `
     @if (errorMessage) {
-      <small [@fade] class="text-red-500 text-xs font-medium mt-1 animate-fade-in">
-        {{ errorMessage }}
-      </small>
+      <p-message [@fade] severity="error" size="small" variant="simple">{{ errorMessage }}</p-message>
     }
   `,
   animations: [

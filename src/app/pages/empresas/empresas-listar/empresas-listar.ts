@@ -9,13 +9,9 @@ import { Empresa } from '@/core/models/empresa';
 import { NgxMaskPipe } from 'ngx-mask';
 import { Skeleton } from 'primeng/skeleton';
 import { EmpresaService } from '@/core/services/empresa-service';
+import { TableConfig } from '@/core/types/table-config';
 
-interface ITableConfig {
-  pagination: {
-    rows: number;
-    options: number[];
-  };
-}
+
 
 @Component({
   selector: 'app-empresas-listar',
@@ -27,10 +23,14 @@ export class EmpresasListar implements OnInit {
   loading = false;
   empresas: Empresa[] = [];
 
-  protected tableConfig: ITableConfig = {
+  protected tableConfig: TableConfig = {
     pagination: {
       rows: 10,
       options: [10, 25, 50]
+    },
+    sort: {
+      field: 'id',
+      order: 1
     }
   };
 
