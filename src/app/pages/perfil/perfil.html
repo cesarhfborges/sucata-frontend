@@ -1,0 +1,104 @@
+<div class="max-w-5xl mx-auto" [ngxLoaderIndicator]="loading">
+    <p-card>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
+                <h3 class="col-span-12">Perfil</h3>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
+                    <label for="nome" class="font-semibold">Nome</label>
+                    <input
+                        pInputText
+                        id="nome"
+                        formControlName="nome"
+                    />
+                    <app-validator-message [control]="form.get('nome')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
+                    <label for="sobrenome" class="font-semibold">Sobrenome</label>
+                    <input
+                        pInputText
+                        id="sobrenome"
+                        formControlName="sobrenome"
+                    />
+                    <app-validator-message [control]="form.get('sobrenome')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12">
+                    <label for="email" class="font-semibold">Email</label>
+                    <p-iconfield>
+                        <input
+                            pInputText
+                            type="text"
+                            id="email"
+                            formControlName="email"
+                            [fluid]="true"
+                            autocomplete="off"
+                        />
+                        <p-inputicon [class]="getEmailIcon()" />
+                    </p-iconfield>
+                    <app-validator-message [control]="form.get('email')" />
+                </div>
+                <div class="flex flex-col gap-2 col-span-12 mb-6">
+                    <p-divider />
+                    <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de Senha e Confirmação em branco.
+                    </p-message>
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12">
+                    <label for="nome" class="font-semibold">Senha</label>
+                    <p-password
+                        formControlName="password"
+                        [toggleMask]="true"
+                        [fluid]="true"
+                        [feedback]="false"
+                        autocomplete="off"
+                    ></p-password>
+                    <app-validator-message [control]="form.get('password')" />
+                </div>
+
+                <div class="flex flex-col gap-2 col-span-12">
+                    <label for="confirmPassword" class="font-semibold">Confirmação</label>
+                    <p-password
+                        formControlName="confirmPassword"
+                        [toggleMask]="true"
+                        [fluid]="true"
+                        [feedback]="false"
+                        autocomplete="off"
+                    />
+                    <app-validator-message [control]="form.get('confirmPassword')" />
+                </div>
+
+                <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
+                    <button
+                        pButton
+                        type="button"
+                        severity="secondary"
+                        [routerLink]="['/empresas']"
+                    >
+                        <i class="pi pi-times" pButtonIcon></i>
+                        <span pButtonLabel>Cancelar</span>
+                    </button>
+                    <button
+                        pButton
+                        type="submit"
+                        severity="success"
+                    >
+                        <i class="pi pi-check" pButtonIcon></i>
+                        <span pButtonLabel>Salvar</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </p-card>
+</div>
+<pre>
+    <code>
+        {{ form.value|json }}
+    </code>
+    <code>
+        {{ invalids()|json }}
+    </code>
+</pre>
+

@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidatorFn, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { catchError, first, map, Observable, of, switchMap, timer } from 'rxjs';
+import { UsuariosService } from '@/core/services/usuarios-service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +17,48 @@ export class CustomValidator {
       email: 'Endereço de email inválido.',
       invalidCnpjField: 'CNPJ informado é inválido.',
       invalidCepField: 'O CEP informado é inválido.',
-      invalidUfField: 'A UF informada é inválida.'
+      invalidUfField: 'A UF informada é inválida.',
+      passwordMismatch: 'A confirmação de senha deve ser igual à senha digitada.',
+      emailCheckFailed: 'O Email informado já esta em uso.'
     };
 
     return config[validatorName];
+  }
+
+  static checkEmailAvailability(service: UsuariosService, currentEmail: string): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      if (!control.value || control.value === currentEmail) {
+        return of(null);
+      }
+      return timer(500).pipe(
+        switchMap(() => service.checkEmail(control.value)),
+        map((isAvailable) => (isAvailable ? null : { emailTaken: true })),
+        catchError(() => of({ emailCheckFailed: true })),
+        first()
+      );
+    };
+  }
+
+  static passwordMatchValidator(origin: string, target: string): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const password = control.get(origin);
+      const confirmPassword = control.get(target);
+
+      if (!password || !confirmPassword) {
+        return null;
+      }
+
+      if (confirmPassword.errors && !confirmPassword.errors['mismatch']) {
+        return null;
+      }
+
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setErrors({ passwordMismatch: true });
+        return { mismatch: true };
+      } else {
+        confirmPassword.setErrors(null);
+        return null;
+      }
+    };
   }
 }

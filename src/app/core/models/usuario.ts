@@ -4,6 +4,7 @@ export interface Usuario {
   sobrenome: string;
   email: string;
   ativo: boolean;
+  avatar?: string;
   ult_acesso: Date | null;
   created_at: Date;
   updated_at: Date;

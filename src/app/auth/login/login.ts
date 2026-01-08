@@ -56,8 +56,7 @@ export class Login {
     if (this.form.valid) {
       this.loading = true;
       this._auth.login(this.form.value).subscribe({
-        next: (result) => {
-          this._sessionService.createSession(result.token);
+        next: () => {
           this.loading = false;
           this._messageService.add({ severity: 'success', summary: 'Atenção', detail: 'Login efetuado com sucesso.', life: 3000 });
           void this._router.navigate(['/home']);

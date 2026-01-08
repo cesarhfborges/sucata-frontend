@@ -11,7 +11,8 @@
     <div class="layout-topbar-actions">
         <div class="layout-config-menu">
             <button type="button" class="layout-topbar-action" (click)="toggleDarkMode()">
-                <i class="pi" [ngClass]="{ 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
+                <i class="pi"
+                   [ngClass]="{ 'pi-moon': layoutService.isDarkTheme(), 'pi-sun': !layoutService.isDarkTheme() }"></i>
             </button>
             <div class="relative">
                 <button
@@ -57,22 +58,39 @@
                 </button>
                 <p-menu #menu [model]="items" [popup]="true" styleClass="custom-menu">
                     <ng-template #start>
-                        <button pRipple class="position-relative overflow-hidden w-100 border-0 bg-transparent">
-                            <div class="d-flex align-items-center gap-2">
-                                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                                          class="mr-2" shape="circle" />
-                                <div class="d-flex col flex-column">
-                                    <span class="text-start m-0 p-0 fw-bold">Amy Elsner</span>
-                                    <span class="text-start m-0 p-0 text-sm">Admin</span>
+                        <div class="p-menu-list">
+                            <button
+                                pRipple
+                                type="button"
+                                class="position-relative overflow-hidden w-100 border-0 bg-transparent cursor-pointer hover:bg-[#f1f5f9]"
+                                [routerLink]="['/perfil']"
+                                (click)="menu.toggle($event)"
+                            >
+                                <div class="flex items-center gap-2 py-2 px-2">
+                                    @if (perfil?.avatar) {
+                                        <p-avatar
+                                            image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                                            class="flex-none mr-2"
+                                            shape="circle"
+                                            size="large"
+                                        />
+                                    } @else {
+                                        <p-avatar [label]="perfil?.nome?.charAt(0) ?? '#'" class="flex-none mr-2"
+                                                  size="large" shape="circle" />
+                                    }
+                                    <div class="flex flex-1 flex-col">
+                                        <span class="text-start m-0 p-0 fw-bold">{{ perfil?.nome }}</span>
+                                        <span class="text-start m-0 p-0 text-sm">{{ perfil?.email }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </button>
+                            </button>
+                        </div>
                     </ng-template>
                     <ng-template #submenuheader let-item>
                         <span class="text-primary font-bold">{{ item.label }}</span>
                     </ng-template>
                     <ng-template #item let-item>
-                        <button pRipple class="menu-item" [class]="item.linkClass">
+                        <button pRipple class="menu-item cursor-pointer" [class]="item.linkClass">
                             <div class="d-flex align-items-center justify-content-center">
                                 <span [class]="item.icon"></span>
                                 <span class="ms-2">{{ item.label }}</span>
@@ -82,7 +100,8 @@
                                     <p-badge class="ms-auto" badgeSize="small" [value]="item.badge" />
                                 }
                                 @if (item.shortcut) {
-                                    <span class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">
+                                    <span
+                                        class="ms-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">
                                       {{ item.shortcut }}
                                     </span>
                                 }

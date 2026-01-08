@@ -3,3 +3,59 @@
 @use './layout/layout.scss';
 @use 'primeicons/primeicons.css';
 @use './demo/demo.scss';
+
+
+.app-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--surface-ground);
+    z-index: 9999;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Exemplo de um spinner simples */
+.app-loading::after {
+    content: "";
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Classe para esconder com suavidade */
+.app-loading.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.text-success {
+    color: var(--p-button-text-success-color)!important;
+}
+.text-error {
+    color: var(--p-button-text-danger-color)!important;
+}
+.text-info {
+    color: var(--p-button-text-info-color)!important;
+}
+.text-warn {
+    color: var(--p-button-text-warn-color)!important;
+}
+.text-secondary {
+    color: var(--p-button-text-secondary-color)!important;
+}
+.text-contrast {
+    color: var(--p-button-text-contrast-color)!important;
+}

@@ -16,6 +16,9 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideEnvironmentNgxLoaderIndicator } from 'ngx-loader-indicator';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import * as ptBR from './assets/i18n/pt-BR.json';
+import { AuthService } from '@/core/services/auth-service';
+import { lastValueFrom } from 'rxjs';
+import { hideLoader } from '@/shared/utils/hide-loader';
 
 registerLocaleData(localePT, 'pt-BR');
 
@@ -30,13 +33,6 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
-    provideAppInitializer(() => {
-      const layoutService = inject(LayoutService);
-      layoutService.layoutConfig.update((state) => ({
-        ...state,
-        darkTheme: isDarkMode()
-      }));
-    }),
     provideRouter(
       appRoutes,
       withInMemoryScrolling({
@@ -64,6 +60,22 @@ export const appConfig: ApplicationConfig = {
       },
       translation: ptBR
     }),
-    provideEnvironmentNgxMask()
+    provideEnvironmentNgxMask(),
+    provideAppInitializer(async () => {
+      const auth = inject(AuthService);
+      const session = inject(SessionService);
+      const layoutService = inject(LayoutService);
+
+      layoutService.layoutConfig.update((state) => ({
+        ...state,
+        darkTheme: isDarkMode()
+      }));
+
+      if (session.hasActiveSession()) {
+        await lastValueFrom(auth.getPerfil());
+      }
+      hideLoader();
+      return Promise.resolve();
+    })
   ]
 };

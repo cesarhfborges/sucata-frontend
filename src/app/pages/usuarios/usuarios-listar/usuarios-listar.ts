@@ -34,6 +34,7 @@ export class UsuariosListar implements OnInit {
   private readonly _usuariosService = inject(UsuariosService);
 
   ngOnInit(): void {
+    this.loading = true;
     this._usuariosService.listar().subscribe({
       next: (data) => {
         this.usuarios = data;

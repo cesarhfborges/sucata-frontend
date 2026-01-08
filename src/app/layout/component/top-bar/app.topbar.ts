@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
@@ -10,6 +10,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { SessionService } from '@/core/services/session-service';
 import { RippleModule } from 'primeng/ripple';
+import { AuthService } from '@/core/services/auth-service';
+import { Usuario } from '@/core/models/usuario';
 
 @Component({
   selector: 'app-topbar',
@@ -19,6 +21,8 @@ import { RippleModule } from 'primeng/ripple';
   styleUrls: ['./app.topbar.scss']
 })
 export class AppTopbar {
+  protected perfil: Usuario | null = null;
+
   items: MenuItem[] = [
     {
       separator: true
@@ -68,7 +72,14 @@ export class AppTopbar {
   private readonly _sessionService = inject(SessionService);
   private readonly _confirmationService = inject(ConfirmationService);
 
-  constructor() {}
+  constructor() {
+    effect(() => {
+      const perfil = this._sessionService.perfil();
+      if (perfil) {
+        this.perfil = perfil;
+      }
+    });
+  }
 
   toggleDarkMode() {
     this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
