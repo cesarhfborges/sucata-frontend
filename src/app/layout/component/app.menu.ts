@@ -33,11 +33,6 @@ export class AppMenu {
             label: 'Cadastros',
             items: [
               {
-                label: 'Clientes',
-                icon: 'pi pi-fw pi-github',
-                routerLink: ['/clientes'],
-              },
-              {
                 label: 'Empresas',
                 icon: 'pi pi-fw pi-briefcase',
                 routerLinkActiveOptions: { exact: false },
@@ -47,6 +42,11 @@ export class AppMenu {
                 label: 'Usuarios',
                 icon: 'pi pi-fw pi-users',
                 routerLink: ['/usuarios']
+              },
+              {
+                label: 'Clientes',
+                icon: 'pi pi-fw pi-github',
+                routerLink: ['/clientes']
               }
             ]
           },
