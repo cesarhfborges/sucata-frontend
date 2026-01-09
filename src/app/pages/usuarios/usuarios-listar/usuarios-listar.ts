@@ -5,10 +5,11 @@ import { Tag } from 'primeng/tag';
 import { DatePipe } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Usuario } from '@/core/models/usuario';
 import { UsuariosService } from '@/core/services/usuarios-service';
 import { TableConfig } from '@/core/types/table-config';
+import { SessionService } from '@/core/services/session-service';
 
 @Component({
   selector: 'app-usuarios-listar',
@@ -31,6 +32,8 @@ export class UsuariosListar implements OnInit {
   protected usuarios: Usuario[] = [];
   protected loading: boolean = false;
 
+  private readonly _router = inject(Router);
+  private readonly _session = inject(SessionService);
   private readonly _usuariosService = inject(UsuariosService);
 
   ngOnInit(): void {
@@ -45,5 +48,13 @@ export class UsuariosListar implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  protected editar(id: number) {
+    if (this._session.perfil()?.id === id) {
+      void this._router.navigate(['/perfil']);
+    } else {
+      void this._router.navigate(['/usuarios', id]);
+    }
   }
 }

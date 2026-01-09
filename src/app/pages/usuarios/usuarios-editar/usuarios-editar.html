@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto" [ngxLoaderIndicator]="loading">
+<div class="max-w-5xl mx-auto" [ngxLoaderIndicator]="loading">
     <p-card>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -27,11 +27,17 @@
 
                 <div class="flex flex-col gap-2 col-span-10">
                     <label for="nome" class="font-semibold">Email</label>
-                    <input
-                        pInputText
-                        id="email"
-                        formControlName="email"
-                    />
+                    <p-iconfield>
+                        <input
+                            pInputText
+                            type="text"
+                            id="email"
+                            formControlName="email"
+                            [fluid]="true"
+                            autocomplete="off"
+                        />
+                        <p-inputicon [class]="getEmailIcon()" />
+                    </p-iconfield>
                     <app-validator-message [control]="form.get('email')" />
                 </div>
 
@@ -41,36 +47,34 @@
                     <app-validator-message [control]="form.get('ativo')" />
                 </div>
 
+                <div class="flex flex-col gap-2 col-span-12 mb-6">
+                    <p-divider />
+                    <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de Senha e Confirmação em branco.
+                    </p-message>
+                </div>
+
                 <div class="flex flex-col gap-2 col-span-12">
                     <label for="nome" class="font-semibold">Senha</label>
                     <p-password
                         formControlName="password"
                         [toggleMask]="true"
                         [fluid]="true"
-                        [feedback]="true"
+                        [feedback]="false"
                         autocomplete="off"
-                    >
-                        <ng-template #header>
-                            <div class="font-semibold text-xm mb-4">Senha do sistema</div>
-                        </ng-template>
-                        <ng-template #footer>
-                            <p-divider />
-                            <ul class="pl-2 my-0 leading-normal">
-                                <li>- Pelo menos uma letra minúscula</li>
-                                <li>- Pelo menos uma letra maiúscula</li>
-                                <li>- Pelo menos um número</li>
-                                <li>- Mínimo de 8 caracteres</li>
-                            </ul>
-                        </ng-template>
-                    </p-password>
-                    <app-validator-message [control]="form.get('ativo')" />
+                    ></p-password>
+                    <app-validator-message [control]="form.get('password')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12">
-                    <label for="nome" class="font-semibold">Confirmação</label>
-                    <p-password formControlName="password" [toggleMask]="true" [fluid]="true" [feedback]="false"
-                                autocomplete="off" />
-                    <app-validator-message [control]="form.get('ativo')" />
+                    <label for="confirmPassword" class="font-semibold">Confirmação</label>
+                    <p-password
+                        formControlName="confirmPassword"
+                        [toggleMask]="true"
+                        [fluid]="true"
+                        [feedback]="false"
+                        autocomplete="off"
+                    />
+                    <app-validator-message [control]="form.get('confirmPassword')" />
                 </div>
 
                 <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
@@ -78,7 +82,7 @@
                         pButton
                         type="button"
                         severity="secondary"
-                        [routerLink]="['/empresas']"
+                        [routerLink]="['/usuarios']"
                     >
                         <i class="pi pi-times" pButtonIcon></i>
                         <span pButtonLabel>Cancelar</span>
@@ -87,6 +91,7 @@
                         pButton
                         type="submit"
                         severity="success"
+                        [disabled]="form.pending"
                     >
                         <i class="pi pi-check" pButtonIcon></i>
                         <span pButtonLabel>Salvar</span>
@@ -99,5 +104,8 @@
 <pre>
     <code>
         {{ form.value|json }}
+    </code>
+    <code>
+        {{ invalids()|json }}
     </code>
 </pre>

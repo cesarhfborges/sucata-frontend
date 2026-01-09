@@ -19,19 +19,21 @@ export class CustomValidator {
       invalidCepField: 'O CEP informado é inválido.',
       invalidUfField: 'A UF informada é inválida.',
       passwordMismatch: 'A confirmação de senha deve ser igual à senha digitada.',
-      emailCheckFailed: 'O Email informado já esta em uso.'
+      emailCheckFailed: 'Não foi possível verificar a consistência do email informado.',
+      emailTaken: 'O Email informado já esta em uso.'
     };
 
     return config[validatorName];
   }
 
-  static checkEmailAvailability(service: UsuariosService, currentEmail: string): AsyncValidatorFn {
+  static checkEmailAvailability(service: UsuariosService, getId: () => number | undefined): AsyncValidatorFn {
     return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      if (!control.value || control.value === currentEmail) {
-        return of(null);
-      }
-      return timer(500).pipe(
-        switchMap(() => service.checkEmail(control.value)),
+      if (!control.value) return of(null);
+
+      const id = getId();
+
+      return timer(900).pipe(
+        switchMap(() => service.checkEmailAvailability(control.value, id)),
         map((isAvailable) => (isAvailable ? null : { emailTaken: true })),
         catchError(() => of({ emailCheckFailed: true })),
         first()

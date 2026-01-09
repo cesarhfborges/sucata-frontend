@@ -8,7 +8,6 @@ import { PasswordModule } from 'primeng/password';
 import { RippleModule } from 'primeng/ripple';
 import { AppFloatingConfigurator } from '@/layout/component/app.floatingconfigurator';
 import { NgOptimizedImage } from '@angular/common';
-import { SessionService } from '@/core/services/session-service';
 import { AuthService } from '@/core/services/auth-service';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
@@ -48,7 +47,6 @@ export class Login {
 
   private readonly _router = inject(Router);
   private readonly _auth = inject(AuthService);
-  private readonly _sessionService = inject(SessionService);
   private readonly _messageService = inject(MessageService);
 
   protected onSubmit(): void {

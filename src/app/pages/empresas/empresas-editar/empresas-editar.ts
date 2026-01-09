@@ -69,7 +69,7 @@ export class EmpresasEditar implements OnInit {
       this.empresaId = id;
     }
 
-    if (this.empresaId && !isNaN(this.empresaId)) {
+    if (this.empresaId !== null) {
       this.loading = true;
       this._service.get(this.empresaId).subscribe({
         next: (res) => {

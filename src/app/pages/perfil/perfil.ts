@@ -4,7 +4,6 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { JsonPipe } from '@angular/common';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { RouterLink } from '@angular/router';
@@ -30,7 +29,6 @@ import { MessageService } from 'primeng/api';
     CardModule,
     FormsModule,
     InputTextModule,
-    JsonPipe,
     ReactiveFormsModule,
     ValidatorMessage,
     NgxLoaderIndicatorDirective,
@@ -63,7 +61,7 @@ export class Perfil implements OnInit {
         email: new FormControl<string | null>(
           null,
           [Validators.required, Validators.email],
-          [CustomValidator.checkEmailAvailability(this._usuariosService, this.perfil?.email ?? '')]
+          [CustomValidator.checkEmailAvailability(this._usuariosService, () => this.perfil?.id)]
         ),
         password: new FormControl<string | null>(null, []),
         confirmPassword: new FormControl<string | null>(null, [])
@@ -77,21 +75,12 @@ export class Perfil implements OnInit {
     if (p) {
       this.perfil = p;
       this.form.patchValue(p);
+      this.form.updateValueAndValidity();
     }
   }
 
   invalids(): any {
     return findInvalidControls(this.form);
-  }
-
-  getEmailStatusClass(): string {
-    const control = this.form.get('email');
-    if (!control || control.pristine) return '';
-
-    if (control.pending) return 'status-loading'; // Azul
-    if (control.valid) return 'status-valid'; // Verde
-    if (control.invalid) return 'status-invalid'; // Vermelho
-    return '';
   }
 
   getEmailIcon(): string {

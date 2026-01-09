@@ -84,6 +84,7 @@
                         pButton
                         type="submit"
                         severity="success"
+                        [disabled]="form.pending"
                     >
                         <i class="pi pi-check" pButtonIcon></i>
                         <span pButtonLabel>Salvar</span>
@@ -93,12 +94,3 @@
         </form>
     </p-card>
 </div>
-<pre>
-    <code>
-        {{ form.value|json }}
-    </code>
-    <code>
-        {{ invalids()|json }}
-    </code>
-</pre>
-
