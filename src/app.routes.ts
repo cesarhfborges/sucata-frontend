@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AppLayout } from '@/layout/component/app.layout';
 import { guestGuard } from '@/core/guards/guest-guard';
 import { authGuard } from '@/core/guards/auth-guard';
-import { Login } from '@/auth/login/login';
 import { NotFound } from '@/auth/not-found/not-found';
 
 export const appRoutes: Routes = [
