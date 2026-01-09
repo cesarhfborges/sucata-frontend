@@ -31,11 +31,11 @@ export class ClientesListar implements OnInit {
   protected tableConfig: TbConfig = {
     totalRecords: 0,
     pagination: {
-      rows: 10,
+      rows: 25,
       options: [10, 25, 50]
     },
     sort: {
-      field: 'id',
+      field: 'nome_razaosocial',
       order: 1
     }
   };
@@ -99,7 +99,7 @@ export class ClientesListar implements OnInit {
   private excluir(id: number): void {
     this._clientesService.delete(id).subscribe({
       next: (result) => {
-        // this.empresas = this.empresas.filter((v) => v.id !== id);
+        this.clientes = this.clientes.filter((v) => v.id !== id);
         this._messageService.add({ severity: 'info', summary: 'Sucesso', detail: result.message || 'Empresa excluída com sucesso.' });
       }
     });
