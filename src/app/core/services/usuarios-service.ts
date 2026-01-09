@@ -25,11 +25,11 @@ export class UsuariosService extends HttpService {
     return this._http.get<Usuario>(`${this.URL}/api/usuarios/${id}`);
   }
 
-  public cadastrar(data: any) {
+  public cadastrar(data: any): Observable<Usuario> {
     return this._http.post<Usuario>(`${this.URL}/api/usuarios`, data);
   }
 
-  public atualizar(id: number, data: any) {
+  public atualizar(id: number, data: any): Observable<Usuario> {
     return this._http.put<Usuario>(`${this.URL}/api/usuarios/${id}`, data);
   }
 
