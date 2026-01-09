@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from '../app-configurator/app.configurator';
@@ -21,8 +21,6 @@ import { Usuario } from '@/core/models/usuario';
   styleUrls: ['./app.topbar.scss']
 })
 export class AppTopbar {
-  protected perfil: Usuario | null = null;
-
   items: MenuItem[] = [
     {
       separator: true
@@ -66,9 +64,8 @@ export class AppTopbar {
       // shortcut: '⌘+Q'
     }
   ];
-
-  private readonly _router = inject(Router);
   public readonly layoutService = inject(LayoutService);
+  protected perfil: Usuario | null = null;
   private readonly _sessionService = inject(SessionService);
   private readonly _authService = inject(AuthService);
   private readonly _confirmationService = inject(ConfirmationService);
