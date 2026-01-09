@@ -42,7 +42,8 @@
                 </div>
                 <div class="flex flex-col gap-2 col-span-12 mb-6">
                     <p-divider />
-                    <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de Senha e Confirmação em branco.
+                    <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de Senha
+                        e Confirmação em branco.
                     </p-message>
                 </div>
 
@@ -73,18 +74,10 @@
                 <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
                     <button
                         pButton
-                        type="button"
-                        severity="secondary"
-                        [routerLink]="['/empresas']"
-                    >
-                        <i class="pi pi-times" pButtonIcon></i>
-                        <span pButtonLabel>Cancelar</span>
-                    </button>
-                    <button
-                        pButton
                         type="submit"
                         severity="success"
                         [disabled]="form.pending"
+                        [fluid]="true"
                     >
                         <i class="pi pi-check" pButtonIcon></i>
                         <span pButtonLabel>Salvar</span>
