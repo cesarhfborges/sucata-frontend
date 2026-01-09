@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { AppLayout } from '@/layout/component/app.layout';
 import { guestGuard } from '@/core/guards/guest-guard';
 import { authGuard } from '@/core/guards/auth-guard';
+import { Login } from '@/auth/login/login';
+import { NotFound } from '@/auth/not-found/not-found';
 
 export const appRoutes: Routes = [
   {
@@ -25,5 +27,6 @@ export const appRoutes: Routes = [
   // { path: 'landing', component: Landing },
   // { path: 'notfound', component: Notfound },
   // { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
-  { path: '**', redirectTo: '/notfound' }
+  { path: 'not-found', component: NotFound },
+  { path: '**', redirectTo: '/not-found' }
 ];
