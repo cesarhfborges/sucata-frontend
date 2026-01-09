@@ -70,6 +70,7 @@ export class AppTopbar {
   private readonly _router = inject(Router);
   public readonly layoutService = inject(LayoutService);
   private readonly _sessionService = inject(SessionService);
+  private readonly _authService = inject(AuthService);
   private readonly _confirmationService = inject(ConfirmationService);
 
   constructor() {
@@ -91,8 +92,7 @@ export class AppTopbar {
       message: 'Deseja realmente prosseguir e sair do sistema?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this._sessionService.clearSession();
-        void this._router.navigate(['/login']);
+        this._authService.logout();
       },
       acceptLabel: 'Sim, desejo sair',
       acceptButtonStyleClass: 'p-button-danger',

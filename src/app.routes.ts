@@ -24,9 +24,6 @@ export const appRoutes: Routes = [
     canActivateChild: [guestGuard],
     loadChildren: () => import('./app/auth/auth.routes')
   },
-  // { path: 'landing', component: Landing },
-  // { path: 'notfound', component: Notfound },
-  // { path: 'auth', loadChildren: () => import('./app/pages/auth/auth.routes') },
   { path: 'not-found', component: NotFound },
   { path: '**', redirectTo: '/not-found' }
 ];

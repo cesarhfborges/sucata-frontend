@@ -35,4 +35,11 @@ export class AuthService extends HttpService {
       })
     );
   }
+
+  public logout(): void {
+    this._sessionService.clearSession();
+    queueMicrotask(() => {
+      window.location.href = '/login';
+    });
+  }
 }

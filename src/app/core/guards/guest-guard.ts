@@ -10,5 +10,5 @@ export const guestGuard: CanActivateFn | CanActivateChildFn = (route, state) => 
     return true;
   }
 
-  return router.navigate(['/home']);
+  return router.createUrlTree(['/home']);
 };
