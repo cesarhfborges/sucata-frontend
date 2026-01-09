@@ -1,1 +1,132 @@
-<p>clientes-listar works!</p>
+<p-card>
+    <div class="flex flex-row justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800 m-0">Clientes do Sistema</h3>
+
+        <p-button
+            pButton
+            type="button"
+            label="Novo cliente"
+            icon="pi pi-plus"
+            severity="success"
+            class="p-button-sm"
+            size="small"
+            [routerLink]="['/clientes/novo']"
+        />
+    </div>
+
+    <p-table
+        #dt2
+        [value]="clientes"
+        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [loading]="loading"
+
+        [lazy]="true"
+        (onLazyLoad)="loadClientes($event)"
+
+        [paginator]="true"
+        [rows]="tableConfig.pagination.rows"
+        [totalRecords]="tableConfig.totalRecords || 0"
+        [rowsPerPageOptions]="tableConfig.pagination.options"
+
+        [sortField]="tableConfig.sort.field"
+        [sortOrder]="tableConfig.sort.order"
+
+        stripedRows
+    >
+        <ng-template #caption>
+            <div class="flex flex-col gap-2 sm:gap-0">
+                <div class="grid grid-cols-12 gap-3 items-center">
+
+                    <div class="col-span-12 sm:col-span-2 font-medium">
+                        Filtro
+                    </div>
+
+                    <!-- Input -->
+                    <p-iconfield iconPosition="left" class="col-span-12 sm:col-span-4 w-full">
+                        <p-inputicon class="pi pi-search" />
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="dt2.filterGlobal($event.target!.value, 'contains')"
+                            class="w-full"
+                            autocomplete="off"
+                        />
+                    </p-iconfield>
+
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="id">
+                    <div class="flex justify-between">
+                        #
+                        <p-sortIcon field="id" />
+                    </div>
+                </th>
+                <th pSortableColumn="nome_razaosocial">
+                    <div class="flex justify-between">
+                        Nome/Razão social
+                        <p-sortIcon field="nome_razaosocial" />
+                    </div>
+                </th>
+                <th pSortableColumn="sobrenome_nomefantasia">
+                    Sobrenome/Fantasia
+                    <p-sortIcon field="sobrenome_nomefantasia" />
+                </th>
+                <th pSortableColumn="cpf_cnpj">
+                    CPF/CNPJ
+                    <p-sortIcon field="cpf_cnpj" />
+                </th>
+                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-value>
+            <tr>
+                <td>{{ value.id }}</td>
+                <td>{{ value.nome_razaosocial }}</td>
+                <td>{{ value.sobrenome_nomefantasia }}</td>
+                <td>
+                    {{
+                        value.cpf_cnpj
+                            | mask : (value.cpf_cnpj?.length === 11
+                            ? '000.000.000-00'
+                            : '00.000.000/0000-00')
+                    }}
+                </td>
+                <td>
+                    <p-buttonGroup>
+                        <p-button
+                            label="Editar"
+                            icon="pi pi-check"
+                            severity="info"
+                            [routerLink]="['/clientes', value.id]"
+                        />
+                        <p-button
+                            label="Excluir"
+                            icon="pi pi-trash"
+                            severity="danger"
+                            (click)="confirmDelete($event, value.id)"
+                        />
+                    </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr style="height:46px">
+                <td [colSpan]="6">
+                    <p class="text-center">Carregando...</p>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [colSpan]="6">
+                    <p class="text-center">Sem dados para exibir</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+

@@ -5,7 +5,7 @@
         <p-button
             pButton
             type="button"
-            label="Nova Empresa"
+            label="Nova empresa"
             icon="pi pi-plus"
             severity="success"
             class="p-button-sm"
@@ -42,7 +42,10 @@
                     Nome Fantasia
                     <p-sortIcon field="nome_fantasia" />
                 </th>
-                <th>Status</th>
+                <th pSortableColumn="cnpj">
+                    CNPJ
+                    <p-sortIcon field="cnpj" />
+                </th>
                 <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
             </tr>
         </ng-template>
