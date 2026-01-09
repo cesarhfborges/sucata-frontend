@@ -6,7 +6,6 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { InputTextModule } from 'primeng/inputtext';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
-import { RouterLink } from '@angular/router';
 import { PasswordModule } from 'primeng/password';
 import { CustomValidator } from '@/shared/components/custom-validator';
 import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
@@ -32,7 +31,6 @@ import { MessageService } from 'primeng/api';
     ReactiveFormsModule,
     ValidatorMessage,
     NgxLoaderIndicatorDirective,
-    RouterLink,
     PasswordModule,
     TooltipModule,
     MessageModule,
