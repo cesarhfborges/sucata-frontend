@@ -32,4 +32,8 @@ export class UsuariosService extends HttpService {
   public atualizar(id: number, data: any) {
     return this._http.put<Usuario>(`${this.URL}/api/usuarios/${id}`, data);
   }
+
+  public delete(id: number): Observable<any> {
+    return this._http.delete<any>(`${this.URL}/api/usuarios/${id}`);
+  }
 }

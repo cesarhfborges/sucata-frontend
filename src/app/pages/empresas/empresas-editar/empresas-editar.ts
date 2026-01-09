@@ -42,7 +42,7 @@ export class EmpresasEditar implements OnInit {
   private readonly _fb = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
-  private readonly _service = inject(EmpresaService);
+  private readonly _empresaService = inject(EmpresaService);
   private readonly _messageService = inject(MessageService);
 
   constructor() {
@@ -71,7 +71,7 @@ export class EmpresasEditar implements OnInit {
 
     if (this.empresaId !== null) {
       this.loading = true;
-      this._service.get(this.empresaId).subscribe({
+      this._empresaService.get(this.empresaId).subscribe({
         next: (res) => {
           console.log(res);
           this.form.patchValue(res);
@@ -89,7 +89,7 @@ export class EmpresasEditar implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       if (this.empresaId !== null) {
-        this._service.atualizar(this.empresaId, this.form.value).subscribe({
+        this._empresaService.atualizar(this.empresaId, this.form.value).subscribe({
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
             this.form.patchValue(res);
@@ -99,7 +99,7 @@ export class EmpresasEditar implements OnInit {
           }
         });
       } else {
-        this._service.cadastrar(this.form.value).subscribe({
+        this._empresaService.cadastrar(this.form.value).subscribe({
           next: (res) => {
             this.form.patchValue(res);
             this.empresaId = res.id!;

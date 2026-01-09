@@ -10,6 +10,7 @@ import { Usuario } from '@/core/models/usuario';
 import { UsuariosService } from '@/core/services/usuarios-service';
 import { TableConfig } from '@/core/types/table-config';
 import { SessionService } from '@/core/services/session-service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-usuarios-listar',
@@ -35,6 +36,8 @@ export class UsuariosListar implements OnInit {
   private readonly _router = inject(Router);
   private readonly _session = inject(SessionService);
   private readonly _usuariosService = inject(UsuariosService);
+  private readonly _messageService = inject(MessageService);
+  private readonly _confirmationService = inject(ConfirmationService);
 
   ngOnInit(): void {
     this.loading = true;
@@ -56,5 +59,35 @@ export class UsuariosListar implements OnInit {
     } else {
       void this._router.navigate(['/usuarios', id]);
     }
+  }
+
+  protected delete(event: Event, id: number) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      blockScroll: true,
+      closeOnEscape: true,
+      header: 'Atenção',
+      message: 'Deseja realmente excluir este item?',
+      icon: 'pi pi-info-circle',
+      rejectButtonProps: {
+        label: 'Cancelar',
+        severity: 'info',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: 'Sim, excluir',
+        severity: 'danger'
+      },
+      accept: () => this.excluirUsuario(id)
+    });
+  }
+
+  private excluirUsuario(id: number): void {
+    this._usuariosService.delete(id).subscribe({
+      next: (result) => {
+        this.usuarios = this.usuarios.filter((v) => v.id !== id);
+        this._messageService.add({ severity: 'info', summary: 'Sucesso', detail: result.message || 'Usuario excluído com sucesso.' });
+      }
+    });
   }
 }

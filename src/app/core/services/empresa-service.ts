@@ -23,7 +23,7 @@ export class EmpresaService extends HttpService {
     return this._http.post<Empresa>(`${this.URL}/api/empresas`, data);
   }
 
-  public update(id: number, data: Empresa): Observable<Empresa> {
-    return this._http.put<Empresa>(`${this.URL}/api/empresas/${id}`, data);
+  public delete(id: number): Observable<any> {
+    return this._http.delete<any>(`${this.URL}/api/empresas/${id}`);
   }
 }
