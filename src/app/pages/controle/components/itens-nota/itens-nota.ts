@@ -1,8 +1,7 @@
-import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Card } from 'primeng/card';
 import { NotaItensService } from '@/core/services/nota-itens-service';
-import { DatePipe, JsonPipe } from '@angular/common';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { TableModule } from 'primeng/table';
 import { ItemNota } from '@/core/models/item-nota';
@@ -12,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-itens-nota',
-  imports: [Card, JsonPipe, Button, ButtonGroup, TableModule, IconFieldModule, InputIconModule, InputTextModule],
+  imports: [Card, Button, ButtonGroup, TableModule, IconFieldModule, InputIconModule, InputTextModule, ButtonDirective],
   templateUrl: './itens-nota.html',
   styleUrl: './itens-nota.scss'
 })
@@ -32,6 +31,10 @@ export class ItensNota implements OnChanges {
     }
   }
 
+  protected editar(id: number) {}
+
+  protected delete($event: any, id: number) {}
+
   private loadItens(id: number): void {
     this.loading = true;
     this._notaItensService.listar(id).subscribe({
@@ -39,6 +42,7 @@ export class ItensNota implements OnChanges {
         console.log(data);
         this.lista = data;
         this.loading = false;
+        this._scrollToBottom();
       },
       error: (err) => {
         console.log(err);
@@ -47,7 +51,10 @@ export class ItensNota implements OnChanges {
     });
   }
 
-  protected editar(id: number) {}
-
-  protected delete($event: any, id: number) {}
+  private _scrollToBottom(): void {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
 }

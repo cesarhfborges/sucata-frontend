@@ -13,48 +13,58 @@
         [scrollable]="true"
         scrollHeight="400px"
 
+        responsiveLayout="stack"
+        breakpoint="640px"
 
         stripedRows
         showGridlines
     >
         <ng-template #caption>
-            <div class="flex flex-col gap-2 sm:gap-0">
-                <div class="grid grid-cols-12 gap-3 items-center">
+            <div class="w-full">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1 max-w-3xl">
+                        <div class="grid grid-cols-12 gap-3 items-center">
 
-                    <div class="col-span-12 md:col-span-1 font-medium">
-                        Filtro
+                            <div class="col-span-12 hidden md:block md:col-span-2 font-medium">
+                                Filtro
+                            </div>
+
+                            <p-iconfield
+                                iconPosition="left"
+                                class="col-span-12 md:col-span-10 w-full"
+                            >
+                                <p-inputicon class="pi pi-search" />
+                                <input
+                                    #inputFilter
+                                    pInputText
+                                    type="text"
+                                    (input)="dt1.filterGlobal($event.target!.value, 'contains')"
+                                    class="w-full pr-10"
+                                    autocomplete="off"
+                                    placeholder="Digite UN, Nota, Série ou data de emissão para filtrar"
+                                />
+
+                                @if (inputFilter.value.length > 0) {
+                                    <i
+                                        class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2
+                                       cursor-pointer text-gray-400 hover:text-red-500 transition-colors"
+                                        (click)="dt1.reset(); inputFilter.value = ''"
+                                    ></i>
+                                }
+                            </p-iconfield>
+                        </div>
                     </div>
 
-                    <p-iconfield iconPosition="left" class="col-span-12 md:col-span-4 w-full">
-                        <p-inputicon class="pi pi-search" />
-                        <input
-                            #inputFilter
-                            pInputText
-                            type="text"
-                            (input)="dt1.filterGlobal($event.target!.value, 'contains')"
-                            class="w-full"
-                            autocomplete="off"
-                            placeholder="Digite UN, Nota, Série ou data de emissão para filtrar"
-                        />
-                        @if (inputFilter.value.length > 0) {
-                            <i
-                                class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-red-500 transition-colors"
-                                (click)="dt1.reset(); inputFilter.value = ''"
-                            ></i>
-                        }
-                    </p-iconfield>
-
-                    <!--                    <p-input-group>-->
-                    <!--                        -->
-                    <!--                        <p-inputgroup-addon>-->
-                    <!--                            <i class="pi pi-user"></i>-->
-                    <!--                        </p-inputgroup-addon>-->
-                    <!--                        <input pInputText [(ngModel)]="text1" placeholder="Username" />-->
-                    <!--                    </p-input-group>-->
+                    <div class="flex-shrink-0">
+                        <button type="button" pButton>
+                            Cadastrar
+                        </button>
+                    </div>
 
                 </div>
             </div>
         </ng-template>
+
         <ng-template #header>
             <tr>
                 <th [style.width.px]="100">Status</th>
