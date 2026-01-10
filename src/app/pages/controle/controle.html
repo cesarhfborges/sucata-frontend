@@ -1,6 +1,6 @@
 <div class="grid grid-cols-1 gap-4">
 
-    <p-card header="Opções">
+    <p-card header="Opções" [(appOnClickClear)]="selecionado">
         <form [formGroup]="form" (ngSubmit)="submit()">
 
             <!-- GRID PRINCIPAL -->
@@ -160,7 +160,7 @@
         </form>
     </p-card>
 
-    @if (form.valid) {
-        <app-notas-fiscais [dados]="form.value"></app-notas-fiscais>
+    @if (selecionado !== undefined) {
+        <app-notas-fiscais [dados]="selecionado"></app-notas-fiscais>
     }
 </div>

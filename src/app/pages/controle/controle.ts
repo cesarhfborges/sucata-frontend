@@ -25,6 +25,7 @@ import { ValidatorMessage } from '@/shared/components/validator-message/validato
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { OnClickClear } from '@/shared/directives/on-click-clear';
 
 @Component({
   selector: 'app-controle',
@@ -46,7 +47,8 @@ import { InputTextModule } from 'primeng/inputtext';
     ValidatorMessage,
     IconFieldModule,
     InputIconModule,
-    InputTextModule
+    InputTextModule,
+    OnClickClear
   ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'
@@ -82,6 +84,7 @@ export class Controle implements OnInit {
   private readonly _fb = inject(FormBuilder);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
+  protected selecionado: any = undefined;
 
   constructor() {
     this.form = this._fb.group({
@@ -146,6 +149,7 @@ export class Controle implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       console.log('FORM VALID', this.form.value);
+      this.selecionado = this.form.value;
     } else {
       console.log('FORM INVALID');
     }

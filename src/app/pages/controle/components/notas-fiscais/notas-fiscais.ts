@@ -1,6 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { Card } from 'primeng/card';
-import { Button } from 'primeng/button';
+import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { DatePipe, JsonPipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
@@ -11,10 +11,15 @@ import { NotaFiscal } from '@/core/models/nota-fiscal';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
+import { OnClickClear } from '@/shared/directives/on-click-clear';
+import { OnClickIgnore } from '@/shared/directives/on-click-ignore';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-notas-fiscais',
-  imports: [Card, Button, ButtonGroup, DatePipe, TableModule, Tag, ItensNota, JsonPipe, IconField, InputIcon, InputText],
+  imports: [Card, Button, ButtonGroup, DatePipe, TableModule, Tag, ItensNota, InputGroupModule, InputGroupAddonModule, IconField, InputIcon, InputText, OnClickClear, OnClickIgnore, ButtonModule, RippleModule],
   templateUrl: './notas-fiscais.html',
   styleUrl: './notas-fiscais.scss'
 })
@@ -32,9 +37,9 @@ export class NotasFiscais implements OnInit {
     this.loading = true;
     this._notaFiscalService
       .listar({
-        empresas: [1, 2, 3, 4, 5, 6],
-        cliente: 5,
-        status: 'TODAS'
+        empresas: this.dados.empresas,
+        cliente: this.dados.cliente,
+        status: this.dados.status,
       })
       .subscribe({
         next: (data) => {
@@ -49,7 +54,11 @@ export class NotasFiscais implements OnInit {
       });
   }
 
-  protected editar(id: number) {}
+  protected editar(id: number) {
+    console.log('editar CLICK');
+  }
 
   protected delete($event: any, id: number) {}
+
+  protected readonly console = console;
 }

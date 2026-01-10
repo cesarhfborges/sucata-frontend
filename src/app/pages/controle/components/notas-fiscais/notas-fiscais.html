@@ -1,4 +1,4 @@
-<p-card header="Notas fiscais">
+<p-card header="Notas fiscais" [(appOnClickClear)]="selecionado">
     <p-table
         #dt1
         [value]="lista"
@@ -18,13 +18,41 @@
         showGridlines
     >
         <ng-template #caption>
-            <div class="flex">
-                <p-iconfield iconPosition="left">
-                    <p-inputicon>
-                        <i class="pi pi-search"></i>
-                    </p-inputicon>
-                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target!.value, 'contains')" placeholder="Search keyword" />
-                </p-iconfield>
+            <div class="flex flex-col gap-2 sm:gap-0">
+                <div class="grid grid-cols-12 gap-3 items-center">
+
+                    <div class="col-span-12 md:col-span-1 font-medium">
+                        Filtro
+                    </div>
+
+                    <p-iconfield iconPosition="left" class="col-span-12 md:col-span-4 w-full">
+                        <p-inputicon class="pi pi-search" />
+                        <input
+                            #inputFilter
+                            pInputText
+                            type="text"
+                            (input)="dt1.filterGlobal($event.target!.value, 'contains')"
+                            class="w-full"
+                            autocomplete="off"
+                            placeholder="Digite UN, Nota, Série ou data de emissão para filtrar"
+                        />
+                        @if (inputFilter.value.length > 0) {
+                            <i
+                                class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-red-500 transition-colors"
+                                (click)="dt1.reset(); inputFilter.value = ''"
+                            ></i>
+                        }
+                    </p-iconfield>
+
+                    <!--                    <p-input-group>-->
+                    <!--                        -->
+                    <!--                        <p-inputgroup-addon>-->
+                    <!--                            <i class="pi pi-user"></i>-->
+                    <!--                        </p-inputgroup-addon>-->
+                    <!--                        <input pInputText [(ngModel)]="text1" placeholder="Username" />-->
+                    <!--                    </p-input-group>-->
+
+                </div>
             </div>
         </ng-template>
         <ng-template #header>
@@ -39,7 +67,7 @@
         </ng-template>
         <ng-template #body let-value let-rowIndex="rowIndex">
             <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
-                <td>
+                <td appOnClickIgnore>
                     <div class="flex items-center justify-center">
                         @if (value.status === 'PENDENTE') {
                             <i class="pi pi-thumbs-down-fill text-red-500"></i>
@@ -48,10 +76,10 @@
                         }
                     </div>
                 </td>
-                <td>{{ value.empresa_id }}</td>
-                <td>{{ value.nota_fiscal }}</td>
-                <td>{{ value.serie }}</td>
-                <td>{{ value.emissao | date : 'dd/MM/yyyy' }}</td>
+                <td appOnClickIgnore>{{ value.empresa_id }}</td>
+                <td appOnClickIgnore>{{ value.nota_fiscal }}</td>
+                <td appOnClickIgnore>{{ value.serie }}</td>
+                <td appOnClickIgnore>{{ value.emissao | date : 'dd/MM/yyyy' }}</td>
                 <td>
                     <p-buttonGroup>
                         <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
@@ -85,5 +113,5 @@
 <!--</pre>-->
 
 @if (selecionado !== undefined) {
-    <app-itens-nota></app-itens-nota>
+    <app-itens-nota [notaFiscal]="selecionado.id"></app-itens-nota>
 }

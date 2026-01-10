@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Card } from 'primeng/card';
 import { NotaItensService } from '@/core/services/nota-itens-service';
 import { DatePipe, JsonPipe } from '@angular/common';
@@ -16,20 +16,33 @@ import { InputTextModule } from 'primeng/inputtext';
   templateUrl: './itens-nota.html',
   styleUrl: './itens-nota.scss'
 })
-export class ItensNota implements OnInit {
+export class ItensNota implements OnChanges {
+  @Input({ required: true })
+  notaFiscal!: number | undefined;
+
   loading: boolean = false;
   lista: ItemNota[] = [];
 
   private readonly _notaItensService = inject(NotaItensService);
 
-  ngOnInit(): void {
-    this._notaItensService.listar(1).subscribe({
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['notaFiscal'] && this.notaFiscal) {
+      this.lista = [];
+      this.loadItens(this.notaFiscal);
+    }
+  }
+
+  private loadItens(id: number): void {
+    this.loading = true;
+    this._notaItensService.listar(id).subscribe({
       next: (data) => {
         console.log(data);
         this.lista = data;
+        this.loading = false;
       },
       error: (err) => {
         console.log(err);
+        this.loading = false;
       }
     });
   }
