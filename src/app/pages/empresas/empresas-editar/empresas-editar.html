@@ -97,11 +97,13 @@
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
                     <label for="telefone" class="font-semibold ">Telefone</label>
                     <input pInputText id="telefone" formControlName="telefone" />
+                    <app-validator-message [control]="form.get('telefone')" />
                 </div>
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
                     <label for="email" class="font-semibold ">E-Mail</label>
                     <input pInputText id="email" formControlName="email" />
+                    <app-validator-message [control]="form.get('email')" />
                 </div>
 
                 <hr class="col-span-12" />
@@ -110,6 +112,7 @@
                     <label for="observacoes" class="font-semibold ">Observações</label>
                     <textarea id="observacoes" rows="5" cols="30" pTextarea [autoResize]="true"
                               formControlName="observacoes"></textarea>
+                    <app-validator-message [control]="form.get('observacoes')" />
                 </div>
 
                 <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">

@@ -1,61 +1,87 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EmpresaService } from '@/core/services/empresa-service';
+
 import { CardModule } from 'primeng/card';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
-import { ScrollerOptions, SelectItem } from 'primeng/api';
+import { ScrollerOptions } from 'primeng/api';
 import { JsonPipe } from '@angular/common';
-import { ClientesService } from '@/core/services/clientes-service';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
+
+import { EmpresaService } from '@/core/services/empresa-service';
+import { ClientesService } from '@/core/services/clientes-service';
+import { Empresa } from '@/core/models/empresa';
+import { Cliente } from '@/core/models/cliente';
+
+import { NotasFiscais } from '@/pages/controle/components/notas-fiscais/notas-fiscais';
+import { ItensNota } from '@/pages/controle/components/itens-nota/itens-nota';
+
+import { NgxMaskPipe } from 'ngx-mask';
 import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
+import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-controle',
-  imports: [CardModule, MultiSelectModule, FormsModule, ReactiveFormsModule, RadioButtonModule, SelectModule, JsonPipe, RouterModule, ButtonModule, DividerModule],
+  standalone: true,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CardModule,
+    MultiSelectModule,
+    RadioButtonModule,
+    SelectModule,
+    JsonPipe,
+    RouterModule,
+    ButtonModule,
+    DividerModule,
+    NotasFiscais,
+    ItensNota,
+    NgxMaskPipe,
+    ValidatorMessage,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
+  ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'
 })
 export class Controle implements OnInit {
   form: FormGroup;
 
-  listaStatus: { label: string; value: string }[] = [
-    {
-      label: 'Todas',
-      value: 'TODAS'
-    },
-    {
-      label: 'Pendentes',
-      value: 'PENDENTES'
-    },
-    {
-      label: 'Devolvidas',
-      value: 'DEVOLVIDAS'
-    }
+  listaClientes: Cliente[] = [];
+  listaEmpresas: Empresa[] = [];
+
+  listaStatus = [
+    { label: 'Todas', value: 'TODAS' },
+    { label: 'Pendentes', value: 'PENDENTE' },
+    { label: 'Devolvidas', value: 'DEVOLVIDA' }
   ];
 
-  listaEmpresas: any[] = [];
-  listaClientes: SelectItem[] = [];
-
-  loadLazyTimeout: any = null;
-
   options: ScrollerOptions = {
-    delay: 300,
-    showLoader: true,
     lazy: true,
-    onLazyLoad: this.onLazyLoad.bind(this)
+    showLoader: true,
+    delay: 0,
+    onLazyLoad: this.onLazyLoadClientes.bind(this)
   };
 
-  private loadings: { [key: string]: boolean } = {
-    empresas: false,
-    clientes: false
-  };
+  protected clientesFiltro = '';
+  protected clientesLoading = false;
+
+  private clientesPage = 1;
+  private readonly clientesPerPage = 100;
+  private lastLazyFirst = 0;
+  private filtroTimeout: any = null;
+  private clientesHasMore = true;
+
+  private readonly _fb = inject(FormBuilder);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
-  private readonly _fb = inject(FormBuilder);
 
   constructor() {
     this.form = this._fb.group({
@@ -65,65 +91,118 @@ export class Controle implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadEmpresas();
   }
 
-  loadEmpresas(): void {
-    this.loadings['empresas'] = true;
-    this._empresasService.listar().subscribe({
-      next: (data) => {
-        this.listaEmpresas = data;
-        this.form.get('empresas')?.patchValue(data.map((v) => v.id!));
-        this.loadings['empresas'] = false;
-      }
-    });
-  }
-
-  onLazyLoad(event: any): void {
-    console.log('LazyLoadÇ ', event);
-    if (this.loadings['clientes']) {
+  onOpenClientes(): void {
+    if (this.listaClientes.length > 0) {
       return;
     }
 
-    this.loadings['clientes'] = true;
-
-    const pageSize = event.rows ?? 30;
-    const page = event.first ? Math.floor(event.first / pageSize) + 1 : 1;
-
-    this._clientesService
-      .listar({
-        page,
-        per_page: pageSize,
-        sort_by: 'nome_razaosocial',
-        sort_dir: 'asc'
-      })
-      .subscribe({
-        next: (response) => {
-          const novos = response.data.map((cliente) => ({
-            label: `${cliente.nome_razaosocial} ${cliente.sobrenome_nomefantasia}`,
-            value: cliente.id
-          }));
-
-          // concatena mantendo o scroll
-          this.listaClientes = [...this.listaClientes, ...novos];
-
-          this.loadings['clientes'] = false;
-        },
-        error: () => {
-          this.loadings['clientes'] = false;
-        }
-      });
+    this.resetClientes();
+    this.loadClientes();
   }
 
-  protected submit() {
+  onLazyLoadClientes(event: any): void {
+    if (this.clientesLoading || !this.clientesHasMore) {
+      return;
+    }
+
+    const first = event.first ?? 0;
+
+    if (first === this.lastLazyFirst) {
+      return;
+    }
+
+    this.lastLazyFirst = first;
+
+    const shouldLoadNextPage = first + this.clientesPerPage >= this.listaClientes.length;
+
+    if (!shouldLoadNextPage) {
+      return;
+    }
+
+    this.loadClientes();
+  }
+
+  onFiltroInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+
+    if (value === this.clientesFiltro) {
+      return;
+    }
+
+    clearTimeout(this.filtroTimeout);
+
+    this.filtroTimeout = setTimeout(() => {
+      this.clientesFiltro = value;
+      this.resetClientes();
+      this.loadClientes();
+    }, 400);
+  }
+
+  submit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      console.log('VALIDO')
+      console.log('FORM VALID', this.form.value);
+    } else {
+      console.log('FORM INVALID');
     }
   }
 
   protected invalids() {
     return findInvalidControls(this.form);
+  }
+
+  private loadEmpresas(): void {
+    this._empresasService.listar().subscribe({
+      next: (data) => {
+        this.listaEmpresas = data;
+        this.form.get('empresas')?.patchValue(data.map((e) => e.id!));
+      }
+    });
+  }
+
+  private loadClientes(): void {
+    if (this.clientesLoading || !this.clientesHasMore) {
+      return;
+    }
+
+    this.clientesLoading = true;
+
+    this._clientesService
+      .listar({
+        page: this.clientesPage,
+        per_page: this.clientesPerPage,
+        filter: this.clientesFiltro || undefined,
+        sort_by: 'nome_razaosocial',
+        sort_dir: 'asc'
+      })
+      .subscribe({
+        next: (response) => {
+          const novos: Cliente[] = response.data ?? [];
+
+          this.listaClientes = [...this.listaClientes, ...novos];
+
+          if (this.clientesPage >= response.last_page) {
+            this.clientesHasMore = false;
+          } else {
+            this.clientesPage++;
+          }
+
+          this.clientesLoading = false;
+        },
+        error: () => {
+          this.clientesLoading = false;
+        }
+      });
+  }
+
+  private resetClientes(): void {
+    this.listaClientes = [];
+    this.clientesPage = 1;
+    this.clientesHasMore = true;
+    this.lastLazyFirst = 0;
   }
 }

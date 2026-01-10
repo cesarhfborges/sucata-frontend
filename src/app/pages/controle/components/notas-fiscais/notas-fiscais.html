@@ -1,0 +1,89 @@
+<p-card header="Notas fiscais">
+    <p-table
+        #dt1
+        [value]="lista"
+        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [loading]="loading"
+
+        selectionMode="single"
+        [(selection)]="selecionado"
+        [metaKeySelection]="metaKey"
+        dataKey="id"
+        [globalFilterFields]="['empresa_id', 'nota_fiscal', 'serie', 'emissao']"
+        [scrollable]="true"
+        scrollHeight="400px"
+
+
+        stripedRows
+        showGridlines
+    >
+        <ng-template #caption>
+            <div class="flex">
+                <p-iconfield iconPosition="left">
+                    <p-inputicon>
+                        <i class="pi pi-search"></i>
+                    </p-inputicon>
+                    <input pInputText type="text" (input)="dt1.filterGlobal($event.target!.value, 'contains')" placeholder="Search keyword" />
+                </p-iconfield>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th [style.width.px]="100">Status</th>
+                <th>UN</th>
+                <th>Nota Fiscal</th>
+                <th>Série</th>
+                <th>Emissão</th>
+                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-value let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
+                <td>
+                    <div class="flex items-center justify-center">
+                        @if (value.status === 'PENDENTE') {
+                            <i class="pi pi-thumbs-down-fill text-red-500"></i>
+                        } @else {
+                            <i class="pi pi-thumbs-up-fill text-green-500"></i>
+                        }
+                    </div>
+                </td>
+                <td>{{ value.empresa_id }}</td>
+                <td>{{ value.nota_fiscal }}</td>
+                <td>{{ value.serie }}</td>
+                <td>{{ value.emissao | date : 'dd/MM/yyyy' }}</td>
+                <td>
+                    <p-buttonGroup>
+                        <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
+                        <p-button label="Excluir" icon="pi pi-trash" severity="danger"
+                                  (click)="delete($event, value.id)" />
+                    </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr style="height:46px">
+                <td [colSpan]="7">
+                    <p class="text-center">Carregando...</p>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [colSpan]="7">
+                    <p class="text-center">Sem dados para exibir</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<!--<pre>-->
+<!--    <code>-->
+<!--        {{ selecionado|json }}-->
+<!--    </code>-->
+<!--</pre>-->
+
+@if (selecionado !== undefined) {
+    <app-itens-nota></app-itens-nota>
+}

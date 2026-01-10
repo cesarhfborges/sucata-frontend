@@ -1,0 +1,8 @@
+:host ::ng-deep .full-width-select-panel {
+    width: 100% !important;
+}
+
+:host ::ng-deep .full-width-select-panel .p-select-items-wrapper,
+:host ::ng-deep .full-width-select-panel .p-select-items {
+    width: 100% !important;
+}

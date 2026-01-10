@@ -1,27 +1,106 @@
 <div class="grid grid-cols-1 gap-4">
 
-    <p-card>
+    <p-card header="Opções">
         <form [formGroup]="form" (ngSubmit)="submit()">
 
             <!-- GRID PRINCIPAL -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6 mt-3">
 
                 <!-- CLIENTE -->
                 <div class="order-1 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
                     <label for="cliente" class="font-semibold">Cliente</label>
                     <p-select
                         id="cliente"
+                        class="w-full"
+                        panelStyleClass="full-width-select-panel"
                         [options]="listaClientes"
                         formControlName="cliente"
                         placeholder="Selecione o cliente"
                         [virtualScroll]="true"
-                        [virtualScrollItemSize]="38"
+                        [virtualScrollItemSize]="30.8"
                         [virtualScrollOptions]="options"
-                        class="w-full"
+                        [loading]="clientesLoading"
+                        [emptyMessage]="clientesLoading ? 'Carregando...' : 'Nenhum Cliente encontrado'"
+                        optionValue="id"
                         size="large"
-                        [filter]="true"
                         [showClear]="true"
-                    />
+                        (onShow)="onOpenClientes()"
+                    >
+                        <ng-template #selectedItem let-selectedOption>
+                            <div
+                                class="w-full grid grid-cols-[170px_1fr] gap-3 items-center"
+                            >
+                                <div class="font-mono whitespace-nowrap hidden md:block">
+                                    {{
+                                        selectedOption.cpf_cnpj | mask : (
+                                            selectedOption.cpf_cnpj?.length === 11
+                                                ? '000.000.000-00'
+                                                : '00.000.000/0000-00'
+                                        )
+                                    }}
+                                </div>
+                                <div class="truncate">
+                                    {{ selectedOption.nome_razaosocial }}
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #header>
+                            <div class="w-full flex flex-col gap-2 p-[.25rem] border-b border-gray-200">
+
+                                <!-- INPUT DE FILTRO -->
+                                <div class="p-[.5rem_.75rem]">
+                                    <p-iconfield>
+                                        <p-inputicon class="pi pi-search" />
+                                        <input
+                                            type="text"
+                                            pInputText
+                                            class="w-full p-2 border rounded-md text-sm"
+                                            placeholder="Buscar cliente por Nome, CPF ou CNPJ"
+                                            [value]="clientesFiltro"
+                                            (input)="onFiltroInput($event)"
+                                            (mousedown)="$event.stopPropagation()"
+                                            (click)="$event.stopPropagation()"
+                                            (keydown)="$event.stopPropagation()"
+                                        />
+                                    </p-iconfield>
+                                </div>
+
+                                <!-- HEADER DA TABELA -->
+                                <div
+                                    class="w-full grid grid-cols-[170px_1fr] p-[.5rem_.75rem] font-semibold uppercase"
+                                >
+                                    <div class="font-mono whitespace-nowrap hidden xs:block sm:block">CPF / CNPJ</div>
+                                    <div class="truncate">Nome / Razão Social</div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-cliente #item>
+                            <div
+                                class="w-full grid grid-cols-[170px_1fr] gap-3 items-center"
+                            >
+                                <div class="font-mono whitespace-nowrap hidden xs:block sm:block">
+                                    {{
+                                        cliente.cpf_cnpj | mask : (
+                                            cliente.cpf_cnpj?.length === 11
+                                                ? '000.000.000-00'
+                                                : '00.000.000/0000-00'
+                                        )
+                                    }}
+                                </div>
+                                <div class="truncate ">
+                                    {{ cliente.nome_razaosocial }}
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template #footer>
+                            @if (clientesLoading && clientesFiltro.length === 0) {
+                                <div class="p-3">
+                                    <p>Carregando...</p>
+                                </div>
+                            }
+                        </ng-template>
+                    </p-select>
+                    <app-validator-message [control]="form.get('observacoes')" />
                 </div>
 
                 <!-- STATUS -->
@@ -70,32 +149,18 @@
                 <button
                     pButton
                     type="submit"
-                    severity="success"
+                    severity="info"
                     [fluid]="true"
                 >
                     <i class="pi pi-check" pButtonIcon></i>
-                    <span pButtonLabel>Salvar</span>
+                    <span pButtonLabel>Filtrar</span>
                 </button>
             </div>
 
         </form>
     </p-card>
 
-    <p-card header="Simple Card">
-        <p class="m-0">Lorem ipsum dolor sit amet...</p>
-    </p-card>
-
-    <p-card header="Simple Card">
-        <p class="m-0">Lorem ipsum dolor sit amet...</p>
-    </p-card>
+    @if (form.valid) {
+        <app-notas-fiscais [dados]="form.value"></app-notas-fiscais>
+    }
 </div>
-
-
-<pre>
-    <code>
-        {{ form.value | json }}
-    </code>
-    <code>
-        {{ invalids() | json }}
-    </code>
-</pre>
