@@ -32,6 +32,9 @@
         [sortField]="tableConfig.sort.field"
         [sortOrder]="tableConfig.sort.order"
 
+        responsiveLayout="stack"
+        breakpoint="640px"
+
         stripedRows
     >
         <ng-template #caption>
@@ -73,7 +76,7 @@
                     </div>
                 </th>
                 <th pSortableColumn="sobrenome_nomefantasia">
-                    Sobrenome/Fantasia
+                    Sobrenome/Nome Fantasia
                     <p-sortIcon field="sobrenome_nomefantasia" />
                 </th>
                 <th pSortableColumn="cpf_cnpj">

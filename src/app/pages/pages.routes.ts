@@ -4,6 +4,7 @@ import { Perfil } from '@/pages/perfil/perfil';
 import { UsuariosEditar, UsuariosListar } from '@/pages/usuarios';
 import { EmpresasEditar, EmpresasListar } from '@/pages/empresas';
 import { ClientesEditar, ClientesListar } from '@/pages/clientes';
+import { Controle } from '@/pages/controle/controle';
 
 export default [
   { path: 'home', component: Home },
@@ -28,5 +29,9 @@ export default [
       { path: '', component: ClientesListar },
       { path: ':id', component: ClientesEditar }
     ]
+  },
+  {
+    path: 'controle',
+    component: Controle
   }
 ] as Routes;

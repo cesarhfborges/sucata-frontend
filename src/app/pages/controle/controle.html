@@ -1,0 +1,101 @@
+<div class="grid grid-cols-1 gap-4">
+
+    <p-card>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+            <!-- GRID PRINCIPAL -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6">
+
+                <!-- CLIENTE -->
+                <div class="order-1 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
+                    <label for="cliente" class="font-semibold">Cliente</label>
+                    <p-select
+                        id="cliente"
+                        [options]="listaClientes"
+                        formControlName="cliente"
+                        placeholder="Selecione o cliente"
+                        [virtualScroll]="true"
+                        [virtualScrollItemSize]="38"
+                        [virtualScrollOptions]="options"
+                        class="w-full"
+                        size="large"
+                        [filter]="true"
+                        [showClear]="true"
+                    />
+                </div>
+
+                <!-- STATUS -->
+                <div class="order-3 lg:order-none lg:col-span-3 lg:row-span-2">
+                    <div class="flex flex-col gap-4 border rounded-md p-4 h-full">
+                        <label for="status" class="font-semibold">Status</label>
+
+                        @for (status of listaStatus; track $index) {
+                            <div class="flex items-center gap-2">
+                                <p-radio-button
+                                    [inputId]="status.value"
+                                    name="status"
+                                    [value]="status.value"
+                                    formControlName="status"
+                                />
+                                <label [for]="status.value">{{ status.label }}</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- EMPRESAS -->
+                <div class="order-2 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
+                    <label for="un" class="font-semibold">Unidades de negócio</label>
+                    <p-multi-select
+                        id="un"
+                        [options]="listaEmpresas"
+                        formControlName="empresas"
+                        optionLabel="razao_social"
+                        optionValue="id"
+                        placeholder="Selecione as empresas"
+                        display="chip"
+                        class="w-full"
+                        size="large"
+                        [maxSelectedLabels]="99"
+                    />
+                </div>
+
+            </div>
+
+            <div class="flex flex-col gap-2 col-span-12 my-3">
+                <p-divider />
+            </div>
+
+            <div class="flex flex-row content-stretch gap-2 col-span-12 mt-4">
+                <button
+                    pButton
+                    type="submit"
+                    severity="success"
+                    [fluid]="true"
+                >
+                    <i class="pi pi-check" pButtonIcon></i>
+                    <span pButtonLabel>Salvar</span>
+                </button>
+            </div>
+
+        </form>
+    </p-card>
+
+    <p-card header="Simple Card">
+        <p class="m-0">Lorem ipsum dolor sit amet...</p>
+    </p-card>
+
+    <p-card header="Simple Card">
+        <p class="m-0">Lorem ipsum dolor sit amet...</p>
+    </p-card>
+</div>
+
+
+<pre>
+    <code>
+        {{ form.value | json }}
+    </code>
+    <code>
+        {{ invalids() | json }}
+    </code>
+</pre>

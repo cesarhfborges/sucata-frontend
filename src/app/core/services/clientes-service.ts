@@ -27,7 +27,7 @@ export class ClientesService extends HttpService {
         }
       });
     }
-    console.log('listar params: ', httpParams);
+    // console.log('listar params: ', httpParams);
     return this._http.get<Paginated<Cliente>>(`${this.URL}/api/clientes`, { params: httpParams });
   }
 

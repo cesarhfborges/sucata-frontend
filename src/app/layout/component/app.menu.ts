@@ -27,7 +27,10 @@ export class AppMenu {
         this.model = [
           {
             label: '',
-            items: [{ label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/home'] }]
+            items: [
+              { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: ['/home'] },
+              { label: 'Controle', icon: 'pi pi-fw pi-sort-alt', routerLink: ['/controle'] }
+            ]
           },
           {
             label: 'Cadastros',
