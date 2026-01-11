@@ -26,4 +26,8 @@ export class NotaItensService extends HttpService {
   delete(notaFiscalId: number, itemId: number): Observable<any> {
     return this._http.delete<any>(`${this.URL}/api/notas-fiscais/${notaFiscalId}/itens/${itemId}`);
   }
+
+  movimentar(notaFiscalId: number, itemId: number, data: any): Observable<any> {
+    return this._http.post<any>(`${this.URL}/api/notas-fiscais/${notaFiscalId}/itens/${itemId}/movimentar`, data);
+  }
 }

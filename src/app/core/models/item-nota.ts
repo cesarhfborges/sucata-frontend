@@ -1,7 +1,7 @@
 import { Material } from '@/core/models/material';
 
 export interface ItemNota {
-  id: number;
+  id?: number;
   nota_fiscal_id: number;
   material_id: string;
   faturado: number;

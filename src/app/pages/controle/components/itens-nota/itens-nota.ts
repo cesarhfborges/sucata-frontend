@@ -18,6 +18,7 @@ import { ButtonGroupModule } from 'primeng/buttongroup';
 import { MenuModule } from 'primeng/menu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { RippleModule } from 'primeng/ripple';
+import { BaixaItem } from '@/pages/controle/components/baixa-item/baixa-item';
 
 @Component({
   selector: 'app-itens-nota',
@@ -77,14 +78,17 @@ export class ItensNota implements OnChanges {
   acoesItem(item: ItemNota): MenuItem[] {
     return [
       {
-        label: 'Estornar',
+        label: 'Extornar',
         icon: 'pi pi-undo',
-        command: () => this.estornar(item),
-        disabled: item.saldo_devedor === item.faturado
+        styleClass: 'text-warn',
+        iconClass: 'text-warn',
+        command: () => this.extornar(item)
       },
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
+        styleClass: 'text-info',
+        iconClass: 'text-info',
         command: () => {
           console.log('EDITAR CLICK');
           this.modalNotaFiscal(item);
@@ -96,7 +100,8 @@ export class ItensNota implements OnChanges {
       {
         label: 'Excluir',
         icon: 'pi pi-trash',
-        severity: 'danger',
+        styleClass: 'text-error',
+        iconClass: 'text-error',
         command: () => this.delete(item)
       }
     ];
@@ -119,7 +124,7 @@ export class ItensNota implements OnChanges {
         label: 'Sim, excluir',
         severity: 'danger'
       },
-      accept: () => this.excluirEmpresa(item.id)
+      accept: () => this.excluirEmpresa(item.id!)
     });
   }
 
@@ -127,11 +132,70 @@ export class ItensNota implements OnChanges {
     this.modalNotaFiscal();
   }
 
-  protected baixar(value: any) {
-    console.log('baixar');
+  protected baixar(value: ItemNota) {
+    if (value.saldo_devedor === 0) {
+      this._messageService.add({
+        severity: 'info',
+        summary: 'Ops',
+        detail: 'Este item nao possui debitos em aberto.',
+        life: 3000
+      });
+
+      return;
+    }
+    this.movimentar(true, value);
   }
-  protected estornar(value: any) {
-    console.log('estornar');
+  protected extornar(value: any) {
+    if (value.saldo_devedor === value.faturado) {
+      this._messageService.add({
+        severity: 'info',
+        summary: 'Ops',
+        detail: 'Nao e possivel solicitar extorno pois o cliente deve a mesma quantidade faturada.',
+        life: 3000
+      });
+
+      return;
+    }
+
+    this.movimentar(false, value);
+  }
+
+  private movimentar(baixar: boolean, value: any) {
+    const modal = this._dialogService.open(BaixaItem, {
+      header: `${baixar ? 'Baixar' : 'Extornar'} produtos`,
+      modal: true,
+      data: {
+        baixar: baixar,
+        notaFiscal: this.notaFiscal,
+        item: value
+      },
+      width: '50vw',
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
+    modal.onClose.subscribe((value) => {
+      if (!value) {
+        return;
+      }
+      this.atualizar();
+      const index = this.lista.findIndex((n) => n.id === value.id);
+
+      if (index !== -1) {
+        this.lista[index] = value;
+        this.lista = [...this.lista];
+      }
+
+      this._messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Movimentacao realizada com sucesso.',
+        life: 3000
+      });
+
+      return;
+    });
   }
 
   private loadItens(id: number): void {

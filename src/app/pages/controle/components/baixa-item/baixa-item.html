@@ -1,0 +1,136 @@
+<form [formGroup]="form" class="space-y-6" (ngSubmit)="salvar()">
+
+    <!-- Mensagem -->
+    <!--    <div class="w-full mb-6 pt-1">-->
+    <!--        -->
+    <!--    </div>-->
+
+    <!-- Campos -->
+    <div class="space-y-4 pt-1">
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Codigo
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ item.material.codigo }}
+                </p-message>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Descricao
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ item.material.descricao }}
+                </p-message>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Faturado
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ item.faturado }}
+                </p-message>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Saldo devedor
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ item.saldo_devedor }}
+                </p-message>
+            </div>
+        </div>
+
+        <!-- Nota Fiscal -->
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                quantidade
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-input-number
+                    formControlName="quantidade"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [max]="configs.max"
+                    [min]="configs.min"
+                    [allowEmpty]="true"
+                    size="large"
+                    mode="decimal"
+                    inputMode="numeric"
+                    [showButtons]="true"
+                    buttonLayout="horizontal"
+                    inputStyleClass="text-center"
+                    [inputStyle]="{'font-size': '2rem'}"
+                    [fluid]="true"
+                    [invalid]="submitted && form.get('quantidade')?.touched && form.get('quantidade')?.invalid"
+                >
+                    <ng-template #incrementbuttonicon>
+                        <span class="pi pi-plus"></span>
+                    </ng-template>
+                    <ng-template #decrementbuttonicon>
+                        <span class="pi pi-minus"></span>
+                    </ng-template>
+                </p-input-number>
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('quantidade')" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="flex justify-between pt-6">
+        <p-button
+            pRipple
+            type="button"
+            label="Cancelar"
+            severity="secondary"
+            size="large"
+            (click)="close()"
+        ></p-button>
+
+        <p-button
+            pRipple
+            type="submit"
+            label="Salvar"
+            size="large"
+        ></p-button>
+    </div>
+</form>
