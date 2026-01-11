@@ -1,21 +1,42 @@
-import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Card } from 'primeng/card';
 import { NotaItensService } from '@/core/services/nota-itens-service';
-import { Button, ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
-import { ButtonGroup } from 'primeng/buttongroup';
+import { ButtonDirective, ButtonIcon, ButtonLabel, ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { ItemNota } from '@/core/models/item-nota';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CadastroNotaFiscalItem } from '@/pages/controle/components/cadastro-nota-fiscal-item/cadastro-nota-fiscal-item';
+import {
+  CadastroNotaFiscalItem
+} from '@/pages/controle/components/cadastro-nota-fiscal-item/cadastro-nota-fiscal-item';
 import { NotaFiscal } from '@/core/models/nota-fiscal';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { ButtonGroupModule } from 'primeng/buttongroup';
+import { MenuModule } from 'primeng/menu';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-itens-nota',
-  imports: [Card, Button, ButtonGroup, TableModule, IconFieldModule, InputIconModule, InputTextModule, ButtonDirective, ButtonIcon, ButtonLabel],
+  imports: [
+    Card,
+    SplitButtonModule,
+    TableModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    ButtonDirective,
+    ButtonIcon,
+    ButtonLabel,
+    ButtonGroupModule,
+    ButtonModule,
+    MenuModule,
+    TieredMenuModule,
+    RippleModule
+  ],
   templateUrl: './itens-nota.html',
   styleUrl: './itens-nota.scss'
 })
@@ -25,6 +46,10 @@ export class ItensNota implements OnChanges {
 
   @Output('changed')
   onChanged: EventEmitter<NotaFiscal> = new EventEmitter();
+
+  @ViewChild('rowMenu') rowMenu!: any;
+
+  menuItems: MenuItem[] = [];
 
   loading: boolean = false;
   lista: ItemNota[] = [];
@@ -40,9 +65,46 @@ export class ItensNota implements OnChanges {
     }
   }
 
-  protected delete(event: Event, id: number) {
+  openMenu(event: MouseEvent, item: ItemNota): void {
+    this.menuItems = this.acoesItem(item);
+    this.rowMenu.toggle(event);
+  }
+
+  atualizar(): void {
+    this.onChanged.emit(this.notaFiscal);
+  }
+
+  acoesItem(item: ItemNota): MenuItem[] {
+    return [
+      {
+        label: 'Estornar',
+        icon: 'pi pi-undo',
+        command: () => this.estornar(item),
+        disabled: item.saldo_devedor === item.faturado
+      },
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        command: () => {
+          console.log('EDITAR CLICK');
+          this.modalNotaFiscal(item);
+        }
+      },
+      {
+        separator: true
+      },
+      {
+        label: 'Excluir',
+        icon: 'pi pi-trash',
+        severity: 'danger',
+        command: () => this.delete(item)
+      }
+    ];
+  }
+
+  protected delete(item: ItemNota) {
     this._confirmationService.confirm({
-      target: event.target as EventTarget,
+      // target: event.target as EventTarget,
       blockScroll: true,
       closeOnEscape: true,
       header: 'Atenção',
@@ -57,7 +119,7 @@ export class ItensNota implements OnChanges {
         label: 'Sim, excluir',
         severity: 'danger'
       },
-      accept: () => this.excluirEmpresa(id)
+      accept: () => this.excluirEmpresa(item.id)
     });
   }
 
@@ -65,8 +127,11 @@ export class ItensNota implements OnChanges {
     this.modalNotaFiscal();
   }
 
-  protected editar(value: ItemNota) {
-    this.modalNotaFiscal(value);
+  protected baixar(value: any) {
+    console.log('baixar');
+  }
+  protected estornar(value: any) {
+    console.log('estornar');
   }
 
   private loadItens(id: number): void {
@@ -85,7 +150,7 @@ export class ItensNota implements OnChanges {
     });
   }
 
-  private modalNotaFiscal(item?: ItemNota) {
+  protected modalNotaFiscal(item?: ItemNota) {
     const modal = this._dialogService.open(CadastroNotaFiscalItem, {
       header: 'Cadastro itens',
       modal: true,
@@ -147,9 +212,5 @@ export class ItensNota implements OnChanges {
         this._messageService.add({ severity: 'info', summary: 'Sucesso', detail: result.message || 'Item excluído com sucesso.' });
       }
     });
-  }
-
-  atualizar(): void {
-    this.onChanged.emit(this.notaFiscal);
   }
 }

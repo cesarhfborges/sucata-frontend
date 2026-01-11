@@ -1,4 +1,10 @@
 <p-card header="Itens" class="mt-4">
+    <p-menu
+        #rowMenu
+        [model]="menuItems"
+        [popup]="true"
+        appendTo="body">
+    </p-menu>
     <div class="mt-3">
         <p-table
             #dt1
@@ -69,15 +75,15 @@
             <ng-template #header>
                 <tr>
                     <th [style.width.px]="100">Status</th>
-                    <th>Código</th>
+                    <th [style.width.px]="200">Código</th>
                     <th>Produto</th>
-                    <th>Faturado</th>
-                    <th>Saldo devedor</th>
-                    <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+                    <th [style.width.px]="140">Faturado</th>
+                    <th [style.width.px]="140">Saldo devedor</th>
+                    <th [style.width.px]="166">&nbsp;</th>
                 </tr>
             </ng-template>
             <ng-template #body let-value let-rowIndex="rowIndex">
-                <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
+                <tr>
                     <td>
                         <div class="flex items-center justify-center">
                             @if (value.pendente) {
@@ -93,9 +99,20 @@
                     <td>{{ value.saldo_devedor }}</td>
                     <td>
                         <p-buttonGroup>
-                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value)" />
-                            <p-button label="Excluir" icon="pi pi-trash" severity="danger"
-                                      (click)="delete($event, value.id)" />
+                            <p-button
+                                label="Baixar"
+                                icon="pi pi-check"
+                                severity="success"
+                                (click)="modalNotaFiscal(value)"
+                                pRipple
+                            />
+                            <p-button
+                                icon="pi pi-chevron-down"
+                                variant="outlined"
+                                severity="secondary"
+                                (click)="openMenu($event, value)"
+                                pRipple
+                            />
                         </p-buttonGroup>
                     </td>
                 </tr>
