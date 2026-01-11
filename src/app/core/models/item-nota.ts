@@ -6,6 +6,7 @@ export interface ItemNota {
   material_id: string;
   faturado: number;
   saldo_devedor: number;
+  pendente?: boolean;
 
   material: Material;
 

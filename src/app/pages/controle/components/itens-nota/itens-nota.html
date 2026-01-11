@@ -56,6 +56,7 @@
                                 type="button"
                                 severity="primary"
                                 [fluid]="true"
+                                (click)="cadastro()"
                             >
                                 <i class="pi pi-check" pButtonIcon></i>
                                 <span pButtonLabel>Cadastrar</span>
@@ -79,7 +80,7 @@
                 <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
                     <td>
                         <div class="flex items-center justify-center">
-                            @if (value.saldo_devedor < value.faturado) {
+                            @if (value.pendente) {
                                 <i class="pi pi-thumbs-down-fill text-red-500"></i>
                             } @else {
                                 <i class="pi pi-thumbs-up-fill text-green-500"></i>
@@ -92,7 +93,7 @@
                     <td>{{ value.saldo_devedor }}</td>
                     <td>
                         <p-buttonGroup>
-                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
+                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value)" />
                             <p-button label="Excluir" icon="pi pi-trash" severity="danger"
                                       (click)="delete($event, value.id)" />
                         </p-buttonGroup>

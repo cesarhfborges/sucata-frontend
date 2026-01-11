@@ -88,7 +88,7 @@
                 <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
                     <td appOnClickIgnore>
                         <div class="flex items-center justify-center">
-                            @if (value.status === 'PENDENTE') {
+                            @if (value.pendente) {
                                 <i class="pi pi-thumbs-down-fill text-red-500"></i>
                             } @else {
                                 <i class="pi pi-thumbs-up-fill text-green-500"></i>
@@ -101,9 +101,13 @@
                     <td appOnClickIgnore>{{ value.emissao | date : 'dd/MM/yyyy' }}</td>
                     <td>
                         <p-buttonGroup>
-                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
-                            <p-button label="Excluir" icon="pi pi-trash" severity="danger"
-                                      (click)="delete($event, value.id)" />
+                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value)" />
+                            <p-button
+                                label="Excluir"
+                                icon="pi pi-trash"
+                                severity="danger"
+                                (click)="delete($event, value.id)"
+                            />
                         </p-buttonGroup>
                     </td>
                 </tr>
@@ -133,5 +137,5 @@
 <!--</pre>-->
 
 @if (selecionado !== undefined) {
-    <app-itens-nota [notaFiscal]="selecionado.id"></app-itens-nota>
+    <app-itens-nota [notaFiscal]="selecionado" (changed)="atualizar($event)"></app-itens-nota>
 }

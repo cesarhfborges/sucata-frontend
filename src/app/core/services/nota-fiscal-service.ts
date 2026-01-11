@@ -3,6 +3,7 @@ import { HttpService } from '@/core/services/http-service';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { NotaFiscal } from '@/core/models/nota-fiscal';
+import { Empresa } from '@/core/models/empresa';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,21 @@ export class NotaFiscalService extends HttpService {
     }
 
     return this._http.get<NotaFiscal[]>(`${this.URL}/api/notas-fiscais`, { params: httpParams });
+  }
+
+  public cadastrar(data: any): Observable<NotaFiscal> {
+    return this._http.post<NotaFiscal>(`${this.URL}/api/notas-fiscais`, data);
+  }
+
+  public atualizar(id: number, data: any): Observable<NotaFiscal> {
+    return this._http.put<NotaFiscal>(`${this.URL}/api/notas-fiscais/${id}`, data);
+  }
+
+  public get(id: number): Observable<NotaFiscal> {
+    return this._http.get<NotaFiscal>(`${this.URL}/api/notas-fiscais/${id}`);
+  }
+
+  public delete(id: number): Observable<any> {
+    return this._http.delete<any>(`${this.URL}/api/notas-fiscais/${id}`);
   }
 }

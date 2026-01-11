@@ -22,6 +22,7 @@
         "@primeuix/themes": "^1.2.1",
         "@tailwindcss/postcss": "^4.1.11",
         "chart.js": "4.4.2",
+        "date-fns": "^4.1.0",
         "ngx-copypaste": "^20.0.0",
         "ngx-loader-indicator": "^20.0.0",
         "ngx-mask": "^20.0.3",

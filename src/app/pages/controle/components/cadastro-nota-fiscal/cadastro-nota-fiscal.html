@@ -1,94 +1,132 @@
 <form [formGroup]="form" class="space-y-6" (ngSubmit)="salvar()">
 
     <!-- Mensagem -->
-    <div class="w-full mb-6 pt-1">
-        <p-message
-            severity="info"
-            size="large"
-            variant="outlined"
-            class="w-full"
-        >
-            {{ cliente.nome_razaosocial }}
-        </p-message>
-    </div>
+<!--    <div class="w-full mb-6 pt-1">-->
+<!--        -->
+<!--    </div>-->
 
     <!-- Campos -->
-    <div class="space-y-4">
+    <div class="space-y-4 pt-1">
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Cliente
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ cliente.nome_razaosocial }}
+                </p-message>
+            </div>
+        </div>
 
         <!-- Empresa -->
-        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
             <label class="font-medium">
                 Empresa
             </label>
 
-            <p-select
-                [options]="listaEmpresas"
-                formControlName="empresa"
-                [loading]="loading.empresas"
-                optionLabel="razao_social"
-                optionValue="id"
-                placeholder="Selecione a empresa"
-                appendTo="body"
-                [showClear]="true"
-                [fluid]="true"
-                size="large"
-            />
-            <app-validator-message [control]="form.get('empresa')" />
+            <div class="flex flex-col space-y-1">
+                <p-select
+                    [options]="listaEmpresas"
+                    formControlName="empresa_id"
+                    [loading]="loading.empresas"
+                    optionLabel="razao_social"
+                    optionValue="id"
+                    placeholder="Selecione a empresa"
+                    appendTo="body"
+                    [showClear]="true"
+                    [fluid]="true"
+                    size="large"
+                    [invalid]="submitted && form.get('empresa_id')?.touched && form.get('empresa_id')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('empresa_id')" />
+                }
+            </div>
         </div>
 
         <!-- Nota Fiscal -->
-        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
             <label class="font-medium">
                 Nota Fiscal
             </label>
 
-            <p-input-number
-                formControlName="nota_fiscal"
-                [useGrouping]="false"
-                [minFractionDigits]="0"
-                [maxFractionDigits]="0"
-                size="large"
-                mode="decimal"
-                inputMode="numeric"
-                [fluid]="true"
-            />
-            <app-validator-message [control]="form.get('nota_fiscal')" />
+            <div class="flex flex-col space-y-1">
+                <p-input-number
+                    formControlName="nota_fiscal"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [max]="99999999999999"
+                    [min]="1"
+                    size="large"
+                    mode="decimal"
+                    inputMode="numeric"
+                    [fluid]="true"
+                    [invalid]="submitted && form.get('nota_fiscal')?.touched && form.get('nota_fiscal')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('nota_fiscal')" />
+                }
+            </div>
         </div>
 
         <!-- Série -->
-        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
             <label class="font-medium">
                 Série
             </label>
 
-            <p-input-number
-                formControlName="serie"
-                [useGrouping]="false"
-                [minFractionDigits]="0"
-                [maxFractionDigits]="0"
-                size="large"
-                mode="decimal"
-                inputMode="numeric"
-                [fluid]="true"
-            />
-            <app-validator-message [control]="form.get('serie')" />
+            <div class="flex flex-col space-y-1">
+                <p-input-number
+                    formControlName="serie"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [max]="99999999999999"
+                    [min]="1"
+                    size="large"
+                    mode="decimal"
+                    inputMode="numeric"
+                    [fluid]="true"
+                    [invalid]="submitted && form.get('serie')?.touched && form.get('serie')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('serie')" />
+                }
+            </div>
         </div>
 
         <!-- Emissão -->
-        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
             <label class="font-medium">
                 Emissão
             </label>
 
-            <p-date-picker
-                formControlName="emissao"
-                appendTo="body"
-                [fluid]="true"
-                size="large"
-                selectionMode="single"
-                [maxDate]=""
-            />
-            <app-validator-message [control]="form.get('emissao')" />
+            <div class="flex flex-col space-y-1">
+                <p-date-picker
+                    formControlName="emissao"
+                    appendTo="body"
+                    [fluid]="true"
+                    size="large"
+                    selectionMode="single"
+
+                    dateFormat="dd/mm/yy"
+                    placeholder="dd/MM/aaaa"
+                    [showIcon]="true"
+
+                    [invalid]="submitted && form.get('emissao')?.touched && form.get('emissao')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('emissao')" />
+                }
+            </div>
         </div>
     </div>
 
@@ -115,6 +153,6 @@
 
 <pre>
     <code>
-        {{form.value | json}}
+        {{ form.value | json }}
     </code>
 </pre>

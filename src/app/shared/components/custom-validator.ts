@@ -20,7 +20,8 @@ export class CustomValidator {
       invalidUfField: 'A UF informada é inválida.',
       passwordMismatch: 'A confirmação de senha deve ser igual à senha digitada.',
       emailCheckFailed: 'Não foi possível verificar a consistência do email informado.',
-      emailTaken: 'O Email informado já esta em uso.'
+      emailTaken: 'O Email informado já esta em uso.',
+      menorOuIgual: 'Sado devedor deve ser menor ou igual ao faturado.'
     };
 
     return config[validatorName];
@@ -61,6 +62,49 @@ export class CustomValidator {
         confirmPassword.setErrors(null);
         return null;
       }
+    };
+  }
+
+  static menorOuIgualValidator(origin: string, target: string): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      if (!group || !group.get) {
+        return null;
+      }
+
+      const originControl = group.get(origin);
+      const targetControl = group.get(target);
+
+      if (!originControl || !targetControl) {
+        return null;
+      }
+
+      const originValue = originControl.value;
+      const targetValue = targetControl.value;
+
+      if (originValue == null || targetValue == null) {
+        return null;
+      }
+
+      const errors = targetControl.errors ?? {};
+
+      if (Number(targetValue) > Number(originValue)) {
+        // adiciona o erro sem sobrescrever outros
+        targetControl.setErrors({
+          ...errors,
+          menorOuIgual: true
+        });
+        return { menorOuIgual: true };
+      }
+
+      // remove apenas o erro menorOuIgual, se existir
+      if (errors['menorOuIgual']) {
+        delete errors['menorOuIgual'];
+
+        const hasOtherErrors = Object.keys(errors).length > 0;
+        targetControl.setErrors(hasOtherErrors ? errors : null);
+      }
+
+      return null;
     };
   }
 }

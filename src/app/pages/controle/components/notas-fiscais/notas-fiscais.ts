@@ -17,7 +17,7 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { RippleModule } from 'primeng/ripple';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { CadastroNotaFiscal } from '@/pages/controle/components/cadastro-nota-fiscal/cadastro-nota-fiscal';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Cliente } from '@/core/models/cliente';
 import { Empresa } from '@/core/models/empresa';
 
@@ -62,6 +62,7 @@ export class NotasFiscais implements OnInit {
   public readonly _dialogService = inject(DialogService);
   private readonly _messageService = inject(MessageService);
   private readonly _notaFiscalService = inject(NotaFiscalService);
+  private readonly _confirmationService = inject(ConfirmationService);
 
   ngOnInit() {
     this.loading = true;
@@ -85,11 +86,41 @@ export class NotasFiscais implements OnInit {
   }
 
   protected cadastro(): void {
+    this.modalNotaFiscal();
+  }
+
+  protected editar(value: NotaFiscal) {
+    this.modalNotaFiscal(value);
+  }
+
+  protected delete(event: Event, id: number) {
+    this._confirmationService.confirm({
+      target: event.target as EventTarget,
+      blockScroll: true,
+      closeOnEscape: true,
+      header: 'Atenção',
+      message: 'Deseja realmente excluir este item?',
+      icon: 'pi pi-info-circle',
+      rejectButtonProps: {
+        label: 'Cancelar',
+        severity: 'info',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: 'Sim, excluir',
+        severity: 'danger'
+      },
+      accept: () => this.excluirEmpresa(id)
+    });
+  }
+
+  private modalNotaFiscal(nota?: NotaFiscal) {
     const modal = this._dialogService.open(CadastroNotaFiscal, {
-      header: 'Cadastro',
+      header: 'Cadastro NFE',
       modal: true,
       data: {
-        cliente: this.dados!.cliente
+        cliente: this.dados!.cliente,
+        notaFiscal: nota
       },
       width: '50vw',
       breakpoints: {
@@ -97,14 +128,59 @@ export class NotasFiscais implements OnInit {
         '640px': '90vw'
       }
     });
-    modal.onClose.subscribe(() => {
-      this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Nota fiscal cadastrada com sucesso.', life: 3000 });
+    modal.onClose.subscribe((value: NotaFiscal | null) => {
+      if (!value) {
+        return;
+      }
+
+      if (nota) {
+        const index = this.lista.findIndex((n) => n.id === value.id);
+
+        if (index !== -1) {
+          this.lista[index] = value;
+          this.lista = [...this.lista];
+        }
+
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Nota fiscal atualizada com sucesso.',
+          life: 3000
+        });
+
+        return;
+      }
+
+      this.lista.push(value);
+
+      this._messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Nota fiscal cadastrada com sucesso.',
+        life: 3000
+      });
     });
   }
 
-  protected editar(id: number) {
-    console.log('editar CLICK');
+  private excluirEmpresa(id: number): void {
+    this._notaFiscalService.delete(id).subscribe({
+      next: (result) => {
+        this.lista = this.lista.filter((v) => v.id !== id);
+        this._messageService.add({ severity: 'info', summary: 'Sucesso', detail: result.message || 'Nota fiscal excluída com sucesso.' });
+      }
+    });
   }
 
-  protected delete($event: any, id: number) {}
+  protected atualizar(nota: NotaFiscal) {
+    this._notaFiscalService.get(nota.id!).subscribe({
+      next: (nota) => {
+        const index = this.lista.findIndex((n) => n.id === nota.id);
+
+        if (index !== -1) {
+          this.lista[index].pendente = nota.pendente;
+          this.lista = [...this.lista];
+        }
+      }
+    });
+  }
 }

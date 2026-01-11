@@ -5,7 +5,7 @@ export interface NotaFiscal {
   nota_fiscal: number;
   serie: number;
   emissao: Date;
-  status: 'PENDENTE' | 'DEVOLVIDA';
+  pendente?: boolean;
   created_at: Date;
   updated_at: Date;
 }

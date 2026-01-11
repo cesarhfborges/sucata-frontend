@@ -1,1 +1,155 @@
-<p>cadastro-nota-fiscal-item works!</p>
+<form [formGroup]="form" class="space-y-6" (ngSubmit)="salvar()">
+
+    <!-- Mensagem -->
+    <!--    <div class="w-full mb-6 pt-1">-->
+    <!--        -->
+    <!--    </div>-->
+
+    <!-- Campos -->
+    <div class="space-y-4 pt-1">
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Nota fiscal
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ notaFiscal.nota_fiscal }}
+                </p-message>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Serie
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-message
+                    severity="info"
+                    size="large"
+                    variant="outlined"
+                    class="w-full"
+                >
+                    {{ notaFiscal.serie }}
+                </p-message>
+            </div>
+        </div>
+
+        <!-- Empresa -->
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Produto
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-select
+                    [options]="listaMateriais"
+                    formControlName="material_id"
+                    [loading]="loading.produtos"
+                    optionLabel="descricao"
+                    optionValue="codigo"
+                    placeholder="Selecione a produto"
+                    appendTo="body"
+                    [filter]="true"
+                    [filterFields]="['codigo', 'descricao']"
+                    [showClear]="true"
+                    [fluid]="true"
+                    size="large"
+                    [invalid]="submitted && form.get('material_id')?.touched && form.get('material_id')?.invalid"
+                >
+                    <ng-template #selectedItem let-selected>
+                        <div class="flex items-center gap-2">
+                            <div>{{ selected.codigo }} - {{ selected.descricao }}</div>
+                        </div>
+                    </ng-template>
+                    <ng-template #item let-produto>
+                        <div class="flex items-center gap-2">
+                            <div>{{ produto.codigo }} - {{ produto.descricao }}</div>
+                        </div>
+                    </ng-template>
+                </p-select>
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('material_id')" />
+                }
+            </div>
+        </div>
+
+        <!-- Nota Fiscal -->
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Faturado
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-input-number
+                    formControlName="faturado"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [max]="99999999999999"
+                    [min]="1"
+                    size="large"
+                    mode="decimal"
+                    inputMode="numeric"
+                    [fluid]="true"
+                    [invalid]="submitted && form.get('faturado')?.touched && form.get('faturado')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('faturado')" />
+                }
+            </div>
+        </div>
+
+        <!-- Série -->
+        <div class="grid grid-cols-1 xl:grid-cols-[100px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Saldo devedor
+            </label>
+
+            <div class="flex flex-col space-y-1">
+                <p-input-number
+                    formControlName="saldo_devedor"
+                    [useGrouping]="false"
+                    [minFractionDigits]="0"
+                    [maxFractionDigits]="0"
+                    [max]="99999999999999"
+                    [min]="0"
+                    size="large"
+                    mode="decimal"
+                    inputMode="numeric"
+                    [fluid]="true"
+                    [invalid]="submitted && form.get('saldo_devedor')?.touched && form.get('saldo_devedor')?.invalid"
+                />
+                @if (submitted) {
+                    <app-validator-message [control]="form.get('saldo_devedor')" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="flex justify-between pt-6">
+        <p-button
+            pRipple
+            type="button"
+            label="Cancelar"
+            severity="secondary"
+            size="large"
+            (click)="close()"
+        ></p-button>
+
+        <p-button
+            pRipple
+            type="submit"
+            label="Salvar"
+            size="large"
+        ></p-button>
+    </div>
+</form>
