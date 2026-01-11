@@ -8,19 +8,20 @@
 
                 <!-- CLIENTE -->
                 <div class="order-1 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
-                    <label for="cliente" class="font-semibold">Cliente</label>
+                    <label id="cliente-label" class="font-semibold">Cliente</label>
                     <p-select
-                        id="cliente"
+                        aria-labelledby="cliente-label"
                         class="w-full"
                         panelStyleClass="full-width-select-panel"
+                        [class.ng-dirty]="form.get('cliente')?.touched"
                         [options]="listaClientes"
                         formControlName="cliente"
                         placeholder="Selecione o cliente"
                         [virtualScroll]="true"
                         [virtualScrollItemSize]="30.8"
                         [virtualScrollOptions]="options"
-                        [loading]="clientesLoading"
-                        [emptyMessage]="clientesLoading ? 'Carregando...' : 'Nenhum Cliente encontrado'"
+                        [loading]="loading.clientes"
+                        [emptyMessage]="loading.clientes ? 'Carregando...' : 'Nenhum Cliente encontrado'"
                         optionValue="id"
                         size="large"
                         [showClear]="true"
@@ -93,59 +94,73 @@
                             </div>
                         </ng-template>
                         <ng-template #footer>
-                            @if (clientesLoading && clientesFiltro.length === 0) {
+                            @if (loading.clientes && clientesFiltro.length === 0) {
                                 <div class="p-3">
                                     <p>Carregando...</p>
                                 </div>
                             }
                         </ng-template>
                     </p-select>
-                    <app-validator-message [control]="form.get('observacoes')" />
+                    <app-validator-message [control]="form.get('cliente')" />
                 </div>
 
                 <!-- STATUS -->
                 <div class="order-3 lg:order-none lg:col-span-3 lg:row-span-2">
                     <div class="flex flex-col gap-4 border rounded-md p-4 h-full">
-                        <label for="status" class="font-semibold">Status</label>
+                        <label id="status_label" class="font-semibold">
+                            Status
+                        </label>
 
-                        @for (status of listaStatus; track $index) {
-                            <div class="flex items-center gap-2">
-                                <p-radio-button
-                                    [inputId]="status.value"
-                                    name="status"
-                                    [value]="status.value"
-                                    formControlName="status"
-                                />
-                                <label [for]="status.value">{{ status.label }}</label>
-                            </div>
-                        }
+                        <div class="flex flex-col justify-around h-full gap-2">
+                            @for (status of listaStatus; track $index) {
+                                <div class="flex items-center justify-between w-full my-1">
+                                    <label
+                                        class="flex items-center gap-2 flex-1 cursor-pointer"
+                                        [for]="status.value"
+                                    >
+                                        <p-radio-button
+                                            ariaLabelledBy="status_label"
+                                            [inputId]="status.value"
+                                            name="status"
+                                            [value]="status.value"
+                                            formControlName="status"
+                                        />
+                                        <span>{{ status.label }}</span>
+                                    </label>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
 
+
                 <!-- EMPRESAS -->
                 <div class="order-2 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
-                    <label for="un" class="font-semibold">Unidades de negócio</label>
+                    <label for="un_label" class="font-semibold">Unidades de negócio</label>
                     <p-multi-select
-                        id="un"
+                        inputId="un_label"
                         [options]="listaEmpresas"
                         formControlName="empresas"
                         optionLabel="razao_social"
+                        [loading]="loading.empresas"
                         optionValue="id"
                         placeholder="Selecione as empresas"
+                        [showClear]="true"
                         display="chip"
                         class="w-full"
                         size="large"
                         [maxSelectedLabels]="99"
-                    />
+                    >
+                        <ng-template #header>
+                            <div class="font-medium px-3 py-2">Empresas disponíveis</div>
+                        </ng-template>
+                    </p-multi-select>
+                    <app-validator-message [control]="form.get('empresas')" />
                 </div>
 
             </div>
 
-            <div class="flex flex-col gap-2 col-span-12 my-3">
-                <p-divider />
-            </div>
-
-            <div class="flex flex-row content-stretch gap-2 col-span-12 mt-4">
+            <div class="flex flex-row content-stretch gap-2 col-span-12 pt-8">
                 <button
                     pButton
                     type="submit"
@@ -164,3 +179,9 @@
         <app-notas-fiscais [dados]="selecionado"></app-notas-fiscais>
     }
 </div>
+
+<!--<pre>-->
+<!--    <code>-->
+<!--        {{form.value|json}}-->
+<!--    </code>-->
+<!--</pre>-->

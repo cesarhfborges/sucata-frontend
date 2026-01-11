@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Card } from 'primeng/card';
 import { NotaItensService } from '@/core/services/nota-itens-service';
-import { Button, ButtonDirective } from 'primeng/button';
+import { Button, ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { TableModule } from 'primeng/table';
 import { ItemNota } from '@/core/models/item-nota';
@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-itens-nota',
-  imports: [Card, Button, ButtonGroup, TableModule, IconFieldModule, InputIconModule, InputTextModule, ButtonDirective],
+  imports: [Card, Button, ButtonGroup, TableModule, IconFieldModule, InputIconModule, InputTextModule, ButtonDirective, ButtonIcon, ButtonLabel],
   templateUrl: './itens-nota.html',
   styleUrl: './itens-nota.scss'
 })

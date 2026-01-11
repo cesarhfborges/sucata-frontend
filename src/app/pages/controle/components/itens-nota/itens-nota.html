@@ -1,111 +1,120 @@
 <p-card header="Itens" class="mt-4">
-    <p-table
-        #dt1
-        [value]="lista"
-        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
-        [loading]="loading"
-        [scrollable]="true"
-        [filterDelay]="0"
-        dataKey="id"
-        [globalFilterFields]="['material.codigo', 'material.descricao', 'faturado', 'saldo_devedor']"
-        scrollHeight="400px"
-        stripedRows
-        showGridlines
-    >
-        <ng-template #caption>
-            <div class="w-full">
-                <div class="flex items-center justify-between gap-4">
-                    <div class="flex-1 max-w-3xl">
-                        <div class="grid grid-cols-12 gap-3 items-center">
+    <div class="mt-3">
+        <p-table
+            #dt1
+            [value]="lista"
+            [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+            [loading]="loading"
+            [scrollable]="true"
+            [filterDelay]="0"
+            dataKey="id"
+            [globalFilterFields]="['material.codigo', 'material.descricao', 'faturado', 'saldo_devedor']"
+            scrollHeight="400px"
+            stripedRows
+            showGridlines
+        >
+            <ng-template #caption>
+                <div class="w-full">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="flex-1 max-w-3xl">
+                            <div class="grid grid-cols-12 gap-3 items-center">
 
-                            <div class="col-span-12 hidden md:block md:col-span-2 font-medium">
-                                Filtro
-                            </div>
+                                <label for="filtroItens" class="col-span-12 hidden md:block md:col-span-2 font-medium">
+                                    Filtro
+                                </label>
 
-                            <p-iconfield
-                                iconPosition="left"
-                                class="col-span-12 md:col-span-10 w-full"
-                            >
-                                <p-inputicon class="pi pi-search" />
-                                <input
-                                    #inputFilter
-                                    pInputText
-                                    type="text"
-                                    (input)="dt1.filterGlobal($event.target!.value, 'contains')"
-                                    class="w-full pr-10"
-                                    autocomplete="off"
-                                    placeholder="Digite UN, Nota, Série ou data de emissão para filtrar"
-                                />
+                                <p-iconfield
+                                    iconPosition="left"
+                                    class="col-span-12 md:col-span-10 w-full"
+                                >
+                                    <p-inputicon class="pi pi-search" />
+                                    <input
+                                        id="filtroItens"
+                                        #inputFilter
+                                        pInputText
+                                        type="text"
+                                        (input)="dt1.filterGlobal($event.target!.value, 'contains')"
+                                        class="w-full pr-10"
+                                        autocomplete="off"
+                                        placeholder="Digite UN, Nota, Série ou data de emissão para filtrar"
+                                    />
 
-                                @if (inputFilter.value.length > 0) {
-                                    <i
-                                        class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2
+                                    @if (inputFilter.value.length > 0) {
+                                        <i
+                                            class="pi pi-times absolute right-3 top-1/2 -translate-y-1/2
                                        cursor-pointer text-gray-400 hover:text-red-500 transition-colors"
-                                        (click)="dt1.reset(); inputFilter.value = ''"
-                                    ></i>
-                                }
-                            </p-iconfield>
+                                            (click)="dt1.reset(); inputFilter.value = ''"
+                                        ></i>
+                                    }
+                                </p-iconfield>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="flex-shrink-0">
-                        <button type="button" pButton>
-                            Cadastrar
-                        </button>
-                    </div>
+                        <div class="flex-shrink-0">
+                            <button
+                                pButton
+                                type="button"
+                                severity="primary"
+                                [fluid]="true"
+                            >
+                                <i class="pi pi-check" pButtonIcon></i>
+                                <span pButtonLabel>Cadastrar</span>
+                            </button>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-        </ng-template>
-        <ng-template #header>
-            <tr>
-                <th [style.width.px]="100">Status</th>
-                <th>Código</th>
-                <th>Produto</th>
-                <th>Faturado</th>
-                <th>Saldo devedor</th>
-                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-value let-rowIndex="rowIndex">
-            <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
-                <td>
-                    <div class="flex items-center justify-center">
-                        @if (value.saldo_devedor < value.faturado) {
-                            <i class="pi pi-thumbs-down-fill text-red-500"></i>
-                        } @else {
-                            <i class="pi pi-thumbs-up-fill text-green-500"></i>
-                        }
-                    </div>
-                </td>
-                <td>{{ value.material.codigo }}</td>
-                <td>{{ value.material.descricao }}</td>
-                <td>{{ value.faturado }}</td>
-                <td>{{ value.saldo_devedor }}</td>
-                <td>
-                    <p-buttonGroup>
-                        <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
-                        <p-button label="Excluir" icon="pi pi-trash" severity="danger"
-                                  (click)="delete($event, value.id)" />
-                    </p-buttonGroup>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template #loadingbody let-columns="columns">
-            <tr style="height:46px">
-                <td [colSpan]="7">
-                    <p class="text-center">Carregando...</p>
-                </td>
-            </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-            <tr>
-                <td [colSpan]="7">
-                    <p class="text-center">Sem dados para exibir</p>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+            </ng-template>
+            <ng-template #header>
+                <tr>
+                    <th [style.width.px]="100">Status</th>
+                    <th>Código</th>
+                    <th>Produto</th>
+                    <th>Faturado</th>
+                    <th>Saldo devedor</th>
+                    <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+                </tr>
+            </ng-template>
+            <ng-template #body let-value let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
+                    <td>
+                        <div class="flex items-center justify-center">
+                            @if (value.saldo_devedor < value.faturado) {
+                                <i class="pi pi-thumbs-down-fill text-red-500"></i>
+                            } @else {
+                                <i class="pi pi-thumbs-up-fill text-green-500"></i>
+                            }
+                        </div>
+                    </td>
+                    <td>{{ value.material.codigo }}</td>
+                    <td>{{ value.material.descricao }}</td>
+                    <td>{{ value.faturado }}</td>
+                    <td>{{ value.saldo_devedor }}</td>
+                    <td>
+                        <p-buttonGroup>
+                            <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value.id)" />
+                            <p-button label="Excluir" icon="pi pi-trash" severity="danger"
+                                      (click)="delete($event, value.id)" />
+                        </p-buttonGroup>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template #loadingbody let-columns="columns">
+                <tr style="height:46px">
+                    <td [colSpan]="7">
+                        <p class="text-center">Carregando...</p>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+                <tr>
+                    <td [colSpan]="7">
+                        <p class="text-center">Sem dados para exibir</p>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
 </p-card>
 
 <!--<pre>-->

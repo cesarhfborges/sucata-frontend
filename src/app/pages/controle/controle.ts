@@ -5,8 +5,7 @@ import { CardModule } from 'primeng/card';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
-import { ScrollerOptions } from 'primeng/api';
-import { JsonPipe } from '@angular/common';
+import { MessageService, ScrollerOptions } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
 import { DividerModule } from 'primeng/divider';
@@ -17,7 +16,6 @@ import { Empresa } from '@/core/models/empresa';
 import { Cliente } from '@/core/models/cliente';
 
 import { NotasFiscais } from '@/pages/controle/components/notas-fiscais/notas-fiscais';
-import { ItensNota } from '@/pages/controle/components/itens-nota/itens-nota';
 
 import { NgxMaskPipe } from 'ngx-mask';
 import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
@@ -26,6 +24,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { OnClickClear } from '@/shared/directives/on-click-clear';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-controle',
@@ -37,23 +36,27 @@ import { OnClickClear } from '@/shared/directives/on-click-clear';
     MultiSelectModule,
     RadioButtonModule,
     SelectModule,
-    JsonPipe,
     RouterModule,
     ButtonModule,
     DividerModule,
     NotasFiscais,
-    ItensNota,
     NgxMaskPipe,
     ValidatorMessage,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    OnClickClear
+    OnClickClear,
   ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'
 })
 export class Controle implements OnInit {
+
+  loading = {
+    empresas: false,
+    clientes: false,
+  }
+
   form: FormGroup;
 
   listaClientes: Cliente[] = [];
@@ -73,8 +76,7 @@ export class Controle implements OnInit {
   };
 
   protected clientesFiltro = '';
-  protected clientesLoading = false;
-
+  protected selecionado: any = undefined;
   private clientesPage = 1;
   private readonly clientesPerPage = 100;
   private lastLazyFirst = 0;
@@ -84,13 +86,13 @@ export class Controle implements OnInit {
   private readonly _fb = inject(FormBuilder);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
-  protected selecionado: any = undefined;
+  private readonly _messageService = inject(MessageService);
 
   constructor() {
     this.form = this._fb.group({
-      status: new FormControl<string>('TODAS', [Validators.required]),
       cliente: new FormControl<number | null>(null, [Validators.required]),
-      empresas: new FormControl<number[]>([], [Validators.required])
+      empresas: new FormControl<number[]>([], [Validators.required]),
+      status: new FormControl<string>('TODAS', [Validators.required])
     });
   }
 
@@ -108,7 +110,7 @@ export class Controle implements OnInit {
   }
 
   onLazyLoadClientes(event: any): void {
-    if (this.clientesLoading || !this.clientesHasMore) {
+    if (this.loading.clientes || !this.clientesHasMore) {
       return;
     }
 
@@ -151,7 +153,7 @@ export class Controle implements OnInit {
       console.log('FORM VALID', this.form.value);
       this.selecionado = this.form.value;
     } else {
-      console.log('FORM INVALID');
+      this._messageService.add({ severity: 'error', summary: 'Ops', detail: 'Verifique os campos e tente novamente.', life: 3000 });
     }
   }
 
@@ -169,11 +171,11 @@ export class Controle implements OnInit {
   }
 
   private loadClientes(): void {
-    if (this.clientesLoading || !this.clientesHasMore) {
+    if (this.loading.clientes || !this.clientesHasMore) {
       return;
     }
 
-    this.clientesLoading = true;
+    this.loading.clientes = true;
 
     this._clientesService
       .listar({
@@ -195,10 +197,10 @@ export class Controle implements OnInit {
             this.clientesPage++;
           }
 
-          this.clientesLoading = false;
+          this.loading.clientes = false;
         },
         error: () => {
-          this.clientesLoading = false;
+          this.loading.clientes = false;
         }
       });
   }

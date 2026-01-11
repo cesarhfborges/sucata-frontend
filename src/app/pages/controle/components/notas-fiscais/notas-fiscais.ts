@@ -2,9 +2,8 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button, ButtonModule } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
-import { Tag } from 'primeng/tag';
 import { ItensNota } from '@/pages/controle/components/itens-nota/itens-nota';
 import { NotaFiscalService } from '@/core/services/nota-fiscal-service';
 import { NotaFiscal } from '@/core/models/nota-fiscal';
@@ -19,7 +18,23 @@ import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-notas-fiscais',
-  imports: [Card, Button, ButtonGroup, DatePipe, TableModule, Tag, ItensNota, InputGroupModule, InputGroupAddonModule, IconField, InputIcon, InputText, OnClickClear, OnClickIgnore, ButtonModule, RippleModule],
+  imports: [
+    Card,
+    Button,
+    ButtonGroup,
+    DatePipe,
+    TableModule,
+    ItensNota,
+    InputGroupModule,
+    InputGroupAddonModule,
+    IconField,
+    InputIcon,
+    InputText,
+    OnClickClear,
+    OnClickIgnore,
+    ButtonModule,
+    RippleModule
+  ],
   templateUrl: './notas-fiscais.html',
   styleUrl: './notas-fiscais.scss'
 })
@@ -30,7 +45,7 @@ export class NotasFiscais implements OnInit {
   metaKey: boolean = true;
   selecionado: NotaFiscal | undefined;
   lista: NotaFiscal[] = [];
-
+  protected readonly console = console;
   private readonly _notaFiscalService = inject(NotaFiscalService);
 
   ngOnInit() {
@@ -39,7 +54,7 @@ export class NotasFiscais implements OnInit {
       .listar({
         empresas: this.dados.empresas,
         cliente: this.dados.cliente,
-        status: this.dados.status,
+        status: this.dados.status
       })
       .subscribe({
         next: (data) => {
@@ -59,6 +74,4 @@ export class NotasFiscais implements OnInit {
   }
 
   protected delete($event: any, id: number) {}
-
-  protected readonly console = console;
 }
