@@ -46,16 +46,16 @@ import { JsonPipe } from '@angular/common';
     InputIconModule,
     InputTextModule,
     OnClickClear,
+    JsonPipe
   ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'
 })
 export class Controle implements OnInit {
-
   loading = {
     empresas: false,
-    clientes: false,
-  }
+    clientes: false
+  };
 
   form: FormGroup;
 
@@ -90,8 +90,8 @@ export class Controle implements OnInit {
 
   constructor() {
     this.form = this._fb.group({
-      cliente: new FormControl<number | null>(null, [Validators.required]),
-      empresas: new FormControl<number[]>([], [Validators.required]),
+      cliente: new FormControl<Cliente | null>(null, [Validators.required]),
+      empresas: new FormControl<Empresa[]>([], [Validators.required]),
       status: new FormControl<string>('TODAS', [Validators.required])
     });
   }
@@ -165,7 +165,7 @@ export class Controle implements OnInit {
     this._empresasService.listar().subscribe({
       next: (data) => {
         this.listaEmpresas = data;
-        this.form.get('empresas')?.patchValue(data.map((e) => e.id!));
+        this.form.get('empresas')?.patchValue(data);
       }
     });
   }

@@ -15,6 +15,17 @@ import { OnClickIgnore } from '@/shared/directives/on-click-ignore';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { RippleModule } from 'primeng/ripple';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { CadastroNotaFiscal } from '@/pages/controle/components/cadastro-nota-fiscal/cadastro-nota-fiscal';
+import { MessageService } from 'primeng/api';
+import { Cliente } from '@/core/models/cliente';
+import { Empresa } from '@/core/models/empresa';
+
+interface IDados {
+  cliente: Cliente;
+  empresas: Empresa[];
+  status: 'TODAS' | 'PENDENTE' | 'DEVOLVIDA';
+}
 
 @Component({
   selector: 'app-notas-fiscais',
@@ -33,28 +44,32 @@ import { RippleModule } from 'primeng/ripple';
     OnClickClear,
     OnClickIgnore,
     ButtonModule,
-    RippleModule
+    RippleModule,
+    DynamicDialogModule
   ],
+  providers: [DialogService],
   templateUrl: './notas-fiscais.html',
   styleUrl: './notas-fiscais.scss'
 })
 export class NotasFiscais implements OnInit {
-  @Input() dados: any = null;
+  @Input() dados: IDados | null = null;
 
   loading: boolean = false;
   metaKey: boolean = true;
   selecionado: NotaFiscal | undefined;
   lista: NotaFiscal[] = [];
-  protected readonly console = console;
+
+  public readonly _dialogService = inject(DialogService);
+  private readonly _messageService = inject(MessageService);
   private readonly _notaFiscalService = inject(NotaFiscalService);
 
   ngOnInit() {
     this.loading = true;
     this._notaFiscalService
       .listar({
-        empresas: this.dados.empresas,
-        cliente: this.dados.cliente,
-        status: this.dados.status
+        empresas: this.dados!.empresas.map((e) => e.id!),
+        cliente: this.dados!.cliente.id,
+        status: this.dados!.status
       })
       .subscribe({
         next: (data) => {
@@ -67,6 +82,24 @@ export class NotasFiscais implements OnInit {
           this.loading = false;
         }
       });
+  }
+
+  protected cadastro(): void {
+    const modal = this._dialogService.open(CadastroNotaFiscal, {
+      header: 'Cadastro',
+      modal: true,
+      data: {
+        cliente: this.dados!.cliente
+      },
+      width: '50vw',
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
+    modal.onClose.subscribe(() => {
+      this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Nota fiscal cadastrada com sucesso.', life: 3000 });
+    });
   }
 
   protected editar(id: number) {

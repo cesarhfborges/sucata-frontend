@@ -1,0 +1,120 @@
+<form [formGroup]="form" class="space-y-6" (ngSubmit)="salvar()">
+
+    <!-- Mensagem -->
+    <div class="w-full mb-6 pt-1">
+        <p-message
+            severity="info"
+            size="large"
+            variant="outlined"
+            class="w-full"
+        >
+            {{ cliente.nome_razaosocial }}
+        </p-message>
+    </div>
+
+    <!-- Campos -->
+    <div class="space-y-4">
+
+        <!-- Empresa -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Empresa
+            </label>
+
+            <p-select
+                [options]="listaEmpresas"
+                formControlName="empresa"
+                [loading]="loading.empresas"
+                optionLabel="razao_social"
+                optionValue="id"
+                placeholder="Selecione a empresa"
+                appendTo="body"
+                [showClear]="true"
+                [fluid]="true"
+                size="large"
+            />
+            <app-validator-message [control]="form.get('empresa')" />
+        </div>
+
+        <!-- Nota Fiscal -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Nota Fiscal
+            </label>
+
+            <p-input-number
+                formControlName="nota_fiscal"
+                [useGrouping]="false"
+                [minFractionDigits]="0"
+                [maxFractionDigits]="0"
+                size="large"
+                mode="decimal"
+                inputMode="numeric"
+                [fluid]="true"
+            />
+            <app-validator-message [control]="form.get('nota_fiscal')" />
+        </div>
+
+        <!-- Série -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Série
+            </label>
+
+            <p-input-number
+                formControlName="serie"
+                [useGrouping]="false"
+                [minFractionDigits]="0"
+                [maxFractionDigits]="0"
+                size="large"
+                mode="decimal"
+                inputMode="numeric"
+                [fluid]="true"
+            />
+            <app-validator-message [control]="form.get('serie')" />
+        </div>
+
+        <!-- Emissão -->
+        <div class="grid grid-cols-1 lg:grid-cols-[200px_1fr] gap-2 lg:gap-4 items-start lg:items-center">
+            <label class="font-medium">
+                Emissão
+            </label>
+
+            <p-date-picker
+                formControlName="emissao"
+                appendTo="body"
+                [fluid]="true"
+                size="large"
+                selectionMode="single"
+                [maxDate]=""
+            />
+            <app-validator-message [control]="form.get('emissao')" />
+        </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="flex justify-between pt-6">
+        <p-button
+            pRipple
+            type="button"
+            label="Cancelar"
+            severity="secondary"
+            size="large"
+            (click)="close()"
+        ></p-button>
+
+        <p-button
+            pRipple
+            type="submit"
+            label="Salvar"
+            size="large"
+        ></p-button>
+    </div>
+</form>
+
+
+<pre>
+    <code>
+        {{form.value | json}}
+    </code>
+</pre>
