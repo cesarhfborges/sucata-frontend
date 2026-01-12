@@ -2,16 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpService } from '@/core/services/http-service';
 import { Observable } from 'rxjs';
 import { Material } from '@/core/models/material';
+import { Paginated } from '@/core/interfaces/paginated';
+import { UrlParams } from '@/core/interfaces/url-params';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MateriaisService extends HttpService {
+  listar(params?: UrlParams): Observable<Paginated<Material>> {
+    let httpParams = new HttpParams();
 
-  listar(): Observable<Material[]> {
-    return this._http.get<Material[]>(`${this.URL}/api/materiais`);
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          httpParams = httpParams.set(key, value.toString());
+        }
+      });
+    }
+    return this._http.get<Paginated<Material>>(`${this.URL}/api/materiais`, { params: httpParams });
   }
-
 
   get(codigo: string): Observable<Material> {
     return this._http.get<Material>(`${this.URL}/api/materiais/${codigo}`);

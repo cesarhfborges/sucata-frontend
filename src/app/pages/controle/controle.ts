@@ -24,7 +24,6 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { OnClickClear } from '@/shared/directives/on-click-clear';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-controle',
@@ -45,8 +44,7 @@ import { JsonPipe } from '@angular/common';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    OnClickClear,
-    JsonPipe
+    OnClickClear
   ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'

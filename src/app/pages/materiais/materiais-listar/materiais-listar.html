@@ -1,0 +1,123 @@
+<p-card>
+    <div class="flex flex-row justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-gray-800 m-0">Materiais</h3>
+
+        <p-button
+            pButton
+            type="button"
+            label="Novo material"
+            icon="pi pi-plus"
+            severity="success"
+            class="p-button-sm"
+            [routerLink]="['/materiais/novo']"
+        />
+    </div>
+
+    <p-table
+        #dt2
+        [value]="lista"
+        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [loading]="loading"
+
+        [lazy]="true"
+        (onLazyLoad)="loadMateriais($event)"
+
+        [paginator]="true"
+        [pageLinks]="8"
+        [rows]="tableConfig.pagination.rows"
+        [totalRecords]="tableConfig.totalRecords || 0"
+        [rowsPerPageOptions]="tableConfig.pagination.options"
+
+        [sortField]="tableConfig.sort.field"
+        [sortOrder]="tableConfig.sort.order"
+
+        responsiveLayout="stack"
+        breakpoint="640px"
+
+        stripedRows
+    >
+        <ng-template #caption>
+            <div class="flex flex-col gap-2 sm:gap-0">
+                <div class="grid grid-cols-12 gap-3 items-center">
+
+                    <div class="col-span-12 md:col-span-1 font-medium">
+                        Filtro
+                    </div>
+
+                    <!-- Input -->
+                    <p-iconfield iconPosition="left" class="col-span-12 md:col-span-4 w-full">
+                        <p-inputicon class="pi pi-search" />
+                        <input
+                            pInputText
+                            type="text"
+                            (input)="dt2.filterGlobal($event.target!.value, 'contains')"
+                            class="w-full"
+                            autocomplete="off"
+                        />
+                    </p-iconfield>
+
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                <th pSortableColumn="codigo">
+                    <div class="flex justify-between">
+                        #
+                        <p-sortIcon field="codigo" />
+                    </div>
+                </th>
+                <th pSortableColumn="descricao">
+                    <div class="flex justify-between">
+                        Descricao
+                        <p-sortIcon field="descricao" />
+                    </div>
+                </th>
+                <th pSortableColumn="un">
+                    Un. medida
+                    <p-sortIcon field="un" />
+                </th>
+                <th [style.max-width.px]="200" [style.width.px]="200">&nbsp;</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-value>
+            <tr>
+                <td>{{ value.codigo }}</td>
+                <td>{{ value.descricao }}</td>
+                <td>{{ value.un }}</td>
+                <td>
+                    <p-buttonGroup>
+                        <p-button
+                            label="Editar"
+                            icon="pi pi-check"
+                            severity="info"
+                            [routerLink]="['/materiais', value.codigo]"
+                        />
+                        <p-button
+                            label="Excluir"
+                            icon="pi pi-trash"
+                            severity="danger"
+                            (click)="confirmDelete($event, value.codigo)"
+                        />
+                    </p-buttonGroup>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #loadingbody let-columns="columns">
+            <tr style="height:46px">
+                <td [colSpan]="7">
+                    <p class="text-center">Carregando...</p>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td [colSpan]="7">
+                    <p class="text-center">Sem dados para exibir</p>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+

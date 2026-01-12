@@ -1,12 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NotaItensService } from '@/core/services/nota-itens-service';
-import { format, parse } from 'date-fns';
 import { Button } from 'primeng/button';
-import { DatePicker } from 'primeng/datepicker';
 import { InputNumber } from 'primeng/inputnumber';
-import { JsonPipe } from '@angular/common';
 import { Message } from 'primeng/message';
 import { Ripple } from 'primeng/ripple';
 import { Select } from 'primeng/select';
@@ -17,7 +14,7 @@ import { CustomValidator } from '@/shared/components/custom-validator';
 
 @Component({
   selector: 'app-cadastro-nota-fiscal-item',
-  imports: [Button, DatePicker, FormsModule, InputNumber, JsonPipe, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage],
+  imports: [Button, FormsModule, InputNumber, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage],
   templateUrl: './cadastro-nota-fiscal-item.html',
   styleUrl: './cadastro-nota-fiscal-item.scss'
 })
@@ -102,8 +99,9 @@ export class CadastroNotaFiscalItem implements OnInit {
   private loadMateriais(): void {
     this.loading.produtos = true;
     this._materiaisService.listar().subscribe({
-      next: (data) => {
-        this.listaMateriais = data;
+      next: (res) => {
+        // TODO: AJUSTAR AQUI
+        this.listaMateriais = res.data;
         this.loading.produtos = false;
       },
       error: (error) => {

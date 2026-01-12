@@ -4,14 +4,9 @@ import { HttpService } from '@/core/services/http-service';
 import { Cliente } from '@/core/models/cliente';
 import { Paginated } from '@/core/interfaces/paginated';
 import { HttpParams } from '@angular/common/http';
+import { UrlParams } from '@/core/interfaces/url-params';
 
-interface UrlParams {
-  page?: number;
-  per_page?: number;
-  sort_by?: string;
-  sort_dir?: 'asc' | 'desc';
-  filter?: string;
-}
+
 
 @Injectable({
   providedIn: 'root'

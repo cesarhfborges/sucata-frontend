@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { InputText } from 'primeng/inputtext';
-import { JsonPipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
@@ -27,7 +26,6 @@ import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
     Card,
     PasswordModule,
     InputText,
-    JsonPipe,
     ReactiveFormsModule,
     ToggleSwitchModule,
     ValidatorMessage,

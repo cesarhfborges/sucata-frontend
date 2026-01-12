@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputMaskModule } from 'primeng/inputmask';
-import { JsonPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SelectModule } from 'primeng/select';
@@ -22,7 +21,6 @@ import { NgxMaskDirective } from 'ngx-mask';
     ReactiveFormsModule,
     InputTextModule,
     InputMaskModule,
-    JsonPipe,
     ButtonModule,
     RouterLink,
     SelectModule,

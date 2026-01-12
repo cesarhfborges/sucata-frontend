@@ -5,6 +5,7 @@ import { UsuariosEditar, UsuariosListar } from '@/pages/usuarios';
 import { EmpresasEditar, EmpresasListar } from '@/pages/empresas';
 import { ClientesEditar, ClientesListar } from '@/pages/clientes';
 import { Controle } from '@/pages/controle/controle';
+import { MateriaisEditar, MateriaisListar } from '@/pages/materiais';
 
 export default [
   { path: 'home', component: Home },
@@ -28,6 +29,13 @@ export default [
     children: [
       { path: '', component: ClientesListar },
       { path: ':id', component: ClientesEditar }
+    ]
+  },
+  {
+    path: 'materiais',
+    children: [
+      { path: '', component: MateriaisListar },
+      { path: ':id', component: MateriaisEditar }
     ]
   },
   {

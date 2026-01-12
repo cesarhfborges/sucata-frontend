@@ -12,25 +12,12 @@ import { RippleModule } from 'primeng/ripple';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { Cliente } from '@/core/models/cliente';
-import { JsonPipe } from '@angular/common';
 import { NotaFiscalService } from '@/core/services/nota-fiscal-service';
 import { format, parse } from 'date-fns';
 
 @Component({
   selector: 'app-cadastro-nota-fiscal',
-  imports: [
-    SelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-    InputTextModule,
-    DatePickerModule,
-    MessageModule,
-    RippleModule,
-    ButtonModule,
-    ValidatorMessage,
-    InputNumberModule,
-    JsonPipe
-  ],
+  imports: [SelectModule, ReactiveFormsModule, FormsModule, InputTextModule, DatePickerModule, MessageModule, RippleModule, ButtonModule, ValidatorMessage, InputNumberModule],
   providers: [DialogService],
   templateUrl: './cadastro-nota-fiscal.html',
   styleUrl: './cadastro-nota-fiscal.scss'

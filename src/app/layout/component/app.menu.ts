@@ -37,7 +37,7 @@ export class AppMenu {
             items: [
               {
                 label: 'Empresas',
-                icon: 'pi pi-fw pi-briefcase',
+                icon: 'pi pi-fw pi-building',
                 routerLinkActiveOptions: { exact: false },
                 routerLink: ['/empresas']
               },
@@ -48,8 +48,13 @@ export class AppMenu {
               },
               {
                 label: 'Clientes',
-                icon: 'pi pi-fw pi-github',
+                icon: 'pi pi-fw pi-briefcase',
                 routerLink: ['/clientes']
+              },
+              {
+                label: 'Materiais',
+                icon: 'pi pi-fw pi-car',
+                routerLink: ['/materiais']
               }
             ]
           },

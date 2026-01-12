@@ -4,9 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ClientesService } from '@/core/services/clientes-service';
 import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
 import { Card } from 'primeng/card';
-import { InputMask } from 'primeng/inputmask';
 import { InputText } from 'primeng/inputtext';
-import { JsonPipe } from '@angular/common';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
@@ -23,9 +21,7 @@ import { NgxMaskDirective } from 'ngx-mask';
     ButtonLabel,
     Card,
     FormsModule,
-    InputMask,
     InputText,
-    JsonPipe,
     ReactiveFormsModule,
     Select,
     Textarea,
