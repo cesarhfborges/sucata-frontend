@@ -109,6 +109,7 @@ export class CadastroNotaFiscal implements OnInit {
         this.loading.empresas = false;
       },
       error: (error) => {
+        console.log(error);
         this.loading.empresas = false;
       }
     });

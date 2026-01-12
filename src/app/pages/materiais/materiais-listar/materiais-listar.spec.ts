@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MateriaisListar } from './materiais-listar';
+import { MateriaisListar } from '@/pages/materiais';
 
 describe('MateriaisListar', () => {
   let component: MateriaisListar;
