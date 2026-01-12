@@ -237,19 +237,4 @@ export class CadastroNotaFiscalItem implements OnInit {
       console.log('Invalido');
     }
   }
-
-  // private loadMateriais(): void {
-  //   this.loading.produtos = true;
-  //   this._materiaisService.listar().subscribe({
-  //     next: (res) => {
-  //       // TODO: AJUSTAR AQUI
-  //       this.listaMateriais = res.data;
-  //       this.loading.produtos = false;
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //       this.loading.produtos = false;
-  //     }
-  //   });
-  // }
 }
