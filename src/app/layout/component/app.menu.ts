@@ -64,7 +64,7 @@ export class AppMenu {
               {
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-github',
-                routerLink: ['/uikit/formlayout']
+                routerLink: ['/relatorios']
               },
               {
                 label: 'Empresas',
