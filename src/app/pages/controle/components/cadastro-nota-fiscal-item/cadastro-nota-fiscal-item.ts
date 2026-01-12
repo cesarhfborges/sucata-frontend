@@ -232,7 +232,6 @@ export class CadastroNotaFiscalItem implements OnInit {
           }
         });
       }
-      console.log('Valido');
     } else {
       console.log('Invalido');
     }
