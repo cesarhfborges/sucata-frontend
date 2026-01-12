@@ -50,31 +50,73 @@
 
             <div class="flex flex-col space-y-1">
                 <p-select
-                    [options]="listaMateriais"
+                    class="w-full"
                     formControlName="material_id"
-                    [loading]="loading.produtos"
+                    [options]="listaMateriais"
                     optionLabel="descricao"
                     optionValue="codigo"
-                    placeholder="Selecione a produto"
+                    placeholder="Selecione o produto"
+                    [virtualScroll]="true"
+                    [virtualScrollItemSize]="30.8"
+                    [virtualScrollOptions]="optionsMateriais"
+                    [loading]="loading.produtos"
+                    [emptyMessage]="loading.produtos ? 'Carregando...' : 'Nenhum produto encontrado'"
                     appendTo="body"
-                    [filter]="true"
-                    [filterFields]="['codigo', 'descricao']"
                     [showClear]="true"
-                    [fluid]="true"
                     size="large"
-                    [invalid]="submitted && form.get('material_id')?.touched && form.get('material_id')?.invalid"
+                    [invalid]="submitted && form.get('material_id')?.invalid"
+                    (onShow)="onOpenMateriais()"
                 >
+                    <!-- ITEM SELECIONADO -->
                     <ng-template #selectedItem let-selected>
-                        <div class="flex items-center gap-2">
-                            <div>{{ selected.codigo }} - {{ selected.descricao }}</div>
+                        <div class="grid grid-cols-[120px_1fr] gap-2 items-center">
+                            <div class="font-mono text-sm truncate">
+                                {{ selected.codigo }}
+                            </div>
+                            <div class="truncate">
+                                {{ selected.descricao }}
+                            </div>
                         </div>
                     </ng-template>
-                    <ng-template #item let-produto>
-                        <div class="flex items-center gap-2">
-                            <div>{{ produto.codigo }} - {{ produto.descricao }}</div>
+
+                    <!-- HEADER COM FILTRO -->
+                    <ng-template #header>
+                        <div class="flex flex-col gap-2 p-2 border-b">
+                            <p-iconfield>
+                                <p-inputicon class="pi pi-search" />
+                                <input
+                                    pInputText
+                                    type="text"
+                                    class="w-full"
+                                    placeholder="Buscar por código ou descrição"
+                                    [value]="materiaisFiltro"
+                                    (input)="onFiltroMateriais($event)"
+                                    (mousedown)="$event.stopPropagation()"
+                                    (click)="$event.stopPropagation()"
+                                    (keydown)="$event.stopPropagation()"
+                                />
+                            </p-iconfield>
+
+                            <div class="grid grid-cols-[120px_1fr] text-sm font-semibold">
+                                <div>Código</div>
+                                <div>Descrição</div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <!-- ITEM DA LISTA -->
+                    <ng-template #item let-material>
+                        <div class="grid grid-cols-[120px_1fr] gap-2 items-center">
+                            <div class="font-mono text-sm truncate">
+                                {{ material.codigo }}
+                            </div>
+                            <div class="truncate">
+                                {{ material.descricao }}
+                            </div>
                         </div>
                     </ng-template>
                 </p-select>
+
                 @if (submitted) {
                     <app-validator-message [control]="form.get('material_id')" />
                 }

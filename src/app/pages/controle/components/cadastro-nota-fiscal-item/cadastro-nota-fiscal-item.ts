@@ -11,21 +11,40 @@ import { ValidatorMessage } from '@/shared/components/validator-message/validato
 import { MateriaisService } from '@/core/services/materiais-service';
 import { NotaFiscal } from '@/core/models/nota-fiscal';
 import { CustomValidator } from '@/shared/components/custom-validator';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
+import { Material } from '@/core/models/material';
+import { ScrollerOptions } from 'primeng/api';
 
 @Component({
   selector: 'app-cadastro-nota-fiscal-item',
-  imports: [Button, FormsModule, InputNumber, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage],
+  imports: [Button, FormsModule, InputNumber, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage, IconFieldModule, InputIconModule, InputTextModule],
   templateUrl: './cadastro-nota-fiscal-item.html',
   styleUrl: './cadastro-nota-fiscal-item.scss'
 })
 export class CadastroNotaFiscalItem implements OnInit {
   public form: FormGroup;
   public submitted: boolean = false;
-  listaMateriais: any[] = [];
+  listaMateriais: Material[] = [];
   protected loading = {
     produtos: false
   };
   protected notaFiscal: NotaFiscal;
+
+  protected materiaisFiltro = '';
+  private materiaisPage = 1;
+  private readonly materiaisPerPage = 50;
+  private materiaisHasMore = true;
+  private lastMateriaisFirst = 0;
+  private filtroMateriaisTimeout: any = null;
+
+  optionsMateriais: ScrollerOptions = {
+    lazy: true,
+    showLoader: true,
+    delay: 0,
+    onLazyLoad: this.onLazyLoadMateriais.bind(this)
+  };
 
   private readonly _fb = inject(FormBuilder);
   private readonly _ref = inject(DynamicDialogRef);
@@ -56,11 +75,134 @@ export class CadastroNotaFiscalItem implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadMateriais();
+    if (this._config.data.item?.material_id) {
+      this.loadMaterialSelecionado(this._config.data.item.material_id);
+    }
   }
 
   close(): void {
     this._ref.close(null);
+  }
+
+  onOpenMateriais(): void {
+    if (this.loading.produtos) {
+      return;
+    }
+
+    if (this.materiaisPage === 1 && this.listaMateriais.length <= 1) {
+      this.loadMateriais();
+    }
+  }
+
+  onLazyLoadMateriais(event: any): void {
+    if (this.loading.produtos || !this.materiaisHasMore) {
+      return;
+    }
+
+    const first = event.first ?? 0;
+
+    if (first === this.lastMateriaisFirst) {
+      return;
+    }
+
+    this.lastMateriaisFirst = first;
+
+    const shouldLoadNext = first + this.materiaisPerPage >= this.listaMateriais.length;
+
+    if (!shouldLoadNext) {
+      return;
+    }
+
+    this.loadMateriais();
+  }
+
+  onFiltroMateriais(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+
+    if (value === this.materiaisFiltro) {
+      return;
+    }
+
+    clearTimeout(this.filtroMateriaisTimeout);
+
+    this.filtroMateriaisTimeout = setTimeout(() => {
+      this.materiaisFiltro = value;
+      this.resetMateriais();
+      this.loadMateriais();
+    }, 400);
+  }
+
+  private loadMateriais(): void {
+    if (this.loading.produtos || !this.materiaisHasMore) {
+      return;
+    }
+
+    this.loading.produtos = true;
+
+    this._materiaisService
+      .listar({
+        page: this.materiaisPage,
+        per_page: this.materiaisPerPage,
+        filter: this.materiaisFiltro || undefined,
+        sort_by: 'descricao',
+        sort_dir: 'asc'
+      })
+      .subscribe({
+        next: (response) => {
+          const novos: Material[] = response.data ?? [];
+
+          this.mergeMateriais(novos);
+
+          if (this.materiaisPage >= response.last_page) {
+            this.materiaisHasMore = false;
+          } else {
+            this.materiaisPage++;
+          }
+
+          this.loading.produtos = false;
+        },
+        error: () => {
+          this.loading.produtos = false;
+        }
+      });
+  }
+
+  private loadMaterialSelecionado(codigo: string): void {
+    this.loading.produtos = true;
+
+    this._materiaisService.get(codigo).subscribe({
+      next: (material) => {
+        this.mergeMateriais([material]);
+        this.loading.produtos = false;
+      },
+      error: () => {
+        this.loading.produtos = false;
+      }
+    });
+  }
+
+  private mergeMateriais(novos: Material[]): void {
+    const map = new Map<string, Material>();
+
+    for (const m of this.listaMateriais) {
+      map.set(m.codigo, m);
+    }
+
+    for (const m of novos) {
+      map.set(m.codigo, m);
+    }
+
+    this.listaMateriais = Array.from(map.values());
+  }
+
+  private resetMateriais(): void {
+    const selecionadoCodigo = this.form.get('material_id')?.value;
+
+    this.listaMateriais = selecionadoCodigo ? this.listaMateriais.filter((m) => m.codigo === selecionadoCodigo) : [];
+
+    this.materiaisPage = 1;
+    this.materiaisHasMore = true;
+    this.lastMateriaisFirst = 0;
   }
 
   protected salvar(): void {
@@ -96,18 +238,18 @@ export class CadastroNotaFiscalItem implements OnInit {
     }
   }
 
-  private loadMateriais(): void {
-    this.loading.produtos = true;
-    this._materiaisService.listar().subscribe({
-      next: (res) => {
-        // TODO: AJUSTAR AQUI
-        this.listaMateriais = res.data;
-        this.loading.produtos = false;
-      },
-      error: (error) => {
-        console.log(error);
-        this.loading.produtos = false;
-      }
-    });
-  }
+  // private loadMateriais(): void {
+  //   this.loading.produtos = true;
+  //   this._materiaisService.listar().subscribe({
+  //     next: (res) => {
+  //       // TODO: AJUSTAR AQUI
+  //       this.listaMateriais = res.data;
+  //       this.loading.produtos = false;
+  //     },
+  //     error: (error) => {
+  //       console.log(error);
+  //       this.loading.produtos = false;
+  //     }
+  //   });
+  // }
 }
