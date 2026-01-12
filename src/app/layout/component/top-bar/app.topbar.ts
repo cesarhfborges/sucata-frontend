@@ -25,43 +25,10 @@ export class AppTopbar {
     {
       separator: true
     },
-    // {
-    //   label: 'Documents',
-    //   items: [
-    //     {
-    //       label: 'New',
-    //       icon: 'pi pi-plus',
-    //       shortcut: '⌘+N'
-    //     },
-    //     {
-    //       label: 'Search',
-    //       icon: 'pi pi-search',
-    //       shortcut: '⌘+S'
-    //     }
-    //   ]
-    // },
-    {
-      label: 'Settings',
-      icon: 'pi pi-cog',
-      shortcut: '⌘+O'
-    },
-    {
-      label: 'Messages',
-      icon: 'pi pi-inbox',
-      badge: '2'
-    },
-    // {
-    //   label: `Modo ${this.isDarkMode ? 'Escuro' : 'Claro'}`,
-    //   icon: `pi ${this.isDarkMode ? 'pi-moon' : 'pi-sun'}`
-    // },
-    {
-      separator: true
-    },
     {
       label: 'Logout',
       icon: 'pi pi-sign-out',
       command: () => this._logout()
-      // shortcut: '⌘+Q'
     }
   ];
   public readonly layoutService = inject(LayoutService);
