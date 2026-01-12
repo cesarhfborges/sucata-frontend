@@ -1,1 +1,156 @@
-<p>home works!</p>
+<div class="grid grid-cols-1 gap-4">
+
+    <!-- ===============================
+         LINHA 1 — CARDS DE TOTALIZAÇÃO
+    ================================ -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <!-- Notas Pendentes -->
+        <p-card>
+            @if (!loading.resumo) {
+                <h3>Notas Pendentes</h3>
+                <h2>{{ resumo.notas_pendentes }}</h2>
+            } @else {
+                <p-skeleton width="70%" height="1.2rem" class="mb-2"></p-skeleton>
+                <p-skeleton width="50%" height="2rem"></p-skeleton>
+            }
+        </p-card>
+
+        <!-- Itens Pendentes -->
+        <p-card>
+            @if (!loading.resumo) {
+                <h3>Itens Pendentes</h3>
+                <h2>{{ resumo.itens_pendentes }}</h2>
+            } @else {
+                <p-skeleton width="70%" height="1.2rem" class="mb-2"></p-skeleton>
+                <p-skeleton width="50%" height="2rem"></p-skeleton>
+            }
+        </p-card>
+
+        <!--        &lt;!&ndash; Saldo Devedor &ndash;&gt;-->
+        <!--        <p-card>-->
+        <!--            @if (!loading.resumo) {-->
+        <!--                <h3>Saldo Devedor</h3>-->
+        <!--                <h2>{{ resumo.saldo_devedor_total | currency:'BRL' }}</h2>-->
+        <!--            } @else {-->
+        <!--                <p-skeleton width="70%" height="1.2rem" class="mb-2"></p-skeleton>-->
+        <!--                <p-skeleton width="60%" height="2rem"></p-skeleton>-->
+        <!--            }-->
+        <!--        </p-card>-->
+
+        <!--        &lt;!&ndash; Faturado no Mês &ndash;&gt;-->
+        <!--        <p-card>-->
+        <!--            @if (!loading.resumo) {-->
+        <!--                <h3>Faturado no Mês</h3>-->
+        <!--                <h2>{{ resumo.faturado_mes }}</h2>-->
+        <!--            } @else {-->
+        <!--                <p-skeleton width="70%" height="1.2rem" class="mb-2"></p-skeleton>-->
+        <!--                <p-skeleton width="60%" height="2rem"></p-skeleton>-->
+        <!--            }-->
+        <!--        </p-card>-->
+
+    </div>
+
+    <!-- ===============================
+         LINHA 3 — STATUS GERAL + MATERIAIS
+    ================================ -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+
+        <p-card header="Clientes com maior pendência">
+            @if (!loading.pendencias_por_cliente && clientesPendenciaChart) {
+                <p-chart
+                    #clientesChart
+                    type="bar"
+                    [data]="clientesPendenciaChart"
+                    [options]="clientesPendenciaOptions"
+                    class="h-100 p-chart"
+                ></p-chart>
+            } @else {
+                <p-skeleton width="100%" height="300px"></p-skeleton>
+            }
+        </p-card>
+
+
+        <p-card header="Pendências por faixa de atraso">
+            @if (!loading.pendencias_por_faixa && pendenciasFaixaChart) {
+                <p-chart
+                    #faixaAtrasoChart
+                    type="bar"
+                    [data]="pendenciasFaixaChart"
+                    [options]="pendenciasFaixaOptions"
+                    class="h-100 p-chart"
+                ></p-chart>
+            } @else {
+                <p-skeleton width="100%" height="300px"></p-skeleton>
+            }
+        </p-card>
+
+        <!-- Status Geral -->
+        <p-card header="Status Geral">
+
+            <!-- GRÁFICO -->
+            @if (!loading.status_geral && statusGeralChart) {
+                <p-chart
+                    #statusChart
+                    type="pie"
+                    [data]="statusGeralChart"
+                    [options]="statusGeralOptions"
+                    class="h-100 p-chart"
+                ></p-chart>
+            } @else {
+                <p-skeleton width="100%" height="300px"></p-skeleton>
+            }
+
+            <!-- RESUMO NUMÉRICO ABAIXO DO GRÁFICO -->
+            @if (!loading.status_geral && statusGeralChart) {
+                <div class="grid grid-cols-3 text-center mt-3 text-sm">
+                    <div>
+                        <div class="font-semibold">Total</div>
+                        <div>{{ statusGeral.total_notas }}</div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-orange-600">Pendentes</div>
+                        <div>{{ statusGeral.pendentes }}</div>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-green-600">Quitadas</div>
+                        <div>{{ statusGeral.quitadas }}</div>
+                    </div>
+                </div>
+            }
+        </p-card>
+
+    </div>
+
+    <!-- ===============================
+         LINHA 5 — ÚLTIMAS MOVIMENTAÇÕES
+    ================================ -->
+    <p-card header="Últimas Movimentações">
+        @if (!loading.ultimas_movimentacoes) {
+            <p-table [value]="ultimasMovimentacoes" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Material</th>
+                        <th>Faturado</th>
+                        <th>Saldo Devedor</th>
+                        <th>Data</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-mov>
+                    <tr>
+                        <td>{{ mov.id }}</td>
+                        <td>{{ mov.material_id }}</td>
+                        <td>{{ mov.faturado }}</td>
+                        <td>{{ mov.saldo_devedor }}</td>
+                        <td>{{ mov.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        } @else {
+            <p-skeleton height="220px"></p-skeleton>
+        }
+    </p-card>
+
+</div>
