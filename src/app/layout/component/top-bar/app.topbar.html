@@ -16,7 +16,7 @@
             </button>
             <div class="relative">
                 <button
-                    class="layout-topbar-action layout-topbar-action-highlight"
+                    class="layout-topbar-action"
                     pStyleClass="@next"
                     enterFromClass="hidden"
                     enterActiveClass="animate-scalein"
@@ -31,7 +31,7 @@
 
             <button type="button" class="layout-topbar-action" (click)="menu.toggle($event)">
                 <i class="pi pi-user"></i>
-                <span>Profile</span>
+                <span>Perfil</span>
             </button>
             <p-menu #menu [model]="items" [popup]="true" styleClass="custom-menu">
                 <ng-template #start>
