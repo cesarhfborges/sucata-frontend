@@ -13,6 +13,7 @@ import { EmpresaService } from '@/core/services/empresa-service';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { MessageService } from 'primeng/api';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-empresas-editar',
@@ -27,7 +28,8 @@ import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
     SelectModule,
     TextareaModule,
     ValidatorMessage,
-    NgxLoaderIndicatorDirective
+    NgxLoaderIndicatorDirective,
+    NgxMaskDirective
   ],
   templateUrl: './empresas-editar.html',
   styleUrl: './empresas-editar.scss'

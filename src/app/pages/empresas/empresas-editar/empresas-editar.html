@@ -96,7 +96,7 @@
 
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-6">
                     <label for="telefone" class="font-semibold ">Telefone</label>
-                    <input pInputText id="telefone" formControlName="telefone" />
+                    <input pInputText id="telefone" formControlName="telefone" mask="(00) 0000-0000||(00) 90000-0000" />
                     <app-validator-message [control]="form.get('telefone')" />
                 </div>
 

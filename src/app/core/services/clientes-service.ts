@@ -31,8 +31,8 @@ export class ClientesService extends HttpService {
     return this._http.get<Paginated<Cliente>>(`${this.URL}/api/clientes`, { params: httpParams });
   }
 
-  public get(id: number): Observable<any> {
-    return this._http.get<any>(`${this.URL}/api/clientes/${id}`);
+  public get(id: number): Observable<Cliente> {
+    return this._http.get<Cliente>(`${this.URL}/api/clientes/${id}`);
   }
 
   public atualizar(id: number, data: any): Observable<any> {

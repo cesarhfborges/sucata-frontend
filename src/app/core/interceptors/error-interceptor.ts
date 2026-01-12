@@ -9,8 +9,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const messageService = inject(MessageService);
 
   return next(req).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+    catchError((e: HttpErrorResponse) => {
+      if (e.status === 401) {
         console.warn('Sessão expirada ou inválida. Redirecionando...');
 
         messageService.add({
@@ -23,15 +23,26 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         authService.logout();
       }
 
-      if (error.error.message) {
+      if (e.error.message) {
         messageService.add({
           severity: 'error',
           summary: 'Atenção',
-          detail: error.error.message,
+          detail: e.error.message,
           life: 3000
         });
       }
-      return throwError(() => error);
+
+      if (e.error.messages) {
+        const errors: string[] = Object.values(e.error.messages);
+        console.info(errors);
+        messageService.add({
+          severity: 'error',
+          summary: 'Atenção',
+          detail: errors[0],
+          life: 3000
+        });
+      }
+      return throwError(() => e);
     })
   );
 };
