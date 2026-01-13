@@ -26,10 +26,15 @@
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
-                          "src/assets",
+                            "src/assets",
                             {
                                 "glob": "**/*",
                                 "input": "public"
+                            },
+                            {
+                              "glob": "**/*",
+                              "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
+                              "output": "/assets/pdfjs"
                             }
                         ],
                         "styles": [

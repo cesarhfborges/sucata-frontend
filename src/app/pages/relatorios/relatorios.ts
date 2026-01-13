@@ -11,10 +11,23 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { JsonPipe } from '@angular/common';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 @Component({
   selector: 'app-relatorios',
-  imports: [ReactiveFormsModule, CardModule, InputNumberModule, ChipModule, SelectModule, DatePickerModule, ButtonModule, PanelModule, JsonPipe, MultiSelectModule],
+  imports: [
+    ReactiveFormsModule,
+    CardModule,
+    InputNumberModule,
+    ChipModule,
+    SelectModule,
+    DatePickerModule,
+    ButtonModule,
+    PanelModule,
+    JsonPipe,
+    MultiSelectModule,
+    PdfJsViewerModule
+  ],
   templateUrl: './relatorios.html',
   styleUrl: './relatorios.scss'
 })
@@ -23,7 +36,7 @@ export class Relatorios {
 
   form: FormGroup;
 
-  pdfUrl: SafeResourceUrl | null = null;
+  pdfUrl: Uint8Array | null = null;
 
   private readonly _fb = inject(FormBuilder);
   private readonly _http = inject(HttpClient);
@@ -50,10 +63,12 @@ export class Relatorios {
     this.loading = true;
     this.pdfUrl = null;
 
-    this._http.post('http://localhost:8000/api/relatorios/por-cliente', this.form.value, { responseType: 'blob' }).subscribe({
-      next: (blob) => {
-        const url = URL.createObjectURL(blob);
-        this.pdfUrl = this._sanitizer.bypassSecurityTrustResourceUrl(`${url}#toolbar=1&navpanes=0&scrollbar=0&zoom=page-width`);
+    this._http.post('http://localhost:8000/api/relatorios/por-cliente', this.form.value, { responseType: 'arraybuffer' }).subscribe({
+      next: (value: ArrayBuffer) => {
+        this.pdfUrl = new Uint8Array(value);
+        // const url = URL.createObjectURL(blob);
+        // this.pdfUrl = url;
+        // this.pdfUrl = this._sanitizer.bypassSecurityTrustResourceUrl(`${url}#toolbar=1&navpanes=0&scrollbar=0&zoom=page-width`);
       },
       error: () => {
         this.pdfUrl = null;
