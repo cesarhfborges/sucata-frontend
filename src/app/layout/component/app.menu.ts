@@ -64,12 +64,12 @@ export class AppMenu {
               {
                 label: 'Clientes',
                 icon: 'pi pi-fw pi-github',
-                routerLink: ['/relatorios']
+                routerLink: ['/relatorio/clientes']
               },
               {
                 label: 'Empresas',
                 icon: 'pi pi-fw pi-book',
-                routerLink: ['/uikit/formlayout']
+                routerLink: ['/relatorio/empresas']
               },
               {
                 label: 'Nota Fiscal',

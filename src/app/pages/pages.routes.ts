@@ -6,7 +6,7 @@ import { EmpresasEditar, EmpresasListar } from '@/pages/empresas';
 import { ClientesEditar, ClientesListar } from '@/pages/clientes';
 import { Controle } from '@/pages/controle/controle';
 import { MateriaisEditar, MateriaisListar } from '@/pages/materiais';
-import { Relatorios } from '@/pages/relatorios/relatorios';
+import { RelatorioClientes, RelatorioEmpresas } from '@/pages/relatorios';
 
 export default [
   { path: 'home', component: Home },
@@ -44,7 +44,10 @@ export default [
     component: Controle
   },
   {
-    path: 'relatorios',
-    component: Relatorios
+    path: 'relatorio',
+    children: [
+      { path: 'clientes', component: RelatorioClientes },
+      { path: 'empresas', component: RelatorioEmpresas }
+    ]
   }
 ] as Routes;

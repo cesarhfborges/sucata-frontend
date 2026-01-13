@@ -1,66 +1,40 @@
-<div class="grid grid-cols-1 gap-4">
+<div class="grid grid-flow-col grid-rows-1 grid-cols-3 gap-4 height-full">
 
-    <p-card header="Opções" [(appOnClickClear)]="selecionado">
-        <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="row-span-1 col-span-1">
+        <p-card>
+            <form [formGroup]="form" class="flex flex-col gap-4">
+                <span class="text-lg font-semibold">
+                    Filtros do Relatório
+                </span>
 
-            <!-- GRID PRINCIPAL -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 lg:grid-rows-2 gap-6 mt-3">
-
-                <!-- CLIENTE -->
-                <div class="order-1 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
+                <!-- Empresas -->
+                <div class="lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
                     <label for="un_label" class="font-semibold">Unidades de negócio</label>
                     <p-multi-select
                         inputId="un_label"
                         [options]="listaEmpresas"
                         formControlName="empresas"
                         optionLabel="razao_social"
+                        optionValue="id"
                         [loading]="loading.empresas"
                         placeholder="Selecione as empresas"
                         [showClear]="true"
                         display="chip"
                         class="w-full"
                         size="large"
-                        [maxSelectedLabels]="99"
+                        [maxSelectedLabels]="3"
+                        selectedItemsLabel="{0} selecionadas"
                     >
                         <ng-template #header>
                             <div class="font-medium px-3 py-2">Empresas disponíveis</div>
                         </ng-template>
                     </p-multi-select>
+
                     <app-validator-message [control]="form.get('empresas')" />
                 </div>
 
-                <!-- STATUS -->
-                <div class="order-3 lg:order-none lg:col-span-3 lg:row-span-2">
-                    <div class="flex flex-col gap-4 border rounded-md p-4 h-full">
-                        <label id="status_label" class="font-semibold">
-                            Status
-                        </label>
-
-                        <div class="flex flex-col justify-around h-full gap-2">
-                            @for (status of listaStatus; track $index) {
-                                <div class="flex items-center justify-between w-full my-1">
-                                    <label
-                                        class="flex items-center gap-2 flex-1 cursor-pointer"
-                                        [for]="status.value"
-                                    >
-                                        <p-radio-button
-                                            ariaLabelledBy="status_label"
-                                            [inputId]="status.value"
-                                            name="status"
-                                            [value]="status.value"
-                                            formControlName="status"
-                                        />
-                                        <span>{{ status.label }}</span>
-                                    </label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- EMPRESAS -->
-                <div class="order-2 lg:order-none lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
+                <!-- Cliente -->
+                <div class="lg:col-span-9 lg:row-span-1 flex flex-col gap-2">
                     <label id="cliente-label" class="font-semibold">Cliente</label>
                     <p-select
                         aria-labelledby="cliente-label"
@@ -68,11 +42,12 @@
                         panelStyleClass="full-width-select-panel"
                         [class.ng-dirty]="form.get('cliente')?.touched"
                         [options]="listaClientes"
-                        formControlName="cliente"
+                        formControlName="cliente_id"
+                        optionValue="id"
                         placeholder="Selecione o cliente"
                         [virtualScroll]="true"
                         [virtualScrollItemSize]="30.8"
-                        [virtualScrollOptions]="options"
+                        [virtualScrollOptions]="clientesConfig.options"
                         [loading]="loading.clientes"
                         [emptyMessage]="loading.clientes ? 'Carregando...' : 'Nenhum Cliente encontrado'"
                         size="large"
@@ -109,7 +84,7 @@
                                             pInputText
                                             class="w-full p-2 border rounded-md text-sm"
                                             placeholder="Buscar cliente por Nome, CPF ou CNPJ"
-                                            [value]="clientesFiltro"
+                                            [value]="clientesConfig.clientesFiltro"
                                             (input)="onFiltroInput($event)"
                                             (mousedown)="$event.stopPropagation()"
                                             (click)="$event.stopPropagation()"
@@ -146,40 +121,129 @@
                             </div>
                         </ng-template>
                         <ng-template #footer>
-                            @if (loading.clientes && clientesFiltro.length === 0) {
+                            @if (loading.clientes && clientesConfig.clientesFiltro.length === 0) {
                                 <div class="p-3">
                                     <p>Carregando...</p>
                                 </div>
                             }
                         </ng-template>
                     </p-select>
-                    <app-validator-message [control]="form.get('cliente')" />
+                    <app-validator-message [control]="form.get('cliente_id')" />
                 </div>
 
-            </div>
+                <!-- Status -->
+                <div class="flex flex-col gap-1">
+                    <label class="text-sm">Status</label>
+                    <p-select
+                        formControlName="status"
+                        [options]="[
+                        { label: 'Todas', value: 'TODAS' },
+                        { label: 'Pendentes', value: 'PENDENTE' },
+                        { label: 'Devolvidas', value: 'DEVOLVIDAS' }
+                    ]">
+                    </p-select>
+                </div>
 
-            <div class="flex flex-row content-stretch gap-2 col-span-12 pt-8">
-                <button
-                    pButton
-                    type="submit"
-                    severity="info"
-                    [fluid]="true"
-                >
-                    <i class="pi pi-check" pButtonIcon></i>
-                    <span pButtonLabel>Filtrar</span>
-                </button>
-            </div>
+                <!-- Datas -->
+                <div formGroupName="datas" class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm">Data início</label>
+                        <p-date-picker
+                            formControlName="inicio"
+                            [maxDate]="form.get('datas')?.get('fim')?.value"
+                            [numberOfMonths]="1"
+                            fluid
+                            showIcon
+                        ></p-date-picker>
+                    </div>
 
-        </form>
-    </p-card>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-sm">Data fim</label>
+                        <p-date-picker
+                            formControlName="fim"
+                            [minDate]="form.get('datas')?.get('inicio')?.value"
+                            [numberOfMonths]="1"
+                            fluid
+                            showIcon
+                        ></p-date-picker>
+                    </div>
+                </div>
 
-    @if (selecionado !== undefined) {
-        <app-notas-fiscais [dados]="selecionado"></app-notas-fiscais>
-    }
+                <!-- Ações -->
+                <div class="flex flex-row justify-between gap-2 col-span-12 mt-4">
+                    <p-button
+                        label="Limpar"
+                        severity="secondary"
+                        icon="pi pi-times"
+                        (onClick)="limpar()">
+                    </p-button>
+                    <p-button
+                        label="Gerar"
+                        icon="pi pi-file-pdf"
+                        [loading]="loading.pdf"
+                        (onClick)="gerarRelatorio()">
+                    </p-button>
+                </div>
+            </form>
+        </p-card>
+
+        <pre>
+            <code>
+                {{form.value|json}}
+            </code>
+        </pre>
+    </div>
+    <div class="row-span-1 col-span-2">
+        <div class="row-span-1 col-span-2 h-full bg-surface-900 rounded-lg shadow-sm flex flex-col">
+
+            @if (pdfUrl) {
+                <div class="flex-1">
+                    <ng2-pdfjs-viewer
+                        viewerId="relatorioViewer"
+                        theme='auto'
+                        [pdfSrc]="pdfUrl"
+
+                        [showSpinner]="true"
+                        [showDownload]="true"
+                        [showPrint]="true"
+                        [showOpenFile]="true"
+                        [showFullScreen]="true"
+                        [showFind]="false"
+                        [showAnnotations]="false"
+                        [showViewBookmark]="false"
+
+                        [showSidebarLeft]="true"
+                        [showToolbarLeft]="true"
+                        toolbarPosition="top"
+
+                        [showSidebar]="true"
+                        [showToolbarMiddle]="true"
+
+                        [showSidebarRight]="false"
+                        [showToolbarRight]="true"
+
+                        [showSecondaryToolbarToggle]="false"
+
+                        [downloadOnLoad]="false"
+                        [diagnosticLogs]="false"
+                        [errorAppend]="false"
+                        [scrollTop]="0"
+                        [externalWindow]="false"
+
+
+                        downloadFileName="relatorio-sucatas"
+                        zoom="page-width"
+                        style="width: 100%; height: 100%;"
+                    />
+                </div>
+            } @else {
+                <div class="flex-1 flex flex-col items-center justify-center text-gray-400">
+                    <i class="pi pi-file-pdf text-4xl mb-3"></i>
+                    <span class="text-sm">Nenhum relatório para exibir</span>
+                    <span class="text-xs">Preencha os filtros e gere o relatório</span>
+                </div>
+            }
+
+        </div>
+    </div>
 </div>
-
-<!--<pre>-->
-<!--    <code>-->
-<!--        {{form.value|json}}-->
-<!--    </code>-->
-<!--</pre>-->
