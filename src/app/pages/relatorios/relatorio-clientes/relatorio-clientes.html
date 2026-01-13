@@ -1,6 +1,15 @@
-<div class="grid grid-flow-col grid-rows-1 grid-cols-3 gap-4 height-full">
+<div
+    class="
+    grid
+    grid-cols-1
+    lg:grid-cols-1
+    gap-4
+    lg:h-full
+  "
+>
+<!--    class=""-->
 
-    <div class="row-span-1 col-span-1">
+    <div class="row-span-1 col-span-2">
         <p-card>
             <form [formGroup]="form" class="flex flex-col gap-4">
                 <span class="text-lg font-semibold">
@@ -186,64 +195,5 @@
                 </div>
             </form>
         </p-card>
-
-        <pre>
-            <code>
-                {{form.value|json}}
-            </code>
-        </pre>
-    </div>
-    <div class="row-span-1 col-span-2">
-        <div class="row-span-1 col-span-2 h-full bg-surface-900 rounded-lg shadow-sm flex flex-col">
-
-            @if (pdfUrl) {
-                <div class="flex-1">
-                    <ng2-pdfjs-viewer
-                        viewerId="relatorioViewer"
-                        theme='auto'
-                        [pdfSrc]="pdfUrl"
-
-                        [showSpinner]="true"
-                        [showDownload]="true"
-                        [showPrint]="true"
-                        [showOpenFile]="true"
-                        [showFullScreen]="true"
-                        [showFind]="false"
-                        [showAnnotations]="false"
-                        [showViewBookmark]="false"
-
-                        [showSidebarLeft]="true"
-                        [showToolbarLeft]="true"
-                        toolbarPosition="top"
-
-                        [showSidebar]="true"
-                        [showToolbarMiddle]="true"
-
-                        [showSidebarRight]="false"
-                        [showToolbarRight]="true"
-
-                        [showSecondaryToolbarToggle]="false"
-
-                        [downloadOnLoad]="false"
-                        [diagnosticLogs]="false"
-                        [errorAppend]="false"
-                        [scrollTop]="0"
-                        [externalWindow]="false"
-
-
-                        downloadFileName="relatorio-sucatas"
-                        zoom="page-width"
-                        style="width: 100%; height: 100%;"
-                    />
-                </div>
-            } @else {
-                <div class="flex-1 flex flex-col items-center justify-center text-gray-400">
-                    <i class="pi pi-file-pdf text-4xl mb-3"></i>
-                    <span class="text-sm">Nenhum relatório para exibir</span>
-                    <span class="text-xs">Preencha os filtros e gere o relatório</span>
-                </div>
-            }
-
-        </div>
     </div>
 </div>

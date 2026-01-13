@@ -1,16 +1,15 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Button, ButtonModule } from 'primeng/button';
-import { Card, CardModule } from 'primeng/card';
-import { DatePicker, DatePickerModule } from 'primeng/datepicker';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DatePickerModule } from 'primeng/datepicker';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { JsonPipe } from '@angular/common';
-import { MultiSelect, MultiSelectModule } from 'primeng/multiselect';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { NgxMaskPipe } from 'ngx-mask';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Select, SelectModule } from 'primeng/select';
+import { SelectModule } from 'primeng/select';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ChipModule } from 'primeng/chip';
@@ -20,10 +19,11 @@ import { Empresa } from '@/core/models/empresa';
 import { Cliente } from '@/core/models/cliente';
 import { ScrollerOptions } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -37,14 +37,14 @@ import { format, subDays } from 'date-fns';
     DatePickerModule,
     ButtonModule,
     PanelModule,
-    JsonPipe,
     MultiSelectModule,
     PdfJsViewerModule,
     ListboxModule,
     IconField,
     InputIcon,
     InputText,
-    NgxMaskPipe
+    NgxMaskPipe,
+    ProgressSpinnerModule
   ],
   templateUrl: './relatorio-clientes.html',
   styleUrl: './relatorio-clientes.scss'
@@ -83,8 +83,6 @@ export class RelatorioClientes implements OnInit {
       onLazyLoad: this.onLazyLoadClientes.bind(this)
     }
   };
-
-  protected pdfUrl: Uint8Array | null = null;
 
   private readonly _fb = inject(FormBuilder);
   private readonly _http = inject(HttpClient);
@@ -140,7 +138,6 @@ export class RelatorioClientes implements OnInit {
     }
 
     this.loading.pdf = true;
-    this.pdfUrl = null;
 
     const dados = {
       ...this.form.value,
@@ -150,16 +147,17 @@ export class RelatorioClientes implements OnInit {
       }
     };
 
-    this._http.post('http://localhost:8000/api/relatorios/por-cliente', dados, { responseType: 'arraybuffer' }).subscribe({
-      next: (value: ArrayBuffer) => {
-        this.pdfUrl = new Uint8Array(value);
-        // const url = URL.createObjectURL(blob);
-        // this.pdfUrl = url;
-        // this.pdfUrl = this._sanitizer.bypassSecurityTrustResourceUrl(`${url}#toolbar=1&navpanes=0&scrollbar=0&zoom=page-width`);
+    this._http.post('http://localhost:8000/api/relatorios/por-cliente', dados, { responseType: 'blob' }).subscribe({
+      next: (value: Blob) => {
+        const pdfBlob = new Blob([value], { type: 'application/pdf' });
+
+        const objectUrl = URL.createObjectURL(pdfBlob);
+
+        this.openPdfWindow(objectUrl);
+
         this.loading.pdf = false;
       },
       error: () => {
-        this.pdfUrl = null;
         this.loading.pdf = false;
       }
     });
@@ -168,22 +166,6 @@ export class RelatorioClientes implements OnInit {
   limpar(): void {
     this.form.reset({
       status: 'TODAS'
-    });
-    this.pdfUrl = null;
-  }
-
-  private loadEmpresas(): void {
-    this.loading.empresas = true;
-    this._empresasService.listar().subscribe({
-      next: (data) => {
-        this.listaEmpresas = data;
-        this.form.get('empresas')?.patchValue(data.map((v) => v!.id));
-        this.loading.empresas = false;
-      },
-      error: (err) => {
-        this.loading.empresas = false;
-        console.log(err);
-      }
     });
   }
 
@@ -207,6 +189,64 @@ export class RelatorioClientes implements OnInit {
     }
 
     this.loadClientes();
+  }
+
+  private openPdfWindow(url: string): void {
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
+
+    const features = `
+    width=${width},
+    height=${height},
+    left=0,
+    top=0,
+    resizable=yes,
+    scrollbars=yes,
+    toolbar=no,
+    menubar=no,
+    location=no,
+    status=no
+  `.replace(/\s+/g, '');
+
+    const popup = window.open(url, 'RelatorioPDF', features);
+
+    if (!popup) {
+      alert('Popup bloqueado pelo navegador.');
+      return;
+    }
+
+    // Força foco imediato
+    popup.focus();
+
+    // Alguns browsers exigem isso após um pequeno delay
+    setTimeout(() => {
+      try {
+        popup.focus();
+      } catch {}
+    }, 100);
+
+    // Libera memória ao fechar
+    const timer = setInterval(() => {
+      if (popup.closed) {
+        clearInterval(timer);
+        URL.revokeObjectURL(url);
+      }
+    }, 500);
+  }
+
+  private loadEmpresas(): void {
+    this.loading.empresas = true;
+    this._empresasService.listar().subscribe({
+      next: (data) => {
+        this.listaEmpresas = data;
+        this.form.get('empresas')?.patchValue(data.map((v) => v!.id));
+        this.loading.empresas = false;
+      },
+      error: (err) => {
+        this.loading.empresas = false;
+        console.log(err);
+      }
+    });
   }
 
   private loadClientes(): void {
