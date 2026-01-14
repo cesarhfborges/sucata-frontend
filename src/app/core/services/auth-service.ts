@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpService } from '@/core/services/http-service';
-import { Observable, switchMap, tap } from 'rxjs';
+import { finalize, Observable, switchMap, tap } from 'rxjs';
 import { Usuario } from '@/core/models/usuario';
 import { SessionService } from '@/core/services/session-service';
 
@@ -37,9 +37,19 @@ export class AuthService extends HttpService {
   }
 
   public logout(): void {
-    this._sessionService.clearSession();
-    queueMicrotask(() => {
-      window.location.href = '/login';
-    });
+    this._http
+      .post<any>(`${this.URL}/api/logout`, {})
+      .pipe(
+        finalize(() => {
+          this._sessionService.clearSession();
+          queueMicrotask(() => {
+            window.location.href = '/login';
+          });
+        })
+      )
+      .subscribe({
+        next: () => {},
+        error: () => {}
+      });
   }
 }
