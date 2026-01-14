@@ -26,6 +26,7 @@ import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { JsonPipe } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import { RelatorioService } from '@/core/services/relatorio-service';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -93,8 +94,8 @@ export class RelatorioClientes implements OnInit {
   };
 
   private readonly _fb = inject(FormBuilder);
-  private readonly _http = inject(HttpClient);
   private readonly _sanitizer = inject(DomSanitizer);
+  private readonly _relatorioService = inject(RelatorioService);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
 
@@ -157,7 +158,7 @@ export class RelatorioClientes implements OnInit {
       }
     };
 
-    this._http.post(`${environment.apiUrl}/api/relatorios/por-cliente`, dados, { responseType: 'blob' }).subscribe({
+    this._relatorioService.gerar(dados).subscribe({
       next: (value: Blob) => {
         const pdfBlob = new Blob([value], { type: 'application/pdf' });
 
