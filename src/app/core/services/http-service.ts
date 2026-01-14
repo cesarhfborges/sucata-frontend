@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 export abstract class HttpService {
-  protected readonly URL = 'http://localhost:8000';
+  protected readonly URL = environment.apiUrl;
   protected readonly _http = inject(HttpClient);
 }
