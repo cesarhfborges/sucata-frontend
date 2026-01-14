@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
   template: `<div class="layout-footer">
     Todos os direitos reservados a
     <a href="https://platoflex.com.br" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">Platoflex embreagens</a>©
-    @if (isDevelopment) {
+    @if (!isProduction) {
       <div
         class="fixed bottom-4 right-4 z-50 flex items-center justify-center rounded-full bg-gray-800 p-3 font-mono text-xs font-bold text-white shadow-2xl opacity-80 hover:opacity-100 transition-opacity"
       >
@@ -27,5 +27,5 @@ import { environment } from '../../../environments/environment';
   </div>`
 })
 export class AppFooter {
-  isDevelopment = !environment.production;
+  isProduction = environment.production;
 }
