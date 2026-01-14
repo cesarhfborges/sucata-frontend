@@ -25,6 +25,7 @@ import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { JsonPipe } from '@angular/common';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -156,7 +157,7 @@ export class RelatorioClientes implements OnInit {
       }
     };
 
-    this._http.post('http://localhost:8000/api/relatorios/por-cliente', dados, { responseType: 'blob' }).subscribe({
+    this._http.post(`${environment.apiUrl}/api/relatorios/por-cliente`, dados, { responseType: 'blob' }).subscribe({
       next: (value: Blob) => {
         const pdfBlob = new Blob([value], { type: 'application/pdf' });
 
