@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
@@ -14,6 +14,7 @@ import { ValidatorMessage } from '@/shared/components/validator-message/validato
 import { MessageService } from 'primeng/api';
 import { AutoFocusModule } from 'primeng/autofocus';
 import { FocusTrapModule } from 'primeng/focustrap';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -36,18 +37,28 @@ import { FocusTrapModule } from 'primeng/focustrap';
   ],
   templateUrl: './login.html'
 })
-export class Login {
+export class Login implements OnInit {
   loading = false;
 
   form: FormGroup = new FormGroup({
-    email: new FormControl('admin@admin.com', [Validators.required]),
-    password: new FormControl('@zyba.@', [Validators.required]),
-    remember: new FormControl(false, [Validators.required])
+    email: new FormControl<string>('', [Validators.required]),
+    password: new FormControl<string>('', [Validators.required]),
+    remember: new FormControl<boolean>(false, [Validators.required])
   });
 
   private readonly _router = inject(Router);
   private readonly _auth = inject(AuthService);
   private readonly _messageService = inject(MessageService);
+
+  ngOnInit() {
+    if (!environment.production) {
+      this.form.patchValue({
+        email: 'admin@admin.com',
+        password: '@zyba.@',
+        remember: true
+      });
+    }
+  }
 
   protected onSubmit(): void {
     this.form.markAsTouched();
