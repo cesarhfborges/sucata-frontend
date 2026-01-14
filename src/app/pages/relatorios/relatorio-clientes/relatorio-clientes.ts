@@ -7,7 +7,6 @@ import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { NgxMaskPipe } from 'ngx-mask';
-import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ValidatorMessage } from '@/shared/components/validator-message/validator-message';
@@ -22,7 +21,6 @@ import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { JsonPipe } from '@angular/common';
 import { RelatorioService } from '@/core/services/relatorio-service';
 
 @Component({
@@ -38,14 +36,12 @@ import { RelatorioService } from '@/core/services/relatorio-service';
     ButtonModule,
     PanelModule,
     MultiSelectModule,
-    PdfJsViewerModule,
     ListboxModule,
     IconField,
     InputIcon,
     InputText,
     NgxMaskPipe,
-    ProgressSpinnerModule,
-    JsonPipe
+    ProgressSpinnerModule
   ],
   templateUrl: './relatorio-clientes.html',
   styleUrl: './relatorio-clientes.scss'
