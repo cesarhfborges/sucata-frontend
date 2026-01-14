@@ -38,6 +38,9 @@ import { environment } from '../../../environments/environment';
   templateUrl: './login.html'
 })
 export class Login implements OnInit {
+
+  isProduction = environment.production;
+
   loading = false;
 
   form: FormGroup = new FormGroup({
@@ -58,6 +61,7 @@ export class Login implements OnInit {
         remember: true
       });
     }
+    console.log(`production: ${this.isProduction}`);
   }
 
   protected onSubmit(): void {
