@@ -18,14 +18,11 @@ import { ListboxModule } from 'primeng/listbox';
 import { Empresa } from '@/core/models/empresa';
 import { Cliente } from '@/core/models/cliente';
 import { ScrollerOptions } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { JsonPipe } from '@angular/common';
-import { environment } from '../../../../environments/environment';
 import { RelatorioService } from '@/core/services/relatorio-service';
 
 @Component({
@@ -94,7 +91,6 @@ export class RelatorioClientes implements OnInit {
   };
 
   private readonly _fb = inject(FormBuilder);
-  private readonly _sanitizer = inject(DomSanitizer);
   private readonly _relatorioService = inject(RelatorioService);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
