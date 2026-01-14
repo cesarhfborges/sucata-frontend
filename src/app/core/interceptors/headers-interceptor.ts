@@ -15,10 +15,6 @@ export const headersInterceptor: HttpInterceptorFn = (req, next) => {
   }
 
   const authReq = req.clone({
-    // setHeaders: {
-    //   'Content-Type': 'application/json',
-    //   'Accept': 'application/json',
-    // }
     setHeaders: headers
   });
 

@@ -22,6 +22,7 @@ import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RelatorioService } from '@/core/services/relatorio-service';
+import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -41,7 +42,8 @@ import { RelatorioService } from '@/core/services/relatorio-service';
     InputIcon,
     InputText,
     NgxMaskPipe,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    NgxLoaderIndicatorDirective
   ],
   templateUrl: './relatorio-clientes.html',
   styleUrl: './relatorio-clientes.scss'

@@ -7,10 +7,10 @@
     lg:h-full
   "
 >
-<!--    class=""-->
+    <!--    class=""-->
 
     <div class="row-span-1 col-span-2">
-        <p-card>
+        <p-card [ngxLoaderIndicator]="loading.pdf">
             <form [formGroup]="form" class="flex flex-col gap-4">
                 <span class="text-lg font-semibold">
                     Filtros do Relatório
@@ -33,7 +33,7 @@
                         size="large"
                         [maxSelectedLabels]="3"
                         selectedItemsLabel="{0} selecionadas"
-                        [disabled]="loading.pdf"
+
                     >
                         <ng-template #header>
                             <div class="font-medium px-3 py-2">Empresas disponíveis</div>
@@ -63,7 +63,7 @@
                         size="large"
                         [showClear]="true"
                         (onShow)="onOpenClientes()"
-                        [disabled]="loading.pdf"
+
                     >
                         <ng-template #selectedItem let-selectedOption>
                             <div
@@ -147,7 +147,6 @@
                     <label class="text-sm">Status</label>
                     <p-select
                         formControlName="status"
-                        [disabled]="loading.pdf"
                         [options]="listaStatus"
                     ></p-select>
                 </div>
@@ -160,7 +159,6 @@
                             formControlName="inicio"
                             [maxDate]="form.get('datas')?.get('fim')?.value"
                             [numberOfMonths]="1"
-                            [disabled]="loading.pdf"
                             fluid
                             showIcon
                         ></p-date-picker>
@@ -172,7 +170,6 @@
                             formControlName="fim"
                             [minDate]="form.get('datas')?.get('inicio')?.value"
                             [numberOfMonths]="1"
-                            [disabled]="loading.pdf"
                             fluid
                             showIcon
                         ></p-date-picker>
