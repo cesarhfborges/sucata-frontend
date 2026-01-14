@@ -2,17 +2,14 @@ import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { AuthService } from '@/core/services/auth-service';
 import { SessionService } from '@/core/services/session-service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
   const sessionService = inject(SessionService);
   const messageService = inject(MessageService);
 
   return next(req).pipe(
     catchError((e: HttpErrorResponse) => {
-
       if (sessionService.hasActiveSession() && e.status === 401) {
         messageService.add({
           severity: 'error',
@@ -21,7 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           life: 3000
         });
 
-        authService.logout();
+        sessionService.clearSession();
       }
 
       if (e.error.message) {

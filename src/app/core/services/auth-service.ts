@@ -42,9 +42,6 @@ export class AuthService extends HttpService {
       .pipe(
         finalize(() => {
           this._sessionService.clearSession();
-          queueMicrotask(() => {
-            window.location.href = '/login';
-          });
         })
       )
       .subscribe({

@@ -38,5 +38,8 @@ export class SessionService {
   clearSession(): void {
     this._token.set(null);
     this._perfil.set(null);
+    queueMicrotask(() => {
+      window.location.href = '/login';
+    });
   }
 }
