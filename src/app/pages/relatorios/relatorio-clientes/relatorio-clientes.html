@@ -33,6 +33,7 @@
                         size="large"
                         [maxSelectedLabels]="3"
                         selectedItemsLabel="{0} selecionadas"
+                        [disabled]="loading.pdf"
                     >
                         <ng-template #header>
                             <div class="font-medium px-3 py-2">Empresas disponíveis</div>
@@ -62,6 +63,7 @@
                         size="large"
                         [showClear]="true"
                         (onShow)="onOpenClientes()"
+                        [disabled]="loading.pdf"
                     >
                         <ng-template #selectedItem let-selectedOption>
                             <div
@@ -145,12 +147,9 @@
                     <label class="text-sm">Status</label>
                     <p-select
                         formControlName="status"
-                        [options]="[
-                        { label: 'Todas', value: 'TODAS' },
-                        { label: 'Pendentes', value: 'PENDENTE' },
-                        { label: 'Devolvidas', value: 'DEVOLVIDAS' }
-                    ]">
-                    </p-select>
+                        [disabled]="loading.pdf"
+                        [options]="listaStatus"
+                    ></p-select>
                 </div>
 
                 <!-- Datas -->
@@ -161,6 +160,7 @@
                             formControlName="inicio"
                             [maxDate]="form.get('datas')?.get('fim')?.value"
                             [numberOfMonths]="1"
+                            [disabled]="loading.pdf"
                             fluid
                             showIcon
                         ></p-date-picker>
@@ -172,6 +172,7 @@
                             formControlName="fim"
                             [minDate]="form.get('datas')?.get('inicio')?.value"
                             [numberOfMonths]="1"
+                            [disabled]="loading.pdf"
                             fluid
                             showIcon
                         ></p-date-picker>
@@ -184,16 +185,21 @@
                         label="Limpar"
                         severity="secondary"
                         icon="pi pi-times"
-                        (onClick)="limpar()">
-                    </p-button>
+                        (onClick)="limpar()"
+                    />
                     <p-button
                         label="Gerar"
                         icon="pi pi-file-pdf"
                         [loading]="loading.pdf"
-                        (onClick)="gerarRelatorio()">
-                    </p-button>
+                        (onClick)="gerarRelatorio()"
+                    />
                 </div>
             </form>
         </p-card>
     </div>
 </div>
+<pre>
+    <code>
+        {{form.value|json}}
+    </code>
+</pre>

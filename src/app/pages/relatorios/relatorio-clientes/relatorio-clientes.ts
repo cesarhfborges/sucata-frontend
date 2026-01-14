@@ -24,6 +24,7 @@ import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -44,7 +45,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     InputIcon,
     InputText,
     NgxMaskPipe,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    JsonPipe
   ],
   templateUrl: './relatorio-clientes.html',
   styleUrl: './relatorio-clientes.scss'
@@ -60,6 +62,11 @@ export class RelatorioClientes implements OnInit {
 
   listaEmpresas: Empresa[] = [];
   listaClientes: Cliente[] = [];
+  listaStatus = [
+    { label: 'Todas', value: 'TODAS' },
+    { label: 'Pendentes', value: 'PENDENTE' },
+    { label: 'Devolvidas', value: 'DEVOLVIDAS' }
+  ];
 
   clientesConfig: {
     options: ScrollerOptions;
@@ -93,11 +100,11 @@ export class RelatorioClientes implements OnInit {
   constructor() {
     this.form = this._fb.group({
       empresas: new FormControl<Empresa[]>([], [Validators.required]),
-      cliente_id: new FormControl<Cliente | null>(null, [Validators.required]),
+      cliente_id: new FormControl<Cliente | null>(null, []),
       status: new FormControl<string | null>('TODAS', [Validators.required]),
       datas: this._fb.group({
-        inicio: new FormControl<Date | null>(subDays(new Date(), 30), [Validators.required]),
-        fim: new FormControl<Date | null>(new Date(), [Validators.required])
+        inicio: new FormControl<Date | null>(subDays(new Date(), 30), []),
+        fim: new FormControl<Date | null>(new Date(), [])
       })
     });
   }
@@ -139,11 +146,13 @@ export class RelatorioClientes implements OnInit {
 
     this.loading.pdf = true;
 
+    const datas = this.form.get('datas')?.value;
+
     const dados = {
       ...this.form.value,
       datas: {
-        inicio: format(this.form.get('datas')?.get('inicio')?.value, 'yyyy-MM-dd'),
-        fim: format(this.form.get('datas')?.get('fim')?.value, 'yyyy-MM-dd')
+        inicio: datas.inicio ? format(datas.inicio, 'yyyy-MM-dd') : null,
+        fim: datas.fim ? format(datas.fim, 'yyyy-MM-dd') : null
       }
     };
 
