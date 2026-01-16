@@ -3,43 +3,42 @@
         <div class="p-4 space-y-4">
 
             <!-- Seletor de arquivo -->
-            <div class="max-w-md">
-                <div class="flex gap-2 items-end">
-                    <div class="flex-1">
-                        <label class="block text-sm font-medium mb-1">Arquivo de log</label>
+            <div class="flex gap-2 items-end">
+                <div class="flex-1">
+                    <label class="block text-sm font-medium mb-1">Arquivo de log</label>
 
-                        <p-select
-                            [options]="arquivos"
-                            optionLabel="file"
-                            [(ngModel)]="arquivoSelecionado"
-                            placeholder="Selecione um log"
-                            class="w-full"
-                            (onChange)="limpar()"
-                        >
-                            <ng-template #selectedItem let-selectedOption>
-                                <div class="flex justify-between w-full">
-                                    <span>{{ selectedOption.file }}</span>
-                                </div>
-                            </ng-template>
+                    <p-select
+                        [options]="arquivos"
+                        optionLabel="file"
+                        [(ngModel)]="arquivoSelecionado"
+                        placeholder="Selecione um log"
+                        class="w-full"
+                        (onChange)="limpar()"
+                    >
+                        <ng-template #selectedItem let-selectedOption>
+                            <div class="flex justify-between w-full">
+                                <span>{{ selectedOption.file }}</span>
+                            </div>
+                        </ng-template>
 
-                            <ng-template pTemplate="item" let-item>
-                                <div class="flex justify-between w-full">
-                                    <span>{{ item.file }}</span>
-                                    <span class="text-xs text-gray-500">{{ item.size_kb }} KB</span>
-                                </div>
-                            </ng-template>
-                        </p-select>
-                    </div>
-
-                    <p-button
-                        label="Carregar"
-                        icon="pi pi-refresh"
-                        severity="primary"
-                        [disabled]="!arquivoSelecionado || loading"
-                        (click)="onSelecionarArquivo()"
-                    />
+                        <ng-template pTemplate="item" let-item>
+                            <div class="flex justify-between w-full">
+                                <span>{{ item.file }}</span>
+                                <span class="text-xs text-gray-500">{{ item.size_kb }} KB</span>
+                            </div>
+                        </ng-template>
+                    </p-select>
                 </div>
+
+                <p-button
+                    label="Carregar"
+                    icon="pi pi-refresh"
+                    severity="primary"
+                    [disabled]="!arquivoSelecionado || loading"
+                    (click)="onSelecionarArquivo()"
+                />
             </div>
+
 
             <!-- TreeTable -->
             <p-treeTable
@@ -70,16 +69,61 @@
                             {{ rowData.timestamp }}
                         </td>
                         <td>
-                            <span
-                                class="px-2 py-1 rounded text-xs font-medium"
-                                [ngClass]="{
-                                    'bg-red-100 text-red-700': rowData.level === 'error',
-                                    'bg-yellow-100 text-yellow-700': rowData.level === 'warning',
-                                    'bg-blue-100 text-blue-700': rowData.level === 'info'
-                                }"
-                            >
-                                {{ rowData.level | titlecase }}
-                            </span>
+                            @switch (rowData.level) {
+                                @case ('error') {
+                                    <p-tag
+                                        severity="danger"
+                                        icon="pi pi-times"
+                                        [value]="rowData.level | titlecase"
+                                        size="large"
+                                        [rounded]="true"
+                                    />
+                                }
+                                @case ('critical') {
+                                    <p-tag
+                                        severity="danger"
+                                        icon="pi pi-times"
+                                        [value]="rowData.level | titlecase"
+                                        size="large"
+                                        [rounded]="true"
+                                    />
+                                }
+                                @case ('warning') {
+                                    <p-tag
+                                        severity="warn"
+                                        icon="pi pi-exclamation-triangle"
+                                        [value]="rowData.level | titlecase"
+                                        size="large"
+                                        [rounded]="true"
+                                    />
+                                }
+                                @case ('info') {
+                                    <p-tag
+                                        severity="info"
+                                        icon="pi pi-info-circle"
+                                        [value]="rowData.level | titlecase"
+                                        size="large"
+                                        [rounded]="true"
+                                    />
+                                }
+                                @case ('success') {
+                                    <p-tag
+                                        severity="success"
+                                        icon="pi pi-check"
+                                        [value]="rowData.level | titlecase"
+                                        [rounded]="true"
+                                    />
+                                }
+                                @default {
+                                    <p-tag
+                                        severity="secondary"
+                                        icon="pi pi-filter"
+                                        [value]="rowData.level | titlecase"
+                                        size="large"
+                                        [rounded]="true"
+                                    />
+                                }
+                            }
                         </td>
                         <td class="capitalize">{{ rowData.environment }}</td>
                         <td>
@@ -134,14 +178,57 @@
 
                 <div class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">
                     <h6>Nível:</h6>
-                    <p
-                        class="uppercase font-medium"
-                        [ngClass]="{
-                            'text-red-700': logSelecionado.level === 'error',
-                            'text-yellow-700': logSelecionado.level === 'warning',
-                            'text-blue-700': logSelecionado.level === 'info'
-                        }"
-                    >{{ logSelecionado.level }}</p>
+                    @switch (logSelecionado.level) {
+                        @case ('error') {
+                            <p-tag
+                                severity="danger"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-times"
+                                [rounded]="true"
+                            />
+                        }
+                        @case ('critical') {
+                            <p-tag
+                                severity="danger"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-times"
+                                [rounded]="true"
+                            />
+                        }
+                        @case ('warning') {
+                            <p-tag
+                                severity="warn"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-exclamation-triangle"
+                                [rounded]="true"
+                            />
+                        }
+                        @case ('info') {
+                            <p-tag
+                                severity="info"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-info-circle"
+                                [rounded]="true"
+                            />
+                        }
+                        @case ('success') {
+                            <p-tag
+                                severity="success"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-check"
+                                [rounded]="true"
+                            />
+                        }
+                        @default {
+                            <p-tag
+                                severity="secondary"
+                                [value]="logSelecionado.level | titlecase"
+                                icon="pi pi-filter"
+                                size="large"
+                                [rounded]="true"
+                            />
+                        }
+                    }
                 </div>
             </div>
 

@@ -8,10 +8,11 @@ import { DialogModule } from 'primeng/dialog';
 import { Card } from 'primeng/card';
 import { LogEntry, LogFile, LogsService } from '@/core/services/logs.service';
 import { TreeNode } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-logs',
-  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe],
+  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule],
   templateUrl: './logs.html',
   styleUrl: './logs.scss'
 })
