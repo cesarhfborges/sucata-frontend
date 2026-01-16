@@ -10,10 +10,12 @@ import { LogEntry, LogFile, LogsService } from '@/core/services/logs.service';
 import { TreeNode } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
 import { HighlightModule } from 'ngx-highlightjs';
+import { FieldsetModule } from 'primeng/fieldset';
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-logs',
-  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule, HighlightModule],
+  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, FieldsetModule, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule, HighlightModule, PanelModule],
   templateUrl: './logs.html',
   styleUrl: './logs.scss'
 })

@@ -230,33 +230,30 @@
                         }
                     }
                 </div>
-            </div>
 
-            <div>
-                <h6>Mensagem:</h6>
-                <p>
-                    {{ logSelecionado.message }}
-                </p>
-            </div>
-
-            @if (logSelecionado.body !== null) {
                 <div>
-                    <strong>Corpo:</strong>
-                    <pre
-                        class="
+                    <h6>Mensagem:</h6>
+                    <p>
+                        {{ logSelecionado.message }}
+                    </p>
+                </div>
+                <p-panel header="Corpo" [toggleable]="true" [collapsed]="true">
+                    @if (logSelecionado.body !== null) {
+                        <pre
+                            class="
                         bg-[#2E3440] border-l-5 border-[#6f7b93] rounded text-xs
                         whitespace-pre-wrap break-words
                         max-h-[40vh] overflow-auto
                         "
-                    >
-                        <code
-                            [highlight]="logSelecionado.body | json"
-                            language="json"
-                        ></code>
-                    </pre>
-                </div>
-            }
-
+                            >
+                            <code
+                                [highlight]="logSelecionado.body | json"
+                                language="json"
+                            ></code>
+                        </pre>
+                    }
+                </p-panel>
+            </div>
         </div>
     }
 </p-dialog>
