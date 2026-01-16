@@ -1,0 +1,32 @@
+<p-confirm-dialog />
+<p-toast />
+<router-outlet></router-outlet>
+@if (!isProduction) {
+    <div
+        class="fixed bottom-4 right-4 z-50 flex items-center justify-center rounded-full bg-gray-800 p-3 font-mono text-xs font-bold text-white shadow-2xl opacity-80 hover:opacity-100 transition-opacity"
+    >
+        <span class="block sm:hidden text-yellow-400">
+            DEFAULT (XS) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+
+        <span class="hidden sm:block md:hidden text-blue-400">
+            SM (~640px) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+
+        <span class="hidden md:block lg:hidden text-green-400">
+            MD (~768px) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+
+        <span class="hidden lg:block xl:hidden text-purple-400">
+            LG (~1024px) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+
+        <span class="hidden xl:block 2xl:hidden text-pink-400">
+            XL (~1280px) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+
+        <span class="hidden 2xl:block text-red-400">
+            2XL (>1536px) | <strong>Res.:</strong> {{ width }} x {{ height }}
+        </span>
+    </div>
+}

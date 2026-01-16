@@ -3,7 +3,7 @@
         <p-table
             #dt1
             [value]="lista"
-            [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+            [tableStyle]="{ 'max-width': '100%' }"
             [loading]="loading"
 
             selectionMode="single"
@@ -15,7 +15,7 @@
             scrollHeight="400px"
 
             responsiveLayout="stack"
-            breakpoint="640px"
+            breakpoint="767px"
 
             stripedRows
             showGridlines
@@ -87,6 +87,7 @@
             <ng-template #body let-value let-rowIndex="rowIndex">
                 <tr [pSelectableRow]="value" [pSelectableRowIndex]="rowIndex">
                     <td appOnClickIgnore>
+                        <span class="p-column-title sm:block md:hidden">Status:</span>
                         <div class="flex items-center justify-center">
                             @if (value.pendente) {
                                 <i class="pi pi-thumbs-down-fill text-red-500"></i>
@@ -95,11 +96,24 @@
                             }
                         </div>
                     </td>
-                    <td appOnClickIgnore>{{ value.empresa_id }}</td>
-                    <td appOnClickIgnore>{{ value.nota_fiscal }}</td>
-                    <td appOnClickIgnore>{{ value.serie }}</td>
-                    <td appOnClickIgnore>{{ value.emissao | date : 'dd/MM/yyyy' }}</td>
+                    <td appOnClickIgnore>
+                        <span class="p-column-title sm:block md:hidden">UN:</span>
+                        {{ value.empresa_id }}
+                    </td>
+                    <td appOnClickIgnore>
+                        <span class="p-column-title sm:block md:hidden">Nota Fiscal:</span>
+                        {{ value.nota_fiscal }}
+                    </td>
+                    <td appOnClickIgnore>
+                        <span class="p-column-title sm:block md:hidden">Série:</span>
+                        {{ value.serie }}
+                    </td>
+                    <td appOnClickIgnore>
+                        <span class="p-column-title sm:block md:hidden">Emissão:</span>
+                        {{ value.emissao | date : 'dd/MM/yyyy' }}
+                    </td>
                     <td>
+                        <span class="p-column-title sm:block md:hidden">Ações</span>
                         <p-buttonGroup>
                             <p-button label="Editar" icon="pi pi-check" severity="info" (click)="editar(value)" />
                             <p-button
