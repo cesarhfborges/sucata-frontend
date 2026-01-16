@@ -38,7 +38,10 @@ export class Logs implements OnInit {
   }
 
   abrirDialog(log: LogEntry): void {
-    this.logSelecionado = log;
+    this.logSelecionado = {
+      ...log,
+      body: log.body ? JSON.parse(log.body) : null
+    };
     this.dialogVisible = true;
   }
 

@@ -61,10 +61,10 @@
                             <span
                                 class="px-2 py-1 rounded text-xs font-medium"
                                 [ngClass]="{
-                                       'bg-red-100 text-red-700': rowData.level === 'error',
-                                       'bg-yellow-100 text-yellow-700': rowData.level === 'warning',
-                                       'bg-blue-100 text-blue-700': rowData.level === 'info'
-                                   }"
+                                    'bg-red-100 text-red-700': rowData.level === 'error',
+                                    'bg-yellow-100 text-yellow-700': rowData.level === 'warning',
+                                    'bg-blue-100 text-blue-700': rowData.level === 'info'
+                                }"
                             >
                                 {{ rowData.level | titlecase }}
                             </span>
@@ -122,7 +122,14 @@
 
                 <div class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">
                     <h6>Nível:</h6>
-                    <p class="uppercase font-medium">{{ logSelecionado.level }}</p>
+                    <p
+                        class="uppercase font-medium"
+                        [ngClass]="{
+                            'text-red-700': logSelecionado.level === 'error',
+                            'text-yellow-700': logSelecionado.level === 'warning',
+                            'text-blue-700': logSelecionado.level === 'info'
+                        }"
+                    >{{ logSelecionado.level }}</p>
                 </div>
             </div>
 
@@ -132,6 +139,21 @@
                     {{ logSelecionado.message|json }}
                 </p>
             </div>
+
+            @if (logSelecionado.body !== null) {
+                <div>
+                    <strong>Corpo:</strong>
+                    <pre
+                        class="
+                        mt-2 p-3 bg-gray-100 dark:bg-[#27272a] border-l-5 border-[#ccc] rounded text-xs
+                        whitespace-pre-wrap break-words
+                        max-h-[40vh] overflow-auto
+                        "
+                    >
+                        <code class="language-json">{{ logSelecionado.body|json }}</code>
+                    </pre>
+                </div>
+            }
 
         </div>
     }

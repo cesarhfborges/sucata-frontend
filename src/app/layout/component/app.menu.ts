@@ -80,9 +80,7 @@ export class AppMenu {
           },
           {
             label: '',
-            items: [
-              { label: 'Logs', icon: 'pi pi-fw pi-home', routerLink: ['/logs'] },
-            ]
+            items: [{ label: 'Logs', icon: 'pi pi-fw pi-list', routerLink: ['/logs'] }]
           }
           // {
           //     label: 'UI Components',

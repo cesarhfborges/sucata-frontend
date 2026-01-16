@@ -14,6 +14,7 @@ export interface LogEntry {
   environment: string;
   level: string;
   message: string;
+  body: string | null;
 }
 
 export interface LogResponse {
