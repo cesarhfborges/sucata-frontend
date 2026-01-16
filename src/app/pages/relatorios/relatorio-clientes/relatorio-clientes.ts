@@ -16,13 +16,14 @@ import { PanelModule } from 'primeng/panel';
 import { ListboxModule } from 'primeng/listbox';
 import { Empresa } from '@/core/models/empresa';
 import { Cliente } from '@/core/models/cliente';
-import { ScrollerOptions } from 'primeng/api';
+import { ConfirmationService, ScrollerOptions } from 'primeng/api';
 import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
 import { format, subDays } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RelatorioService } from '@/core/services/relatorio-service';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -43,7 +44,8 @@ import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
     InputText,
     NgxMaskPipe,
     ProgressSpinnerModule,
-    NgxLoaderIndicatorDirective
+    NgxLoaderIndicatorDirective,
+    ConfirmDialogModule
   ],
   templateUrl: './relatorio-clientes.html',
   styleUrl: './relatorio-clientes.scss'
@@ -89,6 +91,7 @@ export class RelatorioClientes implements OnInit {
   };
 
   private readonly _fb = inject(FormBuilder);
+  private readonly _confirmationService = inject(ConfirmationService);
   private readonly _relatorioService = inject(RelatorioService);
   private readonly _empresasService = inject(EmpresaService);
   private readonly _clientesService = inject(ClientesService);
@@ -134,12 +137,38 @@ export class RelatorioClientes implements OnInit {
     }, 400);
   }
 
-  gerarRelatorio(): void {
+  submit(event: Event) {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
       return;
     }
 
+    const value = this.form.value;
+
+    if (value.cliente_id !== null && value.datas.inicio !== null && value.datas.fim !== null) {
+      this.gerarRelatorio();
+    } else {
+      this._confirmationService.confirm({
+        target: event.target as EventTarget,
+        key: 'confirm',
+        closable: true,
+        closeOnEscape: true,
+        rejectButtonProps: {
+          label: 'Cancelar',
+          severity: 'secondary',
+          outlined: true
+        },
+        acceptButtonProps: {
+          label: 'Prosseguir'
+        },
+        accept: () => {
+          this.gerarRelatorio();
+        }
+      });
+    }
+  }
+
+  gerarRelatorio(): void {
     this.loading.pdf = true;
 
     const datas = this.form.get('datas')?.value;
