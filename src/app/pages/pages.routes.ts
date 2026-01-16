@@ -7,6 +7,7 @@ import { ClientesEditar, ClientesListar } from '@/pages/clientes';
 import { Controle } from '@/pages/controle/controle';
 import { MateriaisEditar, MateriaisListar } from '@/pages/materiais';
 import { RelatorioClientes, RelatorioEmpresas } from '@/pages/relatorios';
+import { Logs } from '@/pages/logs/logs';
 
 export default [
   { path: 'home', component: Home },
@@ -49,5 +50,6 @@ export default [
       { path: 'clientes', component: RelatorioClientes },
       { path: 'empresas', component: RelatorioEmpresas }
     ]
-  }
+  },
+  { path: 'logs', component: Logs }
 ] as Routes;
