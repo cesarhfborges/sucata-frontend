@@ -233,9 +233,9 @@
             </div>
 
             <div>
-                <strong>Mensagem:</strong>
+                <h6>Mensagem:</h6>
                 <p>
-                    {{ logSelecionado.message|json }}
+                    {{ logSelecionado.message }}
                 </p>
             </div>
 
@@ -244,12 +244,15 @@
                     <strong>Corpo:</strong>
                     <pre
                         class="
-                        mt-2 p-3 bg-gray-100 dark:bg-[#27272a] border-l-5 border-[#ccc] rounded text-xs
+                        bg-[#2E3440] border-l-5 border-[#6f7b93] rounded text-xs
                         whitespace-pre-wrap break-words
                         max-h-[40vh] overflow-auto
                         "
                     >
-                        <code class="language-json">{{ logSelecionado.body|json }}</code>
+                        <code
+                            [highlight]="logSelecionado.body | json"
+                            language="json"
+                        ></code>
                     </pre>
                 </div>
             }

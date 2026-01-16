@@ -9,10 +9,11 @@ import { Card } from 'primeng/card';
 import { LogEntry, LogFile, LogsService } from '@/core/services/logs.service';
 import { TreeNode } from 'primeng/api';
 import { TagModule } from 'primeng/tag';
+import { HighlightModule } from 'ngx-highlightjs';
 
 @Component({
   selector: 'app-logs',
-  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule],
+  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule, HighlightModule],
   templateUrl: './logs.html',
   styleUrl: './logs.scss'
 })

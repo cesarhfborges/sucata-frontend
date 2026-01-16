@@ -4,6 +4,8 @@
 @use 'primeicons/primeicons.css';
 @use './demo/demo.scss';
 
+@import 'highlight.js/styles/nord.css';
+
 
 .app-loading {
     position: fixed;
