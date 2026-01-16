@@ -9,13 +9,17 @@
         <p-table
             #dt1
             [value]="lista"
-            [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+            [tableStyle]="{ 'max-width': '100%' }"
             [loading]="loading"
             [scrollable]="true"
             [filterDelay]="0"
             dataKey="id"
             [globalFilterFields]="['material.codigo', 'material.descricao', 'faturado', 'saldo_devedor']"
             scrollHeight="400px"
+
+            responsiveLayout="stack"
+            breakpoint="767px"
+
             stripedRows
             showGridlines
         >
@@ -85,6 +89,7 @@
             <ng-template #body let-value let-rowIndex="rowIndex">
                 <tr>
                     <td>
+                        <span class="p-column-title sm:block md:hidden">Status:</span>
                         <div class="flex items-center justify-center">
                             @if (value.pendente) {
                                 <i class="pi pi-thumbs-down-fill text-red-500"></i>
@@ -93,11 +98,24 @@
                             }
                         </div>
                     </td>
-                    <td>{{ value.material.codigo }}</td>
-                    <td>{{ value.material.descricao }}</td>
-                    <td>{{ value.faturado }}</td>
-                    <td>{{ value.saldo_devedor }}</td>
                     <td>
+                        <span class="p-column-title sm:block md:hidden">Código:</span>
+                        {{ value.material.codigo }}
+                    </td>
+                    <td>
+                        <span class="p-column-title sm:block md:hidden">Produto</span>
+                        {{ value.material.descricao }}
+                    </td>
+                    <td>
+                        <span class="p-column-title sm:block md:hidden">Faturado</span>
+                        {{ value.faturado }}
+                    </td>
+                    <td>
+                        <span class="p-column-title sm:block md:hidden">Saldo devedor</span>
+                        {{ value.saldo_devedor }}
+                    </td>
+                    <td>
+                        <span class="p-column-title sm:block md:hidden">Ações</span>
                         <p-buttonGroup>
                             <p-button
                                 label="Baixar"

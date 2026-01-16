@@ -1,3 +1,9 @@
+.custom-tag {
+    --p-chip-color: var(--p-slate-900);
+    --p-chip-remove-icon-color: var(--p-slate-900);
+    --p-chip-background: var(--p-slate-200);
+}
+
 :host ::ng-deep .full-width-select-panel {
     width: 100% !important;
 }

@@ -11,10 +11,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((e: HttpErrorResponse) => {
       if (sessionService.hasActiveSession() && e.status === 401) {
+
         messageService.add({
           severity: 'error',
           summary: 'Atenção',
-          detail: 'Ops, não foi possível concluir a solicitação tente novamente mais tarde.',
+          detail: 'Você não esta autenticado no momento.',
           life: 3000
         });
 

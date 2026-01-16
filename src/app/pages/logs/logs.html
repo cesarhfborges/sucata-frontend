@@ -1,0 +1,160 @@
+<div class="max-w-7xl mx-auto">
+    <p-card>
+        <div class="p-4 space-y-4">
+
+            <!-- Seletor de arquivo -->
+            <div class="max-w-md">
+                <label class="block text-sm font-medium mb-1">Arquivo de log</label>
+
+                <p-select
+                    [options]="arquivos"
+                    optionLabel="file"
+                    [(ngModel)]="arquivoSelecionado"
+                    placeholder="Selecione um log"
+                    class="w-full"
+                    (onChange)="onSelecionarArquivo()"
+                >
+                    <ng-template #selectedItem let-selectedOption>
+                        <div class="flex justify-between w-full">
+                            <span>{{ selectedOption.file }}</span>
+                            <!--                            <span class="text-xs text-gray-500">{{ selectedOption.size_kb }} KB</span>-->
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="item" let-item>
+                        <div class="flex justify-between w-full">
+                            <span>{{ item.file }}</span>
+                            <span class="text-xs text-gray-500">{{ item.size_kb }} KB</span>
+                        </div>
+                    </ng-template>
+                </p-select>
+            </div>
+
+            <!-- TreeTable -->
+            <p-treeTable
+                [value]="treeNodes"
+                [loading]="loading"
+                tableStyleClass="w-full"
+                class="shadow rounded-lg p-treetable-sm"
+                showGridlines
+            >
+                <ng-template #header>
+                    <tr>
+                        <th>Data / Hora</th>
+                        <th>Nível</th>
+                        <th>Ambiente</th>
+                        <th style="width: 128px">Mensagem</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template #body let-rowNode let-rowData="rowData">
+                    <tr
+                        [ttRow]="rowNode"
+                        class="border-b border-[#e2e8f0] dark:border-[#27272a]"
+                    >
+                        <td>
+                            @if (rowNode.children?.length) {
+                                <p-treeTableToggler [rowNode]="rowNode" />
+                            }
+                            {{ rowData.timestamp }}
+                        </td>
+                        <td>
+                            <span
+                                class="px-2 py-1 rounded text-xs font-medium"
+                                [ngClass]="{
+                                    'bg-red-100 text-red-700': rowData.level === 'error',
+                                    'bg-yellow-100 text-yellow-700': rowData.level === 'warning',
+                                    'bg-blue-100 text-blue-700': rowData.level === 'info'
+                                }"
+                            >
+                                {{ rowData.level | titlecase }}
+                            </span>
+                        </td>
+                        <td class="capitalize">{{ rowData.environment }}</td>
+                        <td>
+                            <p-button
+                                icon="pi pi-eye"
+                                label="Detalhar"
+                                severity="secondary"
+                                size="small"
+                                (click)="abrirDialog(rowData._original)"
+                            />
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr class="border-b border-[#e2e8f0] dark:border-[#27272a]">
+                        <td colspan="4">
+                            <p class="text-center py-6 text-gray-400">Nenhum log para exibir</p>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-treeTable>
+        </div>
+    </p-card>
+</div>
+
+<p-dialog
+    header="Detalhes do Log"
+    [(visible)]="dialogVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [maximizable]="false"
+    appendTo="body"
+>
+
+    @if (logSelecionado) {
+        <div class="space-y-3 text-sm">
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">
+                    <h6>Data / Hora:</h6>
+                    <p>{{ logSelecionado.timestamp }}</p>
+                </div>
+
+                <div class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">
+                    <h6>Ambiente:</h6>
+                    <p class="capitalize">{{ logSelecionado.environment }}</p>
+                </div>
+
+                <div class="text-surface-900 dark:text-surface-0 font-medium mr-2 mb-1 md:mb-0">
+                    <h6>Nível:</h6>
+                    <p
+                        class="uppercase font-medium"
+                        [ngClass]="{
+                            'text-red-700': logSelecionado.level === 'error',
+                            'text-yellow-700': logSelecionado.level === 'warning',
+                            'text-blue-700': logSelecionado.level === 'info'
+                        }"
+                    >{{ logSelecionado.level }}</p>
+                </div>
+            </div>
+
+            <div>
+                <strong>Mensagem:</strong>
+                <p>
+                    {{ logSelecionado.message|json }}
+                </p>
+            </div>
+
+            @if (logSelecionado.body !== null) {
+                <div>
+                    <strong>Corpo:</strong>
+                    <pre
+                        class="
+                        mt-2 p-3 bg-gray-100 dark:bg-[#27272a] border-l-5 border-[#ccc] rounded text-xs
+                        whitespace-pre-wrap break-words
+                        max-h-[40vh] overflow-auto
+                        "
+                    >
+                        <code class="language-json">{{ logSelecionado.body|json }}</code>
+                    </pre>
+                </div>
+            }
+
+        </div>
+    }
+</p-dialog>

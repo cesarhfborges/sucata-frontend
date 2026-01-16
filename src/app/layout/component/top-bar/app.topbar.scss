@@ -4,12 +4,9 @@
             top: 52px!important;
             right: 29px;
             inset-inline-start: unset !important;
+            max-width: calc(100% - 58px);
         }
     }
-}
-
-.custom-menu {
-    right: 200px;
 }
 
 .menu-item {

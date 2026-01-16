@@ -31,7 +31,7 @@ export class MateriaisEditar implements OnInit {
     this.form = this._fb.group({
       codigo: new FormControl<string | null>(null, [Validators.required]),
       descricao: new FormControl<string | null>(null, [Validators.required]),
-      un: new FormControl<string | null>(null, [Validators.required])
+      un: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1), Validators.maxLength(3)])
     });
   }
 

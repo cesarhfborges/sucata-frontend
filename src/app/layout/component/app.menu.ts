@@ -77,6 +77,10 @@ export class AppMenu {
                 routerLink: ['/uikit/formlayout']
               }
             ]
+          },
+          {
+            label: '',
+            items: [{ label: 'Logs', icon: 'pi pi-fw pi-list', routerLink: ['/logs'] }]
           }
           // {
           //     label: 'UI Components',

@@ -6,8 +6,6 @@ import { Paginated } from '@/core/interfaces/paginated';
 import { HttpParams } from '@angular/common/http';
 import { UrlParams } from '@/core/interfaces/url-params';
 
-
-
 @Injectable({
   providedIn: 'root'
 })

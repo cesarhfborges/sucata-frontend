@@ -17,7 +17,7 @@
     <p-table
         #dt2
         [value]="clientes"
-        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [tableStyle]="{ 'max-width': '100%' }"
         [loading]="loading"
 
         [lazy]="true"
@@ -33,7 +33,7 @@
         [sortOrder]="tableConfig.sort.order"
 
         responsiveLayout="stack"
-        breakpoint="640px"
+        breakpoint="767px"
 
         stripedRows
     >
@@ -88,10 +88,20 @@
         </ng-template>
         <ng-template #body let-value>
             <tr>
-                <td>{{ value.id }}</td>
-                <td>{{ value.nome_razaosocial }}</td>
-                <td>{{ value.sobrenome_nomefantasia }}</td>
                 <td>
+                    <span class="p-column-title sm:block md:hidden">ID:</span>
+                    {{ value.id }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Nome/Razão social:</span>
+                    {{ value.nome_razaosocial }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Sobrenome/Nome Fantasia:</span>
+                    {{ value.sobrenome_nomefantasia }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">CPF/CNPJ:</span>
                     {{
                         value.cpf_cnpj
                             | mask : (value.cpf_cnpj?.length === 11
@@ -100,6 +110,7 @@
                     }}
                 </td>
                 <td>
+                    <span class="p-column-title sm:block md:hidden">Ações:</span>
                     <p-buttonGroup>
                         <p-button
                             label="Editar"

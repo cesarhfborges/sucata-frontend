@@ -15,13 +15,16 @@
 
     <p-table
         [value]="empresas"
-        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [tableStyle]="{ 'max-width': '100%' }"
         [loading]="loading"
         [paginator]="true"
         [rows]="tableConfig.pagination.rows"
         [sortField]="tableConfig.sort.field"
         [sortOrder]="tableConfig.sort.order"
         [rowsPerPageOptions]="tableConfig.pagination.options"
+        responsiveLayout="stack"
+        breakpoint="767px"
+
         stripedRows
     >
         <ng-template #header>
@@ -51,11 +54,24 @@
         </ng-template>
         <ng-template #body let-value>
             <tr>
-                <td>{{ value.id }}</td>
-                <td>{{ value.razao_social }}</td>
-                <td>{{ value.nome_fantasia }}</td>
-                <td>{{ value.cnpj | mask : '00.000.000/0000-00' }}</td>
                 <td>
+                    <span class="p-column-title sm:block md:hidden">ID:</span>
+                    {{ value.id }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Razão social:</span>
+                    {{ value.razao_social }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Nome fantasia:</span>
+                    {{ value.nome_fantasia }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">CNPJ:</span>
+                    {{ value.cnpj | mask : '00.000.000/0000-00' }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Ações:</span>
                     <p-buttonGroup>
                         <p-button
                             label="Editar"

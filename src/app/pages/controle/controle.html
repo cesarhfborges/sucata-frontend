@@ -18,7 +18,7 @@
                         placeholder="Selecione as empresas"
                         [showClear]="true"
                         display="chip"
-                        class="w-full"
+                        class="w-full custom-tag"
                         size="large"
                         [maxSelectedLabels]="99"
                     >
@@ -83,7 +83,7 @@
                             <div
                                 class="w-full grid grid-cols-[170px_1fr] gap-3 items-center"
                             >
-                                <div class="font-mono whitespace-nowrap hidden md:block">
+                                <div class="font-mono whitespace-nowrap hidden md:block border-r-1 border-[--p-primary-700]">
                                     {{
                                         selectedOption.cpf_cnpj | mask : (
                                             selectedOption.cpf_cnpj?.length === 11
@@ -131,7 +131,7 @@
                             <div
                                 class="w-full grid grid-cols-[170px_1fr] gap-3 items-center"
                             >
-                                <div class="font-mono whitespace-nowrap hidden xs:block sm:block">
+                                <div class="font-mono whitespace-nowrap hidden xs:block sm:block border-r-1 border-[--p-primary-700]">
                                     {{
                                         cliente.cpf_cnpj | mask : (
                                             cliente.cpf_cnpj?.length === 11

@@ -1,5 +1,6 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Usuario } from '@/core/models/usuario';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class SessionService {
 
   private _perfil = signal<Usuario | null>(null);
   public perfil = this._perfil.asReadonly();
+
+  private readonly _router = inject(Router);
 
   constructor() {
     effect(() => {
@@ -39,7 +42,8 @@ export class SessionService {
     this._token.set(null);
     this._perfil.set(null);
     queueMicrotask(() => {
-      window.location.href = '/login';
+      // window.location.href = '/login';
+      void this._router.navigate(['/login']);
     });
   }
 }

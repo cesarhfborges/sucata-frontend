@@ -16,7 +16,7 @@
     <p-table
         #dt2
         [value]="lista"
-        [tableStyle]="{ 'min-width': '50rem', 'max-width': '100%' }"
+        [tableStyle]="{ 'max-width': '100%' }"
         [loading]="loading"
 
         [lazy]="true"
@@ -32,7 +32,7 @@
         [sortOrder]="tableConfig.sort.order"
 
         responsiveLayout="stack"
-        breakpoint="640px"
+        breakpoint="767px"
 
         stripedRows
     >
@@ -70,7 +70,7 @@
                 </th>
                 <th pSortableColumn="descricao">
                     <div class="flex justify-between">
-                        Descricao
+                        Descrição
                         <p-sortIcon field="descricao" />
                     </div>
                 </th>
@@ -83,10 +83,20 @@
         </ng-template>
         <ng-template #body let-value>
             <tr>
-                <td>{{ value.codigo }}</td>
-                <td>{{ value.descricao }}</td>
-                <td>{{ value.un }}</td>
                 <td>
+                    <span class="p-column-title sm:block md:hidden">ID:</span>
+                    {{ value.codigo }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Descrição:</span>
+                    {{ value.descricao }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Un. medida:</span>
+                    {{ value.un }}
+                </td>
+                <td>
+                    <span class="p-column-title sm:block md:hidden">Ações:</span>
                     <p-buttonGroup>
                         <p-button
                             label="Editar"
