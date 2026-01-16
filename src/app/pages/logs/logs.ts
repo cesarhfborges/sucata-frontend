@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { TreeTableModule } from 'primeng/treetable';
-import { JsonPipe, NgClass, TitleCasePipe } from '@angular/common';
+import { JsonPipe, TitleCasePipe } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Card } from 'primeng/card';
 import { LogEntry, LogFile, LogsService } from '@/core/services/logs.service';
