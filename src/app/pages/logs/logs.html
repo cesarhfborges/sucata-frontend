@@ -4,29 +4,41 @@
 
             <!-- Seletor de arquivo -->
             <div class="max-w-md">
-                <label class="block text-sm font-medium mb-1">Arquivo de log</label>
+                <div class="flex gap-2 items-end">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium mb-1">Arquivo de log</label>
 
-                <p-select
-                    [options]="arquivos"
-                    optionLabel="file"
-                    [(ngModel)]="arquivoSelecionado"
-                    placeholder="Selecione um log"
-                    class="w-full"
-                    (onChange)="onSelecionarArquivo()"
-                >
-                    <ng-template #selectedItem let-selectedOption>
-                        <div class="flex justify-between w-full">
-                            <span>{{ selectedOption.file }}</span>
-                            <!--                            <span class="text-xs text-gray-500">{{ selectedOption.size_kb }} KB</span>-->
-                        </div>
-                    </ng-template>
-                    <ng-template pTemplate="item" let-item>
-                        <div class="flex justify-between w-full">
-                            <span>{{ item.file }}</span>
-                            <span class="text-xs text-gray-500">{{ item.size_kb }} KB</span>
-                        </div>
-                    </ng-template>
-                </p-select>
+                        <p-select
+                            [options]="arquivos"
+                            optionLabel="file"
+                            [(ngModel)]="arquivoSelecionado"
+                            placeholder="Selecione um log"
+                            class="w-full"
+                            (onChange)="limpar()"
+                        >
+                            <ng-template #selectedItem let-selectedOption>
+                                <div class="flex justify-between w-full">
+                                    <span>{{ selectedOption.file }}</span>
+                                </div>
+                            </ng-template>
+
+                            <ng-template pTemplate="item" let-item>
+                                <div class="flex justify-between w-full">
+                                    <span>{{ item.file }}</span>
+                                    <span class="text-xs text-gray-500">{{ item.size_kb }} KB</span>
+                                </div>
+                            </ng-template>
+                        </p-select>
+                    </div>
+
+                    <p-button
+                        label="Carregar"
+                        icon="pi pi-refresh"
+                        severity="primary"
+                        [disabled]="!arquivoSelecionado || loading"
+                        (click)="onSelecionarArquivo()"
+                    />
+                </div>
             </div>
 
             <!-- TreeTable -->

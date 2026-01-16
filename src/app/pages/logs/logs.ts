@@ -60,6 +60,10 @@ export class Logs implements OnInit {
     });
   }
 
+  protected limpar() {
+    this.treeNodes = [];
+  }
+
   private mapearParaTreeTable(entries: LogEntry[]): TreeNode[] {
     return entries.map((entry, index) => ({
       key: index.toString(),
