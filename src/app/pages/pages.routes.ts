@@ -6,7 +6,7 @@ import { EmpresasEditar, EmpresasListar } from '@/pages/empresas';
 import { ClientesEditar, ClientesListar } from '@/pages/clientes';
 import { Controle } from '@/pages/controle/controle';
 import { MateriaisEditar, MateriaisListar } from '@/pages/materiais';
-import { RelatorioClientes, RelatorioEmpresas } from '@/pages/relatorios';
+import { RelatorioClientes } from '@/pages/relatorios';
 import { Logs } from '@/pages/logs/logs';
 
 export default [
@@ -47,8 +47,7 @@ export default [
   {
     path: 'relatorio',
     children: [
-      { path: 'clientes', component: RelatorioClientes },
-      { path: 'empresas', component: RelatorioEmpresas }
+      { path: 'clientes', component: RelatorioClientes }
     ]
   },
   { path: 'logs', component: Logs }

@@ -3,15 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { TreeTableModule } from 'primeng/treetable';
-import { JsonPipe, NgClass, TitleCasePipe } from '@angular/common';
+import { JsonPipe, TitleCasePipe } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { Card } from 'primeng/card';
 import { LogEntry, LogFile, LogsService } from '@/core/services/logs.service';
 import { TreeNode } from 'primeng/api';
+import { TagModule } from 'primeng/tag';
+import { HighlightModule } from 'ngx-highlightjs';
+import { FieldsetModule } from 'primeng/fieldset';
+import { PanelModule } from 'primeng/panel';
 
 @Component({
   selector: 'app-logs',
-  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, NgClass, DialogModule, JsonPipe, Card, TitleCasePipe],
+  imports: [FormsModule, SelectModule, ButtonModule, TreeTableModule, FieldsetModule, DialogModule, JsonPipe, Card, TitleCasePipe, TagModule, HighlightModule, PanelModule],
   templateUrl: './logs.html',
   styleUrl: './logs.scss'
 })
@@ -58,6 +62,10 @@ export class Logs implements OnInit {
       },
       error: () => (this.loading = false)
     });
+  }
+
+  protected limpar() {
+    this.treeNodes = [];
   }
 
   private mapearParaTreeTable(entries: LogEntry[]): TreeNode[] {

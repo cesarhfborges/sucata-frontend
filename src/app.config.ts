@@ -19,6 +19,7 @@ import * as ptBR from './assets/i18n/pt-BR.json';
 import { AuthService } from '@/core/services/auth-service';
 import { lastValueFrom } from 'rxjs';
 import { hideLoader } from '@/shared/utils/hide-loader';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 
 registerLocaleData(localePT, 'pt-BR');
 
@@ -61,6 +62,9 @@ export const appConfig: ApplicationConfig = {
       translation: ptBR
     }),
     provideEnvironmentNgxMask(),
+    provideHighlightOptions({
+      fullLibraryLoader: () => import('highlight.js')
+    }),
     provideAppInitializer(async () => {
       const auth = inject(AuthService);
       const session = inject(SessionService);
