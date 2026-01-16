@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { ChartModule, UIChart } from 'primeng/chart';
 import { SkeletonModule } from 'primeng/skeleton';
 import { lastValueFrom } from 'rxjs';
+import { ChartData, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-home',
@@ -41,8 +42,8 @@ export class Home implements OnInit {
   /** LINHA 3 — MATERIAIS COM MAIOR DÉBITO */
   materiaisDebitoChart: any;
   /** LINHA 4 — CLIENTES COM MAIOR PENDÊNCIA */
-  clientesPendenciaChart: any;
-  clientesPendenciaOptions: any;
+  clientesPendenciaChart!: ChartData;
+  clientesPendenciaOptions!: ChartOptions;
   /** LINHA 5 — ÚLTIMAS MOVIMENTAÇÕES */
   ultimasMovimentacoes: UltimaMovimentacao[] = [];
 
@@ -171,12 +172,16 @@ export class Home implements OnInit {
           {
             label: 'Saldo Devedor',
             data: grafico.values,
-            backgroundColor: '#3b82f6'
+            backgroundColor: 'rgba(0,119,255,0.3)',
+            borderColor: 'rgba(0,119,255,1)',
+            borderWidth: 1
           }
         ]
       };
 
       this.clientesPendenciaOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
         indexAxis: 'x',
         plugins: {
           legend: { display: false },
@@ -189,7 +194,7 @@ export class Home implements OnInit {
         },
         scales: {
           x: { display: false },
-          y: { beginAtZero: true, ticks: { precision: 0 } }
+          y: { beginAtZero: true, ticks: { precision: 0 }, max: Math.ceil(Math.max(...grafico.values) * 1.1) }
         }
       };
     } finally {
@@ -241,7 +246,7 @@ export class Home implements OnInit {
           legend: { display: false }
         },
         scales: {
-          y: { beginAtZero: true, ticks: { precision: 0 } }
+          y: { beginAtZero: true, ticks: { precision: 0 }, max: Math.ceil(Math.max(...grafico.values) * 1.30) }
         }
       };
     } finally {

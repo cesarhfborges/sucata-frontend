@@ -24,6 +24,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { OnClickClear } from '@/shared/directives/on-click-clear';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-controle',
@@ -44,7 +45,8 @@ import { OnClickClear } from '@/shared/directives/on-click-clear';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    OnClickClear
+    OnClickClear,
+    TagModule
   ],
   templateUrl: './controle.html',
   styleUrl: './controle.scss'
