@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { SessionService } from '@/core/services/session-service';
 
@@ -11,7 +11,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((e: HttpErrorResponse) => {
       if (sessionService.hasActiveSession() && e.status === 401) {
-
         messageService.add({
           severity: 'error',
           summary: 'Atenção',
