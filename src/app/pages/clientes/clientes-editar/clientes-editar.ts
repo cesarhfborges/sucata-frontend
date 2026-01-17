@@ -12,6 +12,9 @@ import { MessageService } from 'primeng/api';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { listaUF } from '@/core/enums/uf';
 import { NgxMaskDirective } from 'ngx-mask';
+import { DatePipe } from '@angular/common';
+import { Message } from 'primeng/message';
+import { Cliente } from '@/core/models/cliente';
 
 @Component({
   selector: 'app-clientes-editar',
@@ -28,7 +31,9 @@ import { NgxMaskDirective } from 'ngx-mask';
     ValidatorMessage,
     NgxLoaderIndicatorDirective,
     RouterModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    DatePipe,
+    Message
   ],
   templateUrl: './clientes-editar.html',
   styleUrl: './clientes-editar.scss'
@@ -36,6 +41,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class ClientesEditar implements OnInit {
   loading: boolean = false;
   clienteId: number | null = null;
+  cliente: Cliente | undefined;
 
   form: FormGroup;
 
@@ -76,6 +82,7 @@ export class ClientesEditar implements OnInit {
       this._clienteService.get(this.clienteId).subscribe({
         next: (res) => {
           console.log(res);
+          this.cliente = res;
           this.form.patchValue(res);
           this.loading = false;
         },
@@ -94,6 +101,7 @@ export class ClientesEditar implements OnInit {
         this._clienteService.atualizar(this.clienteId, this.form.value).subscribe({
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
+            this.cliente = res;
             this.form.patchValue(res);
           },
           error: (err) => {
@@ -105,6 +113,7 @@ export class ClientesEditar implements OnInit {
           next: (res) => {
             this.form.patchValue(res);
             this.clienteId = res.id!;
+            this.cliente = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro efetuado.', life: 3000 });
             void this._router.navigate(['/empresas', res.id], { replaceUrl: true });
           },

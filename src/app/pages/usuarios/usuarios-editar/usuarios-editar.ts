@@ -16,6 +16,8 @@ import { InputIcon } from 'primeng/inputicon';
 import { CustomValidator } from '@/shared/components/custom-validator';
 import { Message } from 'primeng/message';
 import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
+import { Usuario } from '@/core/models/usuario';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios-editar',
@@ -34,7 +36,8 @@ import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
     DividerModule,
     IconField,
     InputIcon,
-    Message
+    Message,
+    DatePipe
   ],
   templateUrl: './usuarios-editar.html',
   styleUrl: './usuarios-editar.scss'
@@ -42,6 +45,7 @@ import { findInvalidControls } from '@/shared/utils/find-invalid-controls';
 export class UsuariosEditar implements OnInit {
   loading = false;
   usuarioId: number | undefined;
+  usuario: Usuario | undefined;
   form: FormGroup;
 
   private readonly _fb = inject(FormBuilder);
@@ -80,6 +84,7 @@ export class UsuariosEditar implements OnInit {
       this._usuariosService.get(this.usuarioId).subscribe({
         next: (res) => {
           console.log(res);
+          this.usuario = res;
           this.form.patchValue(res);
           this.loading = false;
         },
@@ -113,6 +118,7 @@ export class UsuariosEditar implements OnInit {
           next: (res) => {
             console.log('atualizar', res);
             this.form.patchValue(res);
+            this.usuario = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuario atualizado com sucesso.', life: 3000 });
           },
           error: (err) => {
@@ -124,6 +130,7 @@ export class UsuariosEditar implements OnInit {
           next: (res) => {
             console.log('atualizar', res);
             this.usuarioId = res.id;
+            this.usuario = res;
             this.form.patchValue(res);
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuario cadastrado com sucesso.', life: 3000 });
             void this._router.navigate(['/usuarios', res.id]);

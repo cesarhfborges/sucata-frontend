@@ -14,15 +14,30 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { Cliente } from '@/core/models/cliente';
 import { NotaFiscalService } from '@/core/services/nota-fiscal-service';
 import { format, parse } from 'date-fns';
+import { DatePipe } from '@angular/common';
+import { NotaFiscal } from '@/core/models/nota-fiscal';
 
 @Component({
   selector: 'app-cadastro-nota-fiscal',
-  imports: [SelectModule, ReactiveFormsModule, FormsModule, InputTextModule, DatePickerModule, MessageModule, RippleModule, ButtonModule, ValidatorMessage, InputNumberModule],
+  imports: [
+    SelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    InputTextModule,
+    DatePickerModule,
+    MessageModule,
+    RippleModule,
+    ButtonModule,
+    ValidatorMessage,
+    InputNumberModule,
+    DatePipe
+  ],
   providers: [DialogService],
   templateUrl: './cadastro-nota-fiscal.html',
   styleUrl: './cadastro-nota-fiscal.scss'
 })
 export class CadastroNotaFiscal implements OnInit {
+  notaFiscal: NotaFiscal | undefined;
   form: FormGroup;
   listaEmpresas: Empresa[] = [];
   public submitted: boolean = false;
@@ -46,6 +61,7 @@ export class CadastroNotaFiscal implements OnInit {
       emissao: new FormControl<string | null>(null, [Validators.required])
     });
     if (this._config.data.notaFiscal) {
+      this.notaFiscal = this._config.data.notaFiscal;
       this.form.patchValue({
         empresa_id: this._config.data.notaFiscal.empresa_id,
         nota_fiscal: this._config.data.notaFiscal.nota_fiscal,
@@ -77,6 +93,7 @@ export class CadastroNotaFiscal implements OnInit {
         this._notaFiscalService.atualizar(this._config.data.notaFiscal.id, dados).subscribe({
           next: (data) => {
             console.log(data);
+            this.notaFiscal = data;
             this._ref.close(data);
           },
           error: (error) => {
@@ -87,6 +104,7 @@ export class CadastroNotaFiscal implements OnInit {
         this._notaFiscalService.cadastrar(dados).subscribe({
           next: (data) => {
             console.log(data);
+            this.notaFiscal = data;
             this._ref.close(data);
           },
           error: (error) => {

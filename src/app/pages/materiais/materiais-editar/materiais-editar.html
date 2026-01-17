@@ -49,4 +49,43 @@
             </div>
         </form>
     </p-card>
+    @if (material) {
+        <div class="col-span-12 mt-6">
+            <p-message severity="secondary" class="block">
+                <div class="grid grid-cols-1 gap-4 text-sm">
+
+                    <!-- Cadastro -->
+                    <div>
+                        <p class="font-semibold mb-1">Cadastro:</p>
+                        <div class="grid grid-cols-1">
+                            <p>
+                                <span class="font-medium">Usuário:</span>
+                                {{ material?.criado_por?.nome }}
+                            </p>
+                            <p>
+                                <span class="font-medium">Data:</span>
+                                {{ material?.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Atualização -->
+                    <div>
+                        <p class="font-semibold mb-1">Atualização:</p>
+                        <div class="grid grid-cols-1">
+                            <p>
+                                <span class="font-medium">Usuário:</span>
+                                {{ material?.atualizado_por?.nome }}
+                            </p>
+                            <p>
+                                <span class="font-medium">Data:</span>
+                                {{ material?.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </p-message>
+        </div>
+    }
 </div>

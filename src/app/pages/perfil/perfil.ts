@@ -18,6 +18,7 @@ import { MessageModule } from 'primeng/message';
 import { DividerModule } from 'primeng/divider';
 import { AuthService } from '@/core/services/auth-service';
 import { MessageService } from 'primeng/api';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
@@ -34,7 +35,8 @@ import { MessageService } from 'primeng/api';
     PasswordModule,
     TooltipModule,
     MessageModule,
-    DividerModule
+    DividerModule,
+    DatePipe
   ],
   templateUrl: './perfil.html',
   styleUrl: './perfil.scss'

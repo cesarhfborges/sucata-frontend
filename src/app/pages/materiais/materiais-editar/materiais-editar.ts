@@ -9,16 +9,20 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { MateriaisService } from '@/core/services/materiais-service';
 import { MessageService } from 'primeng/api';
+import { DatePipe } from '@angular/common';
+import { Message } from 'primeng/message';
+import { Material } from '@/core/models/material';
 
 @Component({
   selector: 'app-materiais-editar',
-  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule],
+  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, DatePipe, Message],
   templateUrl: './materiais-editar.html',
   styleUrl: './materiais-editar.scss'
 })
 export class MateriaisEditar implements OnInit {
   loading = false;
   materialId: string | null = null;
+  material: Material | undefined;
   form: FormGroup;
 
   private readonly _fb = inject(FormBuilder);
@@ -43,6 +47,7 @@ export class MateriaisEditar implements OnInit {
       this._materiaisService.get(this.materialId).subscribe({
         next: (res) => {
           console.log(res);
+          this.material = res;
           this.form.patchValue(res);
           this.loading = false;
         },
@@ -61,6 +66,7 @@ export class MateriaisEditar implements OnInit {
         this._materiaisService.atualizar(this.materialId, this.form.value).subscribe({
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
+            this.material = res;
             this.form.patchValue(res);
           },
           error: (err) => {
@@ -72,6 +78,7 @@ export class MateriaisEditar implements OnInit {
           next: (res) => {
             this.form.patchValue(res);
             this.materialId = res.codigo!;
+            this.material = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro efetuado.', life: 3000 });
             void this._router.navigate(['/materiais', res.codigo], { replaceUrl: true });
           },

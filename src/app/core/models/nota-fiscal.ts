@@ -1,3 +1,5 @@
+import { Usuario } from '@/core/models/usuario';
+
 export interface NotaFiscal {
   id?: number;
   empresa_id: number;
@@ -6,6 +8,10 @@ export interface NotaFiscal {
   serie: number;
   emissao: Date;
   pendente?: boolean;
-  created_at: Date;
-  updated_at: Date;
+
+  created_at?: Date;
+  updated_at?: Date;
+
+  criado_por?: Usuario;
+  atualizado_por?: Usuario;
 }
