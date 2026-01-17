@@ -33,7 +33,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (e.error.messages) {
         const errors: string[] = Object.values(e.error.messages);
-        console.info(errors);
         messageService.add({
           severity: 'error',
           summary: 'Atenção',

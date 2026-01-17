@@ -81,14 +81,12 @@ export class ClientesEditar implements OnInit {
       this.loading = true;
       this._clienteService.get(this.clienteId).subscribe({
         next: (res) => {
-          console.log(res);
           this.cliente = res;
           this.form.patchValue(res);
           this.loading = false;
         },
-        error: (err) => {
+        error: () => {
           this.loading = false;
-          console.error(err);
         }
       });
     }
@@ -115,7 +113,7 @@ export class ClientesEditar implements OnInit {
             this.clienteId = res.id!;
             this.cliente = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro efetuado.', life: 3000 });
-            void this._router.navigate(['/empresas', res.id], { replaceUrl: true });
+            void this._router.navigate(['/clientes', res.id], { replaceUrl: true });
           },
           error: (err) => {
             console.error(err);

@@ -22,7 +22,6 @@ export class AuthService extends HttpService {
   public getPerfil(): Observable<Usuario> {
     return this._http.get<Usuario>(`${this.URL}/api/perfil`).pipe(
       tap((value) => {
-        console.log('perfil: ', value);
         this._sessionService.updatePerfil(value);
       })
     );

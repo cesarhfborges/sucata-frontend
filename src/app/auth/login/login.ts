@@ -61,7 +61,6 @@ export class Login implements OnInit {
         remember: true
       });
     }
-    console.log(`production: ${this.isProduction}`);
   }
 
   protected onSubmit(): void {
@@ -76,13 +75,11 @@ export class Login implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this._messageService.add({ severity: 'error', summary: 'Atenção', detail: 'Verifique suas credenciais e tente novamente.', life: 3000 });
           this.form.get('password')?.reset();
-          console.error(error);
         }
       });
     } else {
-      console.error('Invalid');
+      this._messageService.add({ severity: 'error', summary: 'Atenção', detail: 'Existem campos invalidos ou em branco.', life: 3000 });
     }
   }
 }
