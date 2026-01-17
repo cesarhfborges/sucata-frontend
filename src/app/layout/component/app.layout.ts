@@ -4,7 +4,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { AppTopbar } from './top-bar/app.topbar';
 import { AppSidebar } from './app.sidebar';
-import { AppFooter } from './app.footer';
+import { AppFooter } from './app-footer/app.footer';
 import { LayoutService } from '../service/layout.service';
 
 @Component({
