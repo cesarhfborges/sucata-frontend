@@ -87,19 +87,18 @@
         </form>
     </p-card>
     @if (perfil) {
-        <div class="col-span-12 mt-6">
-            <p-message severity="secondary" class="block">
-                <div class="grid grid-cols-1 gap-4 text-sm">
-
+        <div class="grid grid-cols-1 md:grid-cols-6">
+            <div class="col-span-6 col-start-0 lg:col-start-2 lg:col-span-4 mt-6 rounded-[4px] border border-gray-300 dark:border-gray-700 p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 text-sm w-full">
                     <!-- Cadastro -->
-                    <div>
-                        <p class="font-semibold mb-1">Cadastro:</p>
+                    <div class="w-full md:pr-6 md:border-r md:border-gray-300 dark:border-gray-700 ">
+                        <p class="font-semibold mb-2">Cadastro:</p>
                         <div class="grid grid-cols-1">
-                            <p>
+                            <p class="mb-0">
                                 <span class="font-medium">Usuário:</span>
                                 {{ perfil.criado_por?.nome }}
                             </p>
-                            <p>
+                            <p class="mb-0">
                                 <span class="font-medium">Data:</span>
                                 {{ perfil.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                             </p>
@@ -107,22 +106,22 @@
                     </div>
 
                     <!-- Atualização -->
-                    <div>
-                        <p class="font-semibold mb-1">Atualização:</p>
+                    <div class="w-full md:pl-6 mt-4 md:mt-0">
+                        <p class="font-semibold mb-0">Atualização:</p>
+
                         <div class="grid grid-cols-1">
-                            <p>
+                            <p class="mb-0">
                                 <span class="font-medium">Usuário:</span>
                                 {{ perfil.atualizado_por?.nome }}
                             </p>
-                            <p>
+                            <p class="mb-0">
                                 <span class="font-medium">Data:</span>
                                 {{ perfil.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                             </p>
                         </div>
                     </div>
-
                 </div>
-            </p-message>
+            </div>
         </div>
     }
 </div>
