@@ -108,7 +108,8 @@
             <p-table [value]="ultimasMovimentacoes" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>ID</th>
+                        <th>Nota fiscal</th>
+                        <th>Serie</th>
                         <th>Material</th>
                         <th>Faturado</th>
                         <th>Saldo Devedor</th>
@@ -118,7 +119,8 @@
 
                 <ng-template pTemplate="body" let-mov>
                     <tr>
-                        <td>{{ mov.id }}</td>
+                        <td>{{ mov.nota_fiscal }}</td>
+                        <td>{{ mov.serie }}</td>
                         <td>{{ mov.material_id }}</td>
                         <td>{{ mov.faturado }}</td>
                         <td>{{ mov.saldo_devedor }}</td>
