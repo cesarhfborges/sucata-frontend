@@ -76,11 +76,13 @@ export const appConfig: ApplicationConfig = {
         darkTheme: isDarkMode()
       }));
 
-      try {
-        await lastValueFrom(auth.getPerfil());
-      } catch (error) {
-        session.clearSession();
-        await router.navigate(['/login']);
+      if (session.hasActiveSession()) {
+        try {
+          await lastValueFrom(auth.getPerfil());
+        } catch (error) {
+          session.clearSession();
+          await router.navigate(['/login']);
+        }
       }
       hideLoader();
       return Promise.resolve();
