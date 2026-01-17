@@ -206,11 +206,11 @@
                     <div class="grid grid-cols-1">
                         <p>
                             <span class="font-medium">Usuário:</span>
-                            {{ notaFiscalItem?.criado_por?.nome }}
+                            {{ notaFiscalItem.criado_por?.nome }}
                         </p>
                         <p>
                             <span class="font-medium">Data:</span>
-                            {{ notaFiscalItem?.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            {{ notaFiscalItem.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                         </p>
                     </div>
                 </div>
@@ -221,11 +221,11 @@
                     <div class="grid grid-cols-1">
                         <p>
                             <span class="font-medium">Usuário:</span>
-                            {{ notaFiscalItem?.atualizado_por?.nome }}
+                            {{ notaFiscalItem.atualizado_por?.nome }}
                         </p>
                         <p>
                             <span class="font-medium">Data:</span>
-                            {{ notaFiscalItem?.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            {{ notaFiscalItem.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                         </p>
                     </div>
                 </div>

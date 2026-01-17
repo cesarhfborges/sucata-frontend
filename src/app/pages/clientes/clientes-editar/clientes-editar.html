@@ -153,11 +153,11 @@
                         <div class="grid grid-cols-1">
                             <p>
                                 <span class="font-medium">Usuário:</span>
-                                {{ cliente?.criado_por?.nome }}
+                                {{ cliente.criado_por?.nome }}
                             </p>
                             <p>
                                 <span class="font-medium">Data:</span>
-                                {{ cliente?.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                                {{ cliente.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                             </p>
                         </div>
                     </div>
@@ -168,11 +168,11 @@
                         <div class="grid grid-cols-1">
                             <p>
                                 <span class="font-medium">Usuário:</span>
-                                {{ cliente?.atualizado_por?.nome }}
+                                {{ cliente.atualizado_por?.nome }}
                             </p>
                             <p>
                                 <span class="font-medium">Data:</span>
-                                {{ cliente?.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                                {{ cliente.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
                             </p>
                         </div>
                     </div>
