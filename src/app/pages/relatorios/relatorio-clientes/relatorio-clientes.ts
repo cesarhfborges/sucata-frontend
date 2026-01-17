@@ -24,6 +24,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RelatorioService } from '@/core/services/relatorio-service';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CustomValidator } from '@/shared/components/custom-validator';
 
 @Component({
   selector: 'app-relatorio-clientes',
@@ -101,10 +102,15 @@ export class RelatorioClientes implements OnInit {
       empresas: new FormControl<Empresa[]>([], [Validators.required]),
       cliente_id: new FormControl<Cliente | null>(null, []),
       status: new FormControl<string | null>('TODAS', [Validators.required]),
-      datas: this._fb.group({
-        inicio: new FormControl<Date | null>(subDays(new Date(), 30), []),
-        fim: new FormControl<Date | null>(new Date(), [])
-      })
+      datas: this._fb.group(
+        {
+          inicio: new FormControl<Date | null>(subDays(new Date(), 30), []),
+          fim: new FormControl<Date | null>(new Date(), [])
+        },
+        {
+          validators: [CustomValidator.datasObrigatoriasEmParValidator('inicio', 'fim')]
+        }
+      )
     });
   }
 
