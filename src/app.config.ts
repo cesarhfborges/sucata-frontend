@@ -1,7 +1,7 @@
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, Router, withEnabledBlockingInitialNavigation, withInMemoryScrolling } from '@angular/router';
 import { ApplicationConfig, DEFAULT_CURRENCY_CODE, inject, LOCALE_ID, provideAppInitializer } from '@angular/core';
 import Aura from '@primeuix/themes/aura';
 import { appRoutes } from './app.routes';
@@ -69,6 +69,7 @@ export const appConfig: ApplicationConfig = {
       const auth = inject(AuthService);
       const session = inject(SessionService);
       const layoutService = inject(LayoutService);
+      const router = inject(Router);
 
       layoutService.layoutConfig.update((state) => ({
         ...state,
@@ -76,10 +77,15 @@ export const appConfig: ApplicationConfig = {
       }));
 
       if (session.hasActiveSession()) {
-        await lastValueFrom(auth.getPerfil());
+        try {
+          await lastValueFrom(auth.getPerfil());
+        } catch (error) {
+          session.clearSession();
+          await router.navigate(['/login']);
+        }
       }
       hideLoader();
       return Promise.resolve();
-    })
+    }),
   ]
 };

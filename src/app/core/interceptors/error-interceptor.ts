@@ -11,7 +11,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((e: HttpErrorResponse) => {
       if (sessionService.hasActiveSession() && e.status === 401) {
-
         messageService.add({
           severity: 'error',
           summary: 'Atenção',
@@ -20,6 +19,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         });
 
         sessionService.clearSession();
+        return next(req);
       }
 
       if (e.error.message) {
