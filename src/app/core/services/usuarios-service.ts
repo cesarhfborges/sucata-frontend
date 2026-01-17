@@ -8,7 +8,6 @@ import { Usuario } from '@/core/models/usuario';
 })
 export class UsuariosService extends HttpService {
   public checkEmailAvailability(email: string, id?: number): Observable<boolean> {
-    console.log('Check email availability: ', email, id);
     return this._http
       .post<{ available: boolean }>(`${this.URL}/api/check-email`, {
         email,

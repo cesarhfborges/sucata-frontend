@@ -1,3 +1,5 @@
+import { Usuario } from '@/core/models/usuario';
+
 export interface Empresa {
   id?: number;
   razao_social: string;
@@ -13,6 +15,10 @@ export interface Empresa {
   telefone: string;
   email: string;
   observacoes: string;
+
   created_at?: Date;
   updated_at?: Date;
+
+  criado_por?: Usuario;
+  atualizado_por?: Usuario;
 }

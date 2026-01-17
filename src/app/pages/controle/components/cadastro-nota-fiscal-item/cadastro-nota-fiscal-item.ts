@@ -16,10 +16,12 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { Material } from '@/core/models/material';
 import { ScrollerOptions } from 'primeng/api';
+import { DatePipe } from '@angular/common';
+import { ItemNota } from '@/core/models/item-nota';
 
 @Component({
   selector: 'app-cadastro-nota-fiscal-item',
-  imports: [Button, FormsModule, InputNumber, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage, IconFieldModule, InputIconModule, InputTextModule],
+  imports: [Button, FormsModule, InputNumber, Message, ReactiveFormsModule, Ripple, Select, ValidatorMessage, IconFieldModule, InputIconModule, InputTextModule, DatePipe],
   templateUrl: './cadastro-nota-fiscal-item.html',
   styleUrl: './cadastro-nota-fiscal-item.scss'
 })
@@ -31,6 +33,7 @@ export class CadastroNotaFiscalItem implements OnInit {
     produtos: false
   };
   protected notaFiscal: NotaFiscal;
+  protected notaFiscalItem: ItemNota | undefined;
 
   protected materiaisFiltro = '';
   private materiaisPage = 1;
@@ -66,6 +69,7 @@ export class CadastroNotaFiscalItem implements OnInit {
       }
     );
     if (this._config.data.item) {
+      this.notaFiscalItem = this._config.data.item;
       this.form.patchValue({
         material_id: this._config.data.item.material_id,
         faturado: this._config.data.item.faturado,
@@ -214,7 +218,7 @@ export class CadastroNotaFiscalItem implements OnInit {
       if (this._config.data.item) {
         this._notaItensService.atualizar(this._config.data.notaFiscal.id, this._config.data.item.id, dados).subscribe({
           next: (data) => {
-            console.log(data);
+            this.notaFiscalItem = data;
             this._ref.close(data);
           },
           error: (error) => {
@@ -225,6 +229,7 @@ export class CadastroNotaFiscalItem implements OnInit {
         this._notaItensService.cadastrar(this._config.data.notaFiscal.id, dados).subscribe({
           next: (data) => {
             console.log(data);
+            this.notaFiscalItem = data;
             this._ref.close(data);
           },
           error: (error) => {

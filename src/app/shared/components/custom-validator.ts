@@ -107,4 +107,60 @@ export class CustomValidator {
       return null;
     };
   }
+
+  static datasObrigatoriasEmParValidator(origin: string, target: string): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+      if (!group || !group.get) {
+        return null;
+      }
+
+      const originControl = group.get(origin);
+      const targetControl = group.get(target);
+
+      if (!originControl || !targetControl) {
+        return null;
+      }
+
+      const originValue = originControl.value;
+      const targetValue = targetControl.value;
+
+      const originErrors = originControl.errors ?? {};
+      const targetErrors = targetControl.errors ?? {};
+
+      // origem preenchida e destino vazio → destino obrigatório
+      if (originValue && !targetValue) {
+        if (!targetErrors['required']) {
+          targetControl.setErrors({
+            ...targetErrors,
+            required: true
+          });
+        }
+        return null;
+      }
+
+      // destino preenchido e origem vazio → origem obrigatório
+      if (!originValue && targetValue) {
+        if (!originErrors['required']) {
+          originControl.setErrors({
+            ...originErrors,
+            required: true
+          });
+        }
+        return null;
+      }
+
+      // remove erro required apenas se foi adicionado por esse validador
+      if (originErrors['required'] && !originValue && !targetValue) {
+        delete originErrors['required'];
+        originControl.setErrors(Object.keys(originErrors).length ? originErrors : null);
+      }
+
+      if (targetErrors['required'] && !originValue && !targetValue) {
+        delete targetErrors['required'];
+        targetControl.setErrors(Object.keys(targetErrors).length ? targetErrors : null);
+      }
+
+      return null;
+    };
+  }
 }

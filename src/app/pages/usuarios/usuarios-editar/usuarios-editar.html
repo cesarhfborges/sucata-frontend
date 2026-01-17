@@ -50,7 +50,8 @@
                 <div class="flex flex-col gap-2 col-span-12 mb-6">
                     <p-divider />
                     @if (this.usuarioId) {
-                        <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de Senha e Confirmação em branco.
+                        <p-message severity="info">Atenção: caso não queira alterar a senha, basta deixar os campos de
+                            Senha e Confirmação em branco.
                         </p-message>
                     }
                 </div>
@@ -102,4 +103,43 @@
             </div>
         </form>
     </p-card>
+    @if (usuario) {
+        <div class="col-span-12 mt-6">
+            <p-message severity="secondary" class="block">
+                <div class="grid grid-cols-1 gap-4 text-sm">
+
+                    <!-- Cadastro -->
+                    <div>
+                        <p class="font-semibold mb-1">Cadastro:</p>
+                        <div class="grid grid-cols-1">
+                            <p>
+                                <span class="font-medium">Usuário:</span>
+                                {{ usuario?.criado_por?.nome }}
+                            </p>
+                            <p>
+                                <span class="font-medium">Data:</span>
+                                {{ usuario?.created_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Atualização -->
+                    <div>
+                        <p class="font-semibold mb-1">Atualização:</p>
+                        <div class="grid grid-cols-1">
+                            <p>
+                                <span class="font-medium">Usuário:</span>
+                                {{ usuario?.atualizado_por?.nome }}
+                            </p>
+                            <p>
+                                <span class="font-medium">Data:</span>
+                                {{ usuario?.updated_at | date: "dd/MM/yyyy 'às' HH:mm:ss" }}
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </p-message>
+        </div>
+    }
 </div>

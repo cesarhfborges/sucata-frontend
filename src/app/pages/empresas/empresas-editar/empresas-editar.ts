@@ -13,6 +13,9 @@ import { ValidatorMessage } from '@/shared/components/validator-message/validato
 import { MessageService } from 'primeng/api';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { NgxMaskDirective } from 'ngx-mask';
+import { DatePipe } from '@angular/common';
+import { Message } from 'primeng/message';
+import { Empresa } from '@/core/models/empresa';
 
 @Component({
   selector: 'app-empresas-editar',
@@ -27,7 +30,9 @@ import { NgxMaskDirective } from 'ngx-mask';
     TextareaModule,
     ValidatorMessage,
     NgxLoaderIndicatorDirective,
-    NgxMaskDirective
+    NgxMaskDirective,
+    DatePipe,
+    Message
   ],
   templateUrl: './empresas-editar.html',
   styleUrl: './empresas-editar.scss'
@@ -35,6 +40,7 @@ import { NgxMaskDirective } from 'ngx-mask';
 export class EmpresasEditar implements OnInit {
   loading = false;
   empresaId: number | null = null;
+  empresa: Empresa | undefined;
   form: FormGroup;
 
   listaUF = listaUF;
@@ -74,6 +80,7 @@ export class EmpresasEditar implements OnInit {
       this._empresaService.get(this.empresaId).subscribe({
         next: (res) => {
           console.log(res);
+          this.empresa = res;
           this.form.patchValue(res);
           this.loading = false;
         },
@@ -93,6 +100,7 @@ export class EmpresasEditar implements OnInit {
           next: (res) => {
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Alterações salvas.', life: 3000 });
             this.form.patchValue(res);
+            this.empresa = res;
           },
           error: (err) => {
             console.error(err);
@@ -103,6 +111,7 @@ export class EmpresasEditar implements OnInit {
           next: (res) => {
             this.form.patchValue(res);
             this.empresaId = res.id!;
+            this.empresa = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro efetuado.', life: 3000 });
             void this._router.navigate(['/empresas', res.id], { replaceUrl: true });
           },

@@ -6,6 +6,10 @@ export interface Usuario {
   ativo: boolean;
   avatar?: string;
   ult_acesso: Date | null;
-  created_at: Date;
-  updated_at: Date;
+
+  created_at?: Date;
+  updated_at?: Date;
+
+  criado_por?: Usuario;
+  atualizado_por?: Usuario;
 }

@@ -197,6 +197,7 @@
                         [options]="listaStatus"
                         size="large"
                     ></p-select>
+                    <app-validator-message [control]="form.get('status')" />
                 </div>
 
                 <!-- Datas -->
@@ -211,6 +212,7 @@
                             fluid
                             showIcon
                         ></p-date-picker>
+                        <app-validator-message [control]="form.get('datas')?.get('inicio')" />
                     </div>
 
                     <div class="flex flex-col gap-1">
@@ -223,6 +225,7 @@
                             fluid
                             showIcon
                         ></p-date-picker>
+                        <app-validator-message [control]="form.get('datas')?.get('fim')" />
                     </div>
                 </div>
 

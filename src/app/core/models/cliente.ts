@@ -1,4 +1,5 @@
 import { UF } from '@/core/enums/uf';
+import { Usuario } from '@/core/models/usuario';
 
 export interface Cliente {
   id?: number;
@@ -15,6 +16,10 @@ export interface Cliente {
   telefone: string;
   email: string;
   observacoes: string;
-  updated_at?: Date;
+
   created_at?: Date;
+  updated_at?: Date;
+
+  criado_por?: Usuario;
+  atualizado_por?: Usuario;
 }
