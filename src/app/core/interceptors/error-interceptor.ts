@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { catchError, of, throwError } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { SessionService } from '@/core/services/session-service';
 
@@ -20,6 +20,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         });
 
         sessionService.clearSession();
+        return next(req);
       }
 
       if (e.error.message) {
