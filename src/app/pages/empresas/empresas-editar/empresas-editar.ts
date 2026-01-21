@@ -14,7 +14,6 @@ import { MessageService } from 'primeng/api';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { NgxMaskDirective } from 'ngx-mask';
 import { DatePipe } from '@angular/common';
-import { Message } from 'primeng/message';
 import { Empresa } from '@/core/models/empresa';
 
 @Component({
@@ -31,8 +30,7 @@ import { Empresa } from '@/core/models/empresa';
     ValidatorMessage,
     NgxLoaderIndicatorDirective,
     NgxMaskDirective,
-    DatePipe,
-    Message
+    DatePipe
   ],
   templateUrl: './empresas-editar.html',
   styleUrl: './empresas-editar.scss'

@@ -13,7 +13,6 @@ import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { listaUF } from '@/core/enums/uf';
 import { NgxMaskDirective } from 'ngx-mask';
 import { DatePipe } from '@angular/common';
-import { Message } from 'primeng/message';
 import { Cliente } from '@/core/models/cliente';
 
 @Component({
@@ -32,8 +31,7 @@ import { Cliente } from '@/core/models/cliente';
     NgxLoaderIndicatorDirective,
     RouterModule,
     NgxMaskDirective,
-    DatePipe,
-    Message
+    DatePipe
   ],
   templateUrl: './clientes-editar.html',
   styleUrl: './clientes-editar.scss'

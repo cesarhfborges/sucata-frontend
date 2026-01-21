@@ -10,12 +10,11 @@ import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { MateriaisService } from '@/core/services/materiais-service';
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
-import { Message } from 'primeng/message';
 import { Material } from '@/core/models/material';
 
 @Component({
   selector: 'app-materiais-editar',
-  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, DatePipe, Message],
+  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, DatePipe],
   templateUrl: './materiais-editar.html',
   styleUrl: './materiais-editar.scss'
 })
