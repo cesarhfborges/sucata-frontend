@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Se o nome do arquivo ou diretório solicitado existir, ignore as regras abaixo
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Se a requisição não for para um arquivo ou pasta real, envie para o index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
