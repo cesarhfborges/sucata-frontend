@@ -19,6 +19,7 @@ import { MenuModule } from 'primeng/menu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { RippleModule } from 'primeng/ripple';
 import { BaixaItem } from '@/pages/controle/components/baixa-item/baixa-item';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-itens-nota',
@@ -91,7 +92,9 @@ export class ItensNota implements OnChanges {
         iconClass: 'text-info',
         command: () => {
           console.log('EDITAR CLICK');
-          this.modalNotaFiscal(item);
+          lastValueFrom(this._notaItensService.get(item.nota_fiscal_id, item.id!)).then((value) => {
+            this.modalNotaFiscal(value);
+          });
         }
       },
       {
