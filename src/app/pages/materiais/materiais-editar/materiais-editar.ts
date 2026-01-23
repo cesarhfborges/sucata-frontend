@@ -11,10 +11,11 @@ import { MateriaisService } from '@/core/services/materiais-service';
 import { MessageService } from 'primeng/api';
 import { DatePipe } from '@angular/common';
 import { Material } from '@/core/models/material';
+import { KeyFilter } from 'primeng/keyfilter';
 
 @Component({
   selector: 'app-materiais-editar',
-  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, DatePipe],
+  imports: [ValidatorMessage, RouterModule, NgxLoaderIndicatorDirective, CardModule, ReactiveFormsModule, InputTextModule, ButtonModule, SelectModule, DatePipe, KeyFilter],
   templateUrl: './materiais-editar.html',
   styleUrl: './materiais-editar.scss'
 })
@@ -24,6 +25,8 @@ export class MateriaisEditar implements OnInit {
   material: Material | undefined;
   form: FormGroup;
 
+  blockSpecial: RegExp = /[a-zA-Z0-9-_]/;
+
   private readonly _fb = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
@@ -32,7 +35,7 @@ export class MateriaisEditar implements OnInit {
 
   constructor() {
     this.form = this._fb.group({
-      codigo: new FormControl<string | null>(null, [Validators.required]),
+      codigo: new FormControl<string | null>(null, [Validators.required, Validators.pattern(/^[A-Z0-9-_]*$/)]),
       descricao: new FormControl<string | null>(null, [Validators.required]),
       un: new FormControl<string | null>(null, [Validators.required, Validators.minLength(1), Validators.maxLength(3)])
     });

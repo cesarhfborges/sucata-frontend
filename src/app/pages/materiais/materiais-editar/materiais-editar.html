@@ -10,6 +10,8 @@
                     <input
                         pInputText
                         id="codigo"
+                        [pKeyFilter]="blockSpecial"
+                        (input)="form.get('codigo')?.setValue($any($event.target).value.toUpperCase())"
                         formControlName="codigo"
                     />
                     <app-validator-message [control]="form.get('codigo')" />
