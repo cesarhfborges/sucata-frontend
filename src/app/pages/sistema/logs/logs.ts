@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
@@ -29,14 +29,16 @@ export class Logs implements OnInit {
   dialogVisible = false;
   logSelecionado?: LogEntry;
 
-  constructor(private logsService: LogsService) {}
+  private readonly _logsService = inject(LogsService);
+
+  constructor() {}
 
   ngOnInit(): void {
     this.carregarArquivos();
   }
 
   carregarArquivos(): void {
-    this.logsService.listarArquivos().subscribe({
+    this._logsService.listarArquivos().subscribe({
       next: (data) => (this.arquivos = data)
     });
   }
@@ -55,7 +57,7 @@ export class Logs implements OnInit {
     this.loading = true;
     this.treeNodes = [];
 
-    this.logsService.obterPorData(this.arquivoSelecionado.date).subscribe({
+    this._logsService.obterPorData(this.arquivoSelecionado.date).subscribe({
       next: (response) => {
         this.treeNodes = this.mapearParaTreeTable(response.entries);
         this.loading = false;

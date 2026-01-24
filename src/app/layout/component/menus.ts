@@ -42,50 +42,26 @@ const MENU: MenuItem[] = [
     items: [
       {
         label: 'Clientes',
-        icon: 'pi pi-fw pi-github',
+        icon: 'pi pi-fw pi-print',
         routerLinkActiveOptions: { exact: false },
         routerLink: ['/relatorio/clientes']
       }
-      // {
-      //   label: 'Nota',
-      //   icon: 'pi pi-fw pi-github',
-      //   command: () => {
-      //     // const caminho: string = 'SUCATAPORNOTA.rpt';
-      //     // const caminhoFormatado = caminho.replace(/\\/g, '/');
-      //     const url = 'crystal://SUCATAPORNOTA';
-      //     try {
-      //       window.location.href = url;
-      //     } catch (e) {
-      //       console.error('Erro ao disparar o protocolo:', e);
-      //       window.open(url, '_self');
-      //     }
-      //   }
-      // },
-      // {
-      //   label: 'Status',
-      //   icon: 'pi pi-fw pi-github',
-      //   command: () => {
-      //     // const caminho: string = 'SUCATASTATUS.rpt';
-      //     // const caminhoFormatado = caminho.replace(/\\/g, '/');
-      //     const url = 'crystal://SUCATASTATUS';
-      //     try {
-      //       window.location.href = url;
-      //     } catch (e) {
-      //       console.error('Erro ao disparar o protocolo:', e);
-      //       window.open(url, '_self');
-      //     }
-      //   }
-      // }
     ]
   },
   {
     label: 'Sistema',
     items: [
       {
+        label: 'Status',
+        icon: 'pi pi-fw pi-bolt',
+        routerLinkActiveOptions: { exact: false },
+        routerLink: ['/sistema/status']
+      },
+      {
         label: 'Logs',
         icon: 'pi pi-fw pi-list',
         routerLinkActiveOptions: { exact: false },
-        routerLink: ['/logs']
+        routerLink: ['/sistema/logs']
       }
     ]
   }

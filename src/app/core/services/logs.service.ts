@@ -33,4 +33,8 @@ export class LogsService extends HttpService {
   public obterPorData(date: string): Observable<LogResponse> {
     return this._http.get<LogResponse>(`${this.URL}/api/logs/${date}`);
   }
+
+  public status(): Observable<any> {
+    return this._http.get<any>(`${this.URL}/api/health`);
+  }
 }

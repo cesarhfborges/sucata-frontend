@@ -1,0 +1,87 @@
+<div class="max-w-5xl mx-auto p-4">
+
+    <p-card [ngxLoaderIndicator]="loading">
+        <ng-template #title>
+            Status do sistema
+        </ng-template>
+
+        <div class="space-y-6">
+
+            <!-- METADADOS -->
+            @if (status) {
+                <div class="space-y-3">
+                    <div class="rounded border p-4 flex justify-between">
+                        <span class="font-semibold">Aplicação</span>
+                        <span class="font-medium">{{ status.name }}</span>
+                    </div>
+
+                    <div class="rounded border p-4 flex justify-between">
+                        <span class="font-semibold">Versão</span>
+                        <span class="font-medium">{{ status.version }}</span>
+                    </div>
+
+                    <div class="rounded border p-4 flex justify-between">
+                        <span class="font-semibold">PHP</span>
+                        <span class="font-medium">{{ status.php }}</span>
+                    </div>
+
+                    <div class="rounded border p-4 flex justify-between">
+                        <span class="font-semibold">Sistema</span>
+
+                        <p-tag
+                            [severity]="status?.server === 'ok' ? 'success' : 'danger'"
+                            [value]="status?.server ?? '' | titlecase">
+                        </p-tag>
+                    </div>
+                </div>
+            }
+
+            <!-- COMPONENTES -->
+            @if (status?.checks) {
+                <div class="space-y-3">
+                    <div class="text-sm font-semibold uppercase">
+                        Componentes
+                    </div>
+
+                    @for (check of status?.checks | keyvalue; track check.key) {
+                        <div class="rounded border p-4 flex items-center justify-between">
+                            <span class="font-medium">
+                                {{ check.key | titlecase }}
+                            </span>
+
+                            <p-tag
+                                [severity]="check.value === 'up' ? 'success' : 'danger'"
+                                [value]="check.value | titlecase">
+                            </p-tag>
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- ERROS -->
+            @if (status?.errors) {
+                <div class="space-y-3">
+                    <div class="text-sm font-semibold text-red-500 uppercase">
+                        Erros
+                    </div>
+
+                    <div class="rounded border border-red-500 bg-gray-900 text-red-400 p-4 text-sm overflow-auto">
+                        <pre>{{ status?.errors | json }}</pre>
+                    </div>
+                </div>
+            }
+
+            <!-- TIMESTAMP -->
+            @if (status?.timestamp) {
+                <div class="text-right text-sm text-gray-500 pt-2">
+                    Última verificação:
+                    <strong>
+                        {{ status?.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}
+                    </strong>
+                </div>
+            }
+
+        </div>
+    </p-card>
+
+</div>
