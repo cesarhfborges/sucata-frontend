@@ -29,8 +29,8 @@
                         <span class="font-semibold">Sistema</span>
 
                         <p-tag
-                            [severity]="status?.server === 'ok' ? 'success' : 'danger'"
-                            [value]="status?.server ?? '' | titlecase">
+                            [severity]="status && status.server === 'ok' ? 'success' : 'danger'"
+                            [value]="status ? (status.server | titlecase) : ''">
                         </p-tag>
                     </div>
                 </div>

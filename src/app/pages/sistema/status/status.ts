@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { LogsService } from '@/core/services/logs.service';
 import { Card } from 'primeng/card';
 import { DatePipe, JsonPipe, KeyValuePipe, TitleCasePipe } from '@angular/common';
-import { Panel } from 'primeng/panel';
 import { Tag } from 'primeng/tag';
 import { TreeTableModule } from 'primeng/treetable';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
@@ -28,7 +27,7 @@ interface IStatus {
 
 @Component({
   selector: 'app-status',
-  imports: [Card, JsonPipe, Panel, Tag, TitleCasePipe, TreeTableModule, NgxLoaderIndicatorDirective, KeyValuePipe, DatePipe],
+  imports: [Card, JsonPipe, Tag, TitleCasePipe, TreeTableModule, NgxLoaderIndicatorDirective, KeyValuePipe, DatePipe],
   templateUrl: './status.html',
   styleUrl: './status.scss'
 })
