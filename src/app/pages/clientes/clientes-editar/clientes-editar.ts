@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { listaUF } from '@/core/enums/uf';
 import { NgxMaskDirective } from 'ngx-mask';
-import { DatePipe, JsonPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Cliente } from '@/core/models/cliente';
 import { CustomValidator } from '@/shared/components/custom-validator';
 
@@ -32,8 +32,7 @@ import { CustomValidator } from '@/shared/components/custom-validator';
     NgxLoaderIndicatorDirective,
     RouterModule,
     NgxMaskDirective,
-    DatePipe,
-    JsonPipe
+    DatePipe
   ],
   templateUrl: './clientes-editar.html',
   styleUrl: './clientes-editar.scss'
