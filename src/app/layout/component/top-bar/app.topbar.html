@@ -4,13 +4,23 @@
             <i class="pi pi-bars"></i>
         </button>
         <a class="layout-topbar-logo" routerLink="/">
-            <img
-                ngSrc="/assets/images/platoflex.png"
-                [height]="40"
-                [width]="160"
-                alt="Platoflex"
-                priority
-            />
+            @if (isDarkTheme()) {
+                <img
+                    ngSrc="/assets/images/platoflex_light.png"
+                    [height]="40"
+                    [width]="160"
+                    alt="Platoflex"
+                    priority
+                />
+            } @else {
+                <img
+                    ngSrc="/assets/images/platoflex.png"
+                    [height]="40"
+                    [width]="160"
+                    alt="Platoflex"
+                    priority
+                />
+            }
         </a>
     </div>
 
