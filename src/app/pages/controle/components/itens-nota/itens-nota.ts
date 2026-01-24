@@ -20,6 +20,7 @@ import { TieredMenuModule } from 'primeng/tieredmenu';
 import { RippleModule } from 'primeng/ripple';
 import { BaixaItem } from '@/pages/controle/components/baixa-item/baixa-item';
 import { lastValueFrom } from 'rxjs';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-itens-nota',
@@ -37,7 +38,8 @@ import { lastValueFrom } from 'rxjs';
     ButtonModule,
     MenuModule,
     TieredMenuModule,
-    RippleModule
+    RippleModule,
+    DividerModule
   ],
   templateUrl: './itens-nota.html',
   styleUrl: './itens-nota.scss'
