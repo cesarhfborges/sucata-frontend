@@ -24,9 +24,9 @@
                 <div class="flex flex-col gap-2 col-span-12 md:col-span-4 lg:col-span-12 xl:col-span-3">
                     <label for="cnpj" class="font-semibold ">CNPJ</label>
                     <p-input-mask
-                        mask="99.999.999/9999-99"
                         formControlName="cnpj"
                         styleClass="w-full"
+                        mask="99.999.999/9999-99"
                         [unmask]="true"
                     ></p-input-mask>
                     <app-validator-message [control]="form.get('cnpj')" />

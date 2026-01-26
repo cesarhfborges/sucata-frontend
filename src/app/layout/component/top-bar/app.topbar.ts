@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { RouterModule } from '@angular/router';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
@@ -21,6 +21,11 @@ import { Usuario } from '@/core/models/usuario';
   styleUrls: ['./app.topbar.scss']
 })
 export class AppTopbar {
+
+  LayoutService = inject(LayoutService);
+
+  isDarkTheme = computed(() => this.LayoutService.layoutConfig().darkTheme);
+
   items: MenuItem[] = [
     {
       separator: true

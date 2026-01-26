@@ -13,8 +13,8 @@ import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
 import { listaUF } from '@/core/enums/uf';
 import { NgxMaskDirective } from 'ngx-mask';
 import { DatePipe } from '@angular/common';
-import { Message } from 'primeng/message';
 import { Cliente } from '@/core/models/cliente';
+import { CustomValidator } from '@/shared/components/custom-validator';
 
 @Component({
   selector: 'app-clientes-editar',
@@ -32,8 +32,7 @@ import { Cliente } from '@/core/models/cliente';
     NgxLoaderIndicatorDirective,
     RouterModule,
     NgxMaskDirective,
-    DatePipe,
-    Message
+    DatePipe
   ],
   templateUrl: './clientes-editar.html',
   styleUrl: './clientes-editar.scss'
@@ -57,7 +56,7 @@ export class ClientesEditar implements OnInit {
     this.form = this._fb.group({
       nome_razaosocial: new FormControl<string | null>(null, [Validators.required]),
       sobrenome_nomefantasia: new FormControl<string | null>(null, [Validators.required]),
-      cpf_cnpj: new FormControl<string | null>(null, [Validators.required]),
+      cpf_cnpj: new FormControl<string | null>(null, [Validators.required, CustomValidator.validateCpfCnpj]),
       cep: new FormControl<string | null>(null, []),
       logradouro: new FormControl<string | null>(null, []),
       numero: new FormControl<string | null>(null, []),

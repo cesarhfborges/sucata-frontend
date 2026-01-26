@@ -19,7 +19,7 @@ import { Cliente } from '@/core/models/cliente';
 import { ConfirmationService, ScrollerOptions } from 'primeng/api';
 import { EmpresaService } from '@/core/services/empresa-service';
 import { ClientesService } from '@/core/services/clientes-service';
-import { format, subDays } from 'date-fns';
+import { format, subDays, subMonths } from 'date-fns';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RelatorioService } from '@/core/services/relatorio-service';
 import { NgxLoaderIndicatorDirective } from 'ngx-loader-indicator';
@@ -104,7 +104,7 @@ export class RelatorioClientes implements OnInit {
       status: new FormControl<string | null>('TODAS', [Validators.required]),
       datas: this._fb.group(
         {
-          inicio: new FormControl<Date | null>(subDays(new Date(), 30), []),
+          inicio: new FormControl<Date | null>(subMonths(new Date(), 3), []),
           fim: new FormControl<Date | null>(new Date(), [])
         },
         {

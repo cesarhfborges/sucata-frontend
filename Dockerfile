@@ -10,7 +10,7 @@ RUN npm install --silent
 
 COPY . .
 
-RUN npm run build
+RUN npm run build:hm
 
 FROM nginx:alpine
 

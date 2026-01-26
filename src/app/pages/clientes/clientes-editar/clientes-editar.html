@@ -28,6 +28,7 @@
                         pInputText
                         formControlName="cpf_cnpj"
                         mask="000.000.000-00||00.000.000/0000-00"
+                        [triggerOnMaskChange]="true"
                     />
                     <app-validator-message [control]="form.get('cpf_cnpj')" />
                 </div>

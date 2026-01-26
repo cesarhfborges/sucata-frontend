@@ -20,6 +20,7 @@ import { CadastroNotaFiscal } from '@/pages/controle/components/cadastro-nota-fi
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { Cliente } from '@/core/models/cliente';
 import { Empresa } from '@/core/models/empresa';
+import { lastValueFrom } from 'rxjs';
 
 interface IDados {
   cliente: Cliente;
@@ -89,8 +90,10 @@ export class NotasFiscais implements OnInit {
     this.modalNotaFiscal();
   }
 
-  protected editar(value: NotaFiscal) {
-    this.modalNotaFiscal(value);
+  protected editar(nota: NotaFiscal) {
+    lastValueFrom(this._notaFiscalService.get(nota.id!)).then((value) => {
+      this.modalNotaFiscal(value);
+    });
   }
 
   protected delete(event: Event, id: number) {
@@ -111,6 +114,19 @@ export class NotasFiscais implements OnInit {
         severity: 'danger'
       },
       accept: () => this.excluirEmpresa(id)
+    });
+  }
+
+  protected atualizar(nota: NotaFiscal) {
+    this._notaFiscalService.get(nota.id!).subscribe({
+      next: (nota) => {
+        const index = this.lista.findIndex((n) => n.id === nota.id);
+
+        if (index !== -1) {
+          this.lista[index].pendente = nota.pendente;
+          this.lista = [...this.lista];
+        }
+      }
     });
   }
 
@@ -167,19 +183,6 @@ export class NotasFiscais implements OnInit {
       next: (result) => {
         this.lista = this.lista.filter((v) => v.id !== id);
         this._messageService.add({ severity: 'info', summary: 'Sucesso', detail: result.message || 'Nota fiscal excluída com sucesso.' });
-      }
-    });
-  }
-
-  protected atualizar(nota: NotaFiscal) {
-    this._notaFiscalService.get(nota.id!).subscribe({
-      next: (nota) => {
-        const index = this.lista.findIndex((n) => n.id === nota.id);
-
-        if (index !== -1) {
-          this.lista[index].pendente = nota.pendente;
-          this.lista = [...this.lista];
-        }
       }
     });
   }

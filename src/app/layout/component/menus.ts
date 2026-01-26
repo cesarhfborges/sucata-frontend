@@ -42,7 +42,7 @@ const MENU: MenuItem[] = [
     items: [
       {
         label: 'Clientes',
-        icon: 'pi pi-fw pi-github',
+        icon: 'pi pi-fw pi-print',
         routerLinkActiveOptions: { exact: false },
         routerLink: ['/relatorio/clientes']
       }
@@ -52,10 +52,16 @@ const MENU: MenuItem[] = [
     label: 'Sistema',
     items: [
       {
+        label: 'Status',
+        icon: 'pi pi-fw pi-bolt',
+        routerLinkActiveOptions: { exact: false },
+        routerLink: ['/sistema/status']
+      },
+      {
         label: 'Logs',
         icon: 'pi pi-fw pi-list',
         routerLinkActiveOptions: { exact: false },
-        routerLink: ['/logs']
+        routerLink: ['/sistema/logs']
       }
     ]
   }

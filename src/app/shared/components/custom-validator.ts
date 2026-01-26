@@ -21,7 +21,9 @@ export class CustomValidator {
       passwordMismatch: 'A confirmação de senha deve ser igual à senha digitada.',
       emailCheckFailed: 'Não foi possível verificar a consistência do email informado.',
       emailTaken: 'O Email informado já esta em uso.',
-      menorOuIgual: 'Sado devedor deve ser menor ou igual ao faturado.'
+      menorOuIgual: 'Sado devedor deve ser menor ou igual ao faturado.',
+      pattern: 'O formato do campo é inválido ou contém caracteres não permitidos.',
+      invalidCpfCnpj: 'O campo deve conter 11 (CPF) ou 14 (CNPJ) dígitos numéricos.'
     };
 
     return config[validatorName];
@@ -161,6 +163,21 @@ export class CustomValidator {
       }
 
       return null;
+    };
+  }
+
+  static validateCpfCnpj(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) return null;
+
+      // Remove tudo que não for número (limpa máscara)
+      const digitsOnly = String(value).replace(/\D/g, '');
+
+      // Regex para validar se tem exatamente 11 ou 14 dígitos
+      const valid = /^(\d{11}|\d{14})$/.test(digitsOnly);
+
+      return valid ? null : { invalidCpfCnpj: true };
     };
   }
 }

@@ -51,6 +51,19 @@
                                 }
                             ]
                         },
+                        "homologacao": {
+                          "optimization": true,
+                          "outputHashing": "all",
+                          "sourceMap": false,
+                          "extractLicenses": true,
+                          "namedChunks": false,
+                          "fileReplacements": [
+                            {
+                              "replace": "src/environments/environment.ts",
+                              "with": "src/environments/environment.hm.ts"
+                            }
+                          ]
+                        },
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,

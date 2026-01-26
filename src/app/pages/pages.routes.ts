@@ -7,7 +7,8 @@ import { ClientesEditar, ClientesListar } from '@/pages/clientes';
 import { Controle } from '@/pages/controle/controle';
 import { MateriaisEditar, MateriaisListar } from '@/pages/materiais';
 import { RelatorioClientes } from '@/pages/relatorios';
-import { Logs } from '@/pages/logs/logs';
+import { Logs } from '@/pages/sistema/logs/logs';
+import { Status } from '@/pages/sistema/status/status';
 
 export default [
   { path: 'home', component: Home },
@@ -50,5 +51,11 @@ export default [
       { path: 'clientes', component: RelatorioClientes }
     ]
   },
-  { path: 'logs', component: Logs }
+  {
+    path: 'sistema',
+    children: [
+      { path: 'logs', component: Logs },
+      { path: 'status', component: Status }
+    ]
+  },
 ] as Routes;
