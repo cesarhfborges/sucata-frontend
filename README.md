@@ -1,6 +1,14 @@
-# Sakai19
+# Sistema de sucata - Platoflex
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.5.
+
+
+## Requerimentos:
+
+```
+- Node 20.0 ou maior
+- Angular CLI 20
+```
 
 ## Development server
 
