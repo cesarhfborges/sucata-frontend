@@ -71,9 +71,10 @@ export class Logs implements OnInit {
   }
 
   private mapearParaTreeTable(entries: LogEntry[]): TreeNode[] {
-    return entries.map((entry, index) => ({
+    return entries.map((entry, index, entries) => ({
       key: index.toString(),
       data: {
+        id: entries.length - index,
         timestamp: entry.timestamp,
         environment: entry.environment,
         level: entry.level,

@@ -50,6 +50,7 @@
             >
                 <ng-template #header>
                     <tr>
+                        <th>#</th>
                         <th>Data / Hora</th>
                         <th>Nível</th>
                         <th>Ambiente</th>
@@ -62,6 +63,9 @@
                         [ttRow]="rowNode"
                         class="border-b border-[#e2e8f0] dark:border-[#27272a]"
                     >
+                        <td>
+                            {{rowData.id}}
+                        </td>
                         <td>
                             @if (rowNode.children?.length) {
                                 <p-treeTableToggler [rowNode]="rowNode" />

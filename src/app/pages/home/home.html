@@ -104,33 +104,45 @@
          LINHA 5 — ÚLTIMAS MOVIMENTAÇÕES
     ================================ -->
     <p-card header="Últimas Movimentações">
-        @if (!loading.ultimas_movimentacoes) {
-            <p-table [value]="ultimasMovimentacoes" responsiveLayout="scroll">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Nota fiscal</th>
-                        <th>Serie</th>
-                        <th>Material</th>
-                        <th>Faturado</th>
-                        <th>Saldo Devedor</th>
-                        <th>Data</th>
-                    </tr>
-                </ng-template>
+        <p-table [value]="ultimasMovimentacoes" responsiveLayout="scroll" [loading]="loading.ultimas_movimentacoes">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nota fiscal</th>
+                    <th>Serie</th>
+                    <th>Material</th>
+                    <th>Faturado</th>
+                    <th>Saldo Devedor</th>
+                    <th>Data</th>
+                </tr>
+            </ng-template>
 
-                <ng-template pTemplate="body" let-mov>
-                    <tr>
-                        <td>{{ mov.nota_fiscal }}</td>
-                        <td>{{ mov.serie }}</td>
-                        <td>{{ mov.material_id }}</td>
-                        <td>{{ mov.faturado }}</td>
-                        <td>{{ mov.saldo_devedor }}</td>
-                        <td>{{ mov.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-        } @else {
-            <p-skeleton height="220px"></p-skeleton>
-        }
+            <ng-template pTemplate="body" let-mov>
+                <tr>
+                    <td>{{ mov.nota_fiscal }}</td>
+                    <td>{{ mov.serie }}</td>
+                    <td>{{ mov.material_id }}</td>
+                    <td>{{ mov.faturado }}</td>
+                    <td>{{ mov.saldo_devedor }}</td>
+                    <td>{{ mov.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                </tr>
+            </ng-template>
+            <ng-template #emptymessage>
+                <tr>
+                    <td colspan="6">
+                        <p class="text-center">Nenhuma movimentação encontrada.</p>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template #loadingbody let-columns="columns">
+                <tr style="height:46px">
+                    @for (col of [0, 1, 2, 3, 4, 5]; track $index; let even = $even) {
+                        <td>
+                            <p-skeleton [style]="{ width: '60%' }" />
+                        </td>
+                    }
+                </tr>
+            </ng-template>
+        </p-table>
     </p-card>
 
 </div>
