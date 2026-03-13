@@ -93,7 +93,6 @@ export class ItensNota implements OnChanges {
         styleClass: 'text-info',
         iconClass: 'text-info',
         command: () => {
-          console.log('EDITAR CLICK');
           lastValueFrom(this._notaItensService.get(item.nota_fiscal_id, item.id!)).then((value) => {
             this.modalNotaFiscal(value);
           });
@@ -207,7 +206,6 @@ export class ItensNota implements OnChanges {
     this.loading = true;
     this._notaItensService.listar(id).subscribe({
       next: (data) => {
-        console.log(data);
         this.lista = data;
         this.loading = false;
         this._scrollToBottom();

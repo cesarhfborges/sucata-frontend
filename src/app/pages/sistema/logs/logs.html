@@ -54,7 +54,7 @@
                         <th>Data / Hora</th>
                         <th>Nível</th>
                         <th>Ambiente</th>
-                        <th style="width: 128px">Mensagem</th>
+                        <th style="width: 128px">Opções</th>
                     </tr>
                 </ng-template>
 
@@ -64,7 +64,7 @@
                         class="border-b border-[#e2e8f0] dark:border-[#27272a]"
                     >
                         <td>
-                            {{rowData.id}}
+                            {{ rowData.id }}
                         </td>
                         <td>
                             @if (rowNode.children?.length) {
@@ -144,7 +144,7 @@
 
                 <ng-template pTemplate="emptymessage">
                     <tr class="border-b border-[#e2e8f0] dark:border-[#27272a]">
-                        <td colspan="4">
+                        <td colspan="5">
                             <p class="text-center py-6 text-gray-400">Nenhum log para exibir</p>
                         </td>
                     </tr>
@@ -242,20 +242,18 @@
                     </p>
                 </div>
                 <p-panel header="Corpo">
-                    @if (logSelecionado.body !== null) {
-                        <pre
-                            class="
+                    <pre
+                        class="
                         bg-[#2E3440] border-l-5 border-[#6f7b93] rounded text-xs
                         whitespace-pre-wrap break-words
                         max-h-[40vh] overflow-auto
                         "
-                            >
-                            <code
-                                [highlight]="logSelecionado.body | json"
-                                language="json"
-                            ></code>
-                        </pre>
-                    }
+                    >
+                        <code
+                            [highlight]="(logSelecionado.body !== null ? logSelecionado.body : {}) | json"
+                            language="json"
+                        ></code>
+                    </pre>
                 </p-panel>
             </div>
         </div>

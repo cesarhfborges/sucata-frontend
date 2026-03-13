@@ -77,7 +77,6 @@ export class EmpresasEditar implements OnInit {
       this.loading = true;
       this._empresaService.get(this.empresaId).subscribe({
         next: (res) => {
-          console.log(res);
           this.empresa = res;
           this.form.patchValue(res);
           this.loading = false;

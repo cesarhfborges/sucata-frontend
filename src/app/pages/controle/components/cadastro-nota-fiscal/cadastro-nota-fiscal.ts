@@ -53,7 +53,6 @@ export class CadastroNotaFiscal implements OnInit {
 
   constructor() {
     this.cliente = this._config.data.cliente;
-    console.log(this._config.data);
     this.form = this._fb.group({
       empresa_id: new FormControl<number | null>(null, [Validators.required]),
       nota_fiscal: new FormControl<number | null>(null, [Validators.required]),
@@ -92,7 +91,6 @@ export class CadastroNotaFiscal implements OnInit {
       if (this._config.data.notaFiscal) {
         this._notaFiscalService.atualizar(this._config.data.notaFiscal.id, dados).subscribe({
           next: (data) => {
-            console.log(data);
             this.notaFiscal = data;
             this._ref.close(data);
           },
@@ -103,7 +101,6 @@ export class CadastroNotaFiscal implements OnInit {
       } else {
         this._notaFiscalService.cadastrar(dados).subscribe({
           next: (data) => {
-            console.log(data);
             this.notaFiscal = data;
             this._ref.close(data);
           },
@@ -112,9 +109,6 @@ export class CadastroNotaFiscal implements OnInit {
           }
         });
       }
-      console.log('Valido');
-    } else {
-      console.log('Invalido');
     }
   }
 

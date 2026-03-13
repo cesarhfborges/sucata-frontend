@@ -83,7 +83,6 @@ export class UsuariosEditar implements OnInit {
       this.loading = true;
       this._usuariosService.get(this.usuarioId).subscribe({
         next: (res) => {
-          console.log(res);
           this.usuario = res;
           this.form.patchValue(res);
           this.loading = false;
@@ -116,7 +115,6 @@ export class UsuariosEditar implements OnInit {
       if (this.usuarioId) {
         this._usuariosService.atualizar(this.usuarioId, this.form.value).subscribe({
           next: (res) => {
-            console.log('atualizar', res);
             this.form.patchValue(res);
             this.usuario = res;
             this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Usuario atualizado com sucesso.', life: 3000 });
@@ -128,7 +126,6 @@ export class UsuariosEditar implements OnInit {
       } else {
         this._usuariosService.cadastrar(this.form.value).subscribe({
           next: (res) => {
-            console.log('atualizar', res);
             this.usuarioId = res.id;
             this.usuario = res;
             this.form.patchValue(res);

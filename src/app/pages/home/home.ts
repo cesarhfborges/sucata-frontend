@@ -257,7 +257,6 @@ export class Home implements OnInit {
   private resizeCharts(): void {
     // timeout pequeno garante que o DOM já foi recalculado
     setTimeout(() => {
-      console.log(this.faixaAtrasoChart?.chart);
       this.faixaAtrasoChart?.chart?.resize();
       this.clientesChart?.chart?.resize();
       this.statusChart?.chart?.resize();

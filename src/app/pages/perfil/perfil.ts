@@ -99,7 +99,6 @@ export class Perfil implements OnInit {
       this.loading = true;
       this._authService.updatePerfil(this.form.value).subscribe({
         next: (value) => {
-          console.log(value);
           this._messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Perfil atualizado com sucesso.', life: 3000 });
           this.loading = false;
         },

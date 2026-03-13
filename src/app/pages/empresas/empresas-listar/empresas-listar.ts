@@ -41,7 +41,6 @@ export class EmpresasListar implements OnInit {
     this.loading = true;
     this._empresaService.listar().subscribe({
       next: (result) => {
-        console.log(result);
         this.empresas = result;
         this.loading = false;
       },

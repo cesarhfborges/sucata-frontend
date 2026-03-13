@@ -36,7 +36,6 @@ export class BaixaItem {
   private readonly _notaItensService = inject(NotaItensService);
 
   constructor() {
-    console.log(this._config.data);
     this.notaFiscal = this._config.data.notaFiscal;
     this.item = this._config.data.item;
     this.form = this._fb.group({

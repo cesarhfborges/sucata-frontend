@@ -150,7 +150,6 @@ export class Controle implements OnInit {
   submit(): void {
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      console.log('FORM VALID', this.form.value);
       this.selecionado = this.form.value;
     } else {
       this._messageService.add({ severity: 'error', summary: 'Ops', detail: 'Verifique os campos e tente novamente.', life: 3000 });

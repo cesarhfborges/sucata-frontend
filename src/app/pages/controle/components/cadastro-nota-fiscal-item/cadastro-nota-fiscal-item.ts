@@ -57,7 +57,6 @@ export class CadastroNotaFiscalItem implements OnInit {
 
   constructor() {
     this.notaFiscal = this._config.data.notaFiscal;
-    console.log(this._config.data);
     this.form = this._fb.group(
       {
         material_id: new FormControl<number | null>(null, [Validators.required]),
@@ -228,7 +227,6 @@ export class CadastroNotaFiscalItem implements OnInit {
       } else {
         this._notaItensService.cadastrar(this._config.data.notaFiscal.id, dados).subscribe({
           next: (data) => {
-            console.log(data);
             this.notaFiscalItem = data;
             this._ref.close(data);
           },
@@ -237,8 +235,6 @@ export class CadastroNotaFiscalItem implements OnInit {
           }
         });
       }
-    } else {
-      console.log('Invalido');
     }
   }
 }

@@ -42,7 +42,6 @@ export class Status implements OnInit {
     this.loading = true;
     this._logsService.status().subscribe({
       next: (response) => {
-        console.log(response);
         this.status = response;
         this.loading = false;
       },

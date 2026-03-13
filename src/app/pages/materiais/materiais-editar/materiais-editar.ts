@@ -48,7 +48,6 @@ export class MateriaisEditar implements OnInit {
       this.loading = true;
       this._materiaisService.get(this.materialId).subscribe({
         next: (res) => {
-          console.log(res);
           this.material = res;
           this.form.patchValue(res);
           this.loading = false;

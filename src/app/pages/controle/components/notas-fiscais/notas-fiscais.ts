@@ -75,7 +75,6 @@ export class NotasFiscais implements OnInit {
       })
       .subscribe({
         next: (data) => {
-          console.log('NotasFiscais: ', data);
           this.lista = data;
           this.loading = false;
         },
