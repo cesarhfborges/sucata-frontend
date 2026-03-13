@@ -62,7 +62,7 @@ export class BaixaItem {
       next: (result) => {
         this._ref.close(result);
       },
-      error: (err) => {
+      error: () => {
         this._messageService.add({
           severity: 'danger',
           summary: 'Ops',
